@@ -1,27 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useUserStore } from '../store/userStore';
-import api from '../lib/api';
+import { getSessionAnalysis } from '../lib/api';
 
-interface AnalysisResult {
-    fluencyScore: number;
-    grammarScore: number;
-    vocabularyScore: number;
-    overallScore: number;
-    feedback: string;
-    strengths: string[];
-    improvements: string[];
+interface AnalysisData {
+    overallBandScore: number;
+    wordCount: number;
+    wordsPerMinute: number;
+    fluencyAndCoherence: {
+        score: number;
+        feedback: string;
+    };
+    lexicalResource: {
+        score: number;
+        feedback: string;
+    };
+    grammaticalRangeAndAccuracy: {
+        score: number;
+        feedback: string;
+    };
+    improvedText: string;
 }
 
 const AnalysisPage: React.FC = () => {
     const navigate = useNavigate();
-    const location = useLocation();
     const { sessionId } = useParams<{ sessionId: string }>();
     const { token } = useUserStore();
-    const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [analysis, setAnalysis] = useState<AnalysisData | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchAnalysis = async () => {
@@ -30,29 +38,26 @@ const AnalysisPage: React.FC = () => {
                 return;
             }
 
-            // Log the session ID for debugging and future use in Slice 3
-            if (sessionId) {
-                console.log('Analysis page loaded for session:', sessionId);
+            if (!sessionId) {
+                setError('No session ID provided');
+                setIsLoading(false);
+                return;
             }
 
             try {
-                // Get the most recent session analysis
-                // TODO: In Slice 3, use sessionId to fetch specific session analysis
-                const response = await api.get('/api/test/latest-analysis', {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setAnalysisResult(response.data);
-                setError(null);
+                const response = await getSessionAnalysis(token, sessionId);
+                setAnalysis(response.data);
+                setError('');
             } catch (err) {
-                setError('Failed to load analysis results. Please try again later.');
+                setError('Failed to fetch analysis. Please try again later.');
                 console.error('Analysis fetch error:', err);
             } finally {
-                setLoading(false);
+                setIsLoading(false);
             }
         };
 
         fetchAnalysis();
-    }, [token, navigate]);
+    }, [token, sessionId, navigate]);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -115,7 +120,7 @@ const AnalysisPage: React.FC = () => {
                 className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
             >
                 {/* Analysis Results */}
-                {loading ? (
+                {isLoading ? (
                     <motion.div
                         variants={itemVariants}
                         className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl p-8 text-center"
@@ -147,88 +152,155 @@ const AnalysisPage: React.FC = () => {
                             Try Again
                         </button>
                     </motion.div>
-                ) : analysisResult && (
+                ) : analysis && (
                     <>
-                        {/* Scores Card */}
+                        {/* Overall Score Card */}
                         <motion.div
                             variants={itemVariants}
-                            className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl p-8 mb-8"
+                            className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl p-8 mb-8 text-center"
                         >
-                            <h2 className="text-2xl font-bold text-white mb-6">Speaking Assessment Results</h2>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                            <h2 className="text-2xl font-bold text-white mb-6">IELTS Speaking Band Score</h2>
+                            <div className="relative inline-flex items-center justify-center w-32 h-32 mx-auto mb-6">
+                                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full"></div>
+                                <div className="relative text-4xl font-bold text-white">
+                                    {analysis.overallBandScore}
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 <div className="bg-slate-700/30 rounded-xl p-4 text-center">
-                                    <div className="text-3xl font-bold text-blue-400">{analysisResult.fluencyScore.toFixed(1)}</div>
-                                    <div className="text-sm text-slate-300">Fluency</div>
+                                    <div className="text-2xl font-bold text-blue-400">{analysis.fluencyAndCoherence.score}</div>
+                                    <div className="text-sm text-slate-300">Fluency & Coherence</div>
                                 </div>
                                 <div className="bg-slate-700/30 rounded-xl p-4 text-center">
-                                    <div className="text-3xl font-bold text-blue-400">{analysisResult.grammarScore.toFixed(1)}</div>
+                                    <div className="text-2xl font-bold text-blue-400">{analysis.lexicalResource.score}</div>
+                                    <div className="text-sm text-slate-300">Lexical Resource</div>
+                                </div>
+                                <div className="bg-slate-700/30 rounded-xl p-4 text-center">
+                                    <div className="text-2xl font-bold text-blue-400">{analysis.grammaticalRangeAndAccuracy.score}</div>
                                     <div className="text-sm text-slate-300">Grammar</div>
                                 </div>
                                 <div className="bg-slate-700/30 rounded-xl p-4 text-center">
-                                    <div className="text-3xl font-bold text-blue-400">{analysisResult.vocabularyScore.toFixed(1)}</div>
-                                    <div className="text-sm text-slate-300">Vocabulary</div>
-                                </div>
-                                <div className="bg-slate-700/30 rounded-xl p-4 text-center">
-                                    <div className="text-3xl font-bold text-green-400">{analysisResult.overallScore.toFixed(1)}</div>
-                                    <div className="text-sm text-slate-300">Overall</div>
-                                </div>
-                            </div>
-                            
-                            <div className="bg-slate-700/30 rounded-xl p-6">
-                                <h3 className="text-xl font-semibold text-white mb-4">Feedback</h3>
-                                <p className="text-slate-200 leading-relaxed mb-6">{analysisResult.feedback}</p>
-                                
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <div>
-                                        <h4 className="font-medium text-green-400 mb-2">Strengths</h4>
-                                        <ul className="space-y-2">
-                                            {analysisResult.strengths.map((strength, index) => (
-                                                <li key={index} className="flex items-start space-x-2 text-slate-300">
-                                                    <span className="text-green-400">✓</span>
-                                                    <span>{strength}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h4 className="font-medium text-yellow-500 mb-2">Areas for Improvement</h4>
-                                        <ul className="space-y-2">
-                                            {analysisResult.improvements.map((improvement, index) => (
-                                                <li key={index} className="flex items-start space-x-2 text-slate-300">
-                                                    <span className="text-yellow-500">→</span>
-                                                    <span>{improvement}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
+                                    <div className="text-2xl font-bold text-green-400">{analysis.wordsPerMinute}</div>
+                                    <div className="text-sm text-slate-300">Words/Min</div>
                                 </div>
                             </div>
                         </motion.div>
 
+                        {/* Two-Column Layout */}
+                        <div className="grid lg:grid-cols-2 gap-8">
+                            {/* Left Column: Detailed Feedback */}
+                            <div className="space-y-6">
+                                {/* Fluency and Coherence */}
+                                <motion.div
+                                    variants={itemVariants}
+                                    className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl p-6"
+                                >
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="text-xl font-semibold text-white">Fluency and Coherence</h3>
+                                        <div className="text-2xl font-bold text-blue-400">
+                                            {analysis.fluencyAndCoherence.score}
+                                        </div>
+                                    </div>
+                                    <p className="text-slate-300 leading-relaxed">
+                                        {analysis.fluencyAndCoherence.feedback}
+                                    </p>
+                                </motion.div>
+
+                                {/* Lexical Resource */}
+                                <motion.div
+                                    variants={itemVariants}
+                                    className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl p-6"
+                                >
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="text-xl font-semibold text-white">Lexical Resource</h3>
+                                        <div className="text-2xl font-bold text-blue-400">
+                                            {analysis.lexicalResource.score}
+                                        </div>
+                                    </div>
+                                    <p className="text-slate-300 leading-relaxed">
+                                        {analysis.lexicalResource.feedback}
+                                    </p>
+                                </motion.div>
+
+                                {/* Grammatical Range and Accuracy */}
+                                <motion.div
+                                    variants={itemVariants}
+                                    className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl p-6"
+                                >
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="text-xl font-semibold text-white">Grammatical Range and Accuracy</h3>
+                                        <div className="text-2xl font-bold text-blue-400">
+                                            {analysis.grammaticalRangeAndAccuracy.score}
+                                        </div>
+                                    </div>
+                                    <p className="text-slate-300 leading-relaxed">
+                                        {analysis.grammaticalRangeAndAccuracy.feedback}
+                                    </p>
+                                </motion.div>
+                            </div>
+
+                            {/* Right Column: Improved Text */}
+                            <div className="space-y-6">
+                                {/* Band 9 Suggested Version */}
+                                <motion.div
+                                    variants={itemVariants}
+                                    className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl p-6"
+                                >
+                                    <h3 className="text-xl font-semibold text-white mb-4">Band 9 Suggested Version</h3>
+                                    <div className="bg-slate-700/30 rounded-xl p-4">
+                                        <p className="text-slate-200 leading-relaxed italic">
+                                            "{analysis.improvedText}"
+                                        </p>
+                                    </div>
+                                </motion.div>
+
+                                {/* Statistics */}
+                                <motion.div
+                                    variants={itemVariants}
+                                    className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl p-6"
+                                >
+                                    <h3 className="text-xl font-semibold text-white mb-4">Performance Statistics</h3>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="bg-slate-700/30 rounded-xl p-4 text-center">
+                                            <div className="text-2xl font-bold text-green-400">{analysis.wordCount}</div>
+                                            <div className="text-sm text-slate-300">Total Words</div>
+                                        </div>
+                                        <div className="bg-slate-700/30 rounded-xl p-4 text-center">
+                                            <div className="text-2xl font-bold text-green-400">{analysis.wordsPerMinute}</div>
+                                            <div className="text-sm text-slate-300">Words/Min</div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </div>
+                        </div>
+
                         {/* Next Steps */}
                         <motion.div
                             variants={itemVariants}
-                            className="bg-slate-800/30 backdrop-blur-sm rounded-xl border border-slate-700/30 p-6"
+                            className="bg-slate-800/30 backdrop-blur-sm rounded-xl border border-slate-700/30 p-6 mt-8"
                         >
                             <h3 className="text-lg font-semibold text-white mb-4">
                                 🎯 Next Steps
                             </h3>
                             <div className="grid md:grid-cols-2 gap-4 text-slate-300">
                                 <div>
-                                    <h4 className="font-medium text-white mb-2">Practice More</h4>
+                                    <h4 className="font-medium text-white mb-2">Continue Improving</h4>
                                     <ul className="text-sm space-y-1">
+                                        <li>• Practice the areas highlighted in your feedback</li>
                                         <li>• Try different topics to build versatility</li>
-                                        <li>• Focus on areas needing improvement</li>
+                                        <li>• Focus on incorporating the suggested improvements</li>
                                         <li>• Track your progress over time</li>
                                     </ul>
                                 </div>
                                 <div className="text-center md:text-right">
-                                    <button
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
                                         onClick={() => navigate('/test')}
-                                        className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors mt-4"
+                                        className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors mt-4 font-medium"
                                     >
                                         Take Another Test
-                                    </button>
+                                    </motion.button>
                                 </div>
                             </div>
                         </motion.div>

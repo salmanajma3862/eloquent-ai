@@ -93,4 +93,11 @@ export const transcribeAudioFile = (token: string, formData: FormData) => {
   });
 };
 
+// Get AI analysis for a specific session
+export const getSessionAnalysis = (token: string, sessionId: string) => {
+  return api.get(`/api/analysis/${sessionId}`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+};
+
 export default api;
