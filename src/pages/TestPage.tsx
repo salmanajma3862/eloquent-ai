@@ -28,6 +28,8 @@ const TestPage: React.FC = () => {
     const audioChunksRef = useRef<Blob[]>([]);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const streamRef = useRef<MediaStream | null>(null);
+    const finalTranscriptRef = useRef<string>('');
+    const isDeepgramReadyRef = useRef<boolean>(false);
 
     // Load topic on component mount
     useEffect(() => {
@@ -77,6 +79,11 @@ const TestPage: React.FC = () => {
     // Start recording function
     const handleStartRecording = async () => {
         try {
+            // At the very top of handleStartRecording
+            setTranscript('');
+            finalTranscriptRef.current = '';
+            isDeepgramReadyRef.current = false;
+
             if (!token) {
                 setStatus('Authentication required');
                 setTimeout(() => navigate('/login'), 2000);
@@ -99,10 +106,29 @@ const TestPage: React.FC = () => {
                             sampleRate: 16000
                         }
                     }),
-                    new Promise((_, reject) => 
+                    new Promise((_, reject) =>
                         setTimeout(() => reject(new Error('Microphone access timeout')), 5000)
                     )
                 ]) as MediaStream;
+
+                // --- Add this logging ---
+                console.log("MediaStream received:", stream);
+                const audioTracks = stream.getAudioTracks();
+                console.log("Audio Tracks:", audioTracks);
+                if (audioTracks.length === 0) {
+                    alert("Error: No audio tracks found in the stream. Please check your microphone.");
+                    return;
+                }
+                console.log("Using audio track:", audioTracks[0].label);
+
+                // --- Add this Muted Check ---
+                const audioTrack = stream.getAudioTracks()[0];
+                if (audioTrack.muted) {
+                    alert("CRITICAL ERROR: Your microphone is muted. Please unmute it in your system or browser settings and try again.");
+                    return; // Stop the recording process immediately
+                }
+                // ----------------------------
+                // ----------------------
 
                 streamRef.current = stream;
             } catch (micError) {
@@ -129,39 +155,81 @@ const TestPage: React.FC = () => {
                 const deepgramToken = tokenResponse.deepgramToken;
 
                 // Initialize Deepgram
-                const deepgram = createClient(deepgramToken);
-                const connection = deepgram.listen.live({
+                const deepgramClient = createClient(deepgramToken);
+                const deepgram = deepgramClient.listen.live({
                     model: 'nova-2',
                     language: 'en-US',
                     smart_format: true,
-                    interim_results: true,
+                    interim_results: true, // Crucial for live feedback
                 });
 
-                deepgramRef.current = connection;
-
-                // Set up Deepgram listeners with improved error handling
-                connection.on('transcript', (data: any) => {
-                    const transcript = data.channel?.alternatives?.[0]?.transcript;
-                    if (transcript && data.is_final) {
-                        setTranscript(prev => (prev + ' ' + transcript).trim());
-                    }
+                deepgram.addListener('open', () => {
+                    console.log('Deepgram connection OPEN.');
+                    isDeepgramReadyRef.current = true; // Use the ref
                 });
 
-                let errorCount = 0;
-                const maxErrors = 3;
-                connection.on('error', (error: any) => {
+                deepgram.addListener('close', () => {
+                    console.log('Deepgram connection closed.');
+                    isDeepgramReadyRef.current = false; // Use the ref
+                });
+
+                deepgram.addListener('error', (error) => {
                     console.error('Deepgram error:', error);
-                    errorCount++;
-                    
-                    if (errorCount >= maxErrors) {
-                        setStatus('Too many transcription errors. Please try again.');
-                        handleStopRecording();
+                });
+
+                // Try multiple event names to ensure we catch transcripts
+                deepgram.addListener('transcriptReceived', (data) => {
+                    console.log('Deepgram transcriptReceived event fired:', data);
+                    const transcript = data.channel?.alternatives?.[0]?.transcript;
+                    console.log('Extracted transcript:', transcript, 'is_final:', data.is_final);
+                    if (transcript && data.is_final) {
+                        console.log('Adding final transcript segment:', transcript);
+                        // Use the ref to build the final transcript string
+                        finalTranscriptRef.current += transcript + ' ';
+                        // Use the state to update the UI in real-time
+                        setTranscript(prev => prev + transcript + ' ');
                     }
                 });
 
-                connection.on('close', () => {
-                    console.log('Deepgram connection closed');
+                // Also try the 'Results' event which is commonly used
+                deepgram.addListener('Results', (data) => {
+                    console.log('Deepgram Results event fired:', data);
+                    const transcript = data.channel?.alternatives?.[0]?.transcript;
+                    console.log('Results transcript:', transcript, 'is_final:', data.is_final);
+                    if (transcript && data.is_final) {
+                        console.log('Adding final transcript from Results:', transcript);
+                        // Use the ref to build the final transcript string
+                        finalTranscriptRef.current += transcript + ' ';
+                        // Use the state to update the UI in real-time
+                        setTranscript(prev => prev + transcript + ' ');
+                    }
                 });
+
+                // Also try the generic 'message' event
+                deepgram.addListener('message', (data) => {
+                    console.log('Deepgram message event fired:', data);
+                    try {
+                        const parsed = typeof data === 'string' ? JSON.parse(data) : data;
+                        const transcript = parsed.channel?.alternatives?.[0]?.transcript;
+                        console.log('Message transcript:', transcript, 'is_final:', parsed.is_final);
+                        if (transcript && parsed.is_final) {
+                            console.log('Adding final transcript from message:', transcript);
+                            // Use the ref to build the final transcript string
+                            finalTranscriptRef.current += transcript + ' ';
+                            // Use the state to update the UI in real-time
+                            setTranscript(prev => prev + transcript + ' ');
+                        }
+                    } catch (e) {
+                        console.log('Error parsing message data:', e);
+                    }
+                });
+
+                // Add a catch-all listener to see what events are being fired
+                deepgram.addListener('*', (eventName, data) => {
+                    console.log('Deepgram event fired:', eventName, data);
+                });
+
+                deepgramRef.current = deepgram;
 
             } catch (serviceError) {
                 throw new Error(
@@ -177,19 +245,27 @@ const TestPage: React.FC = () => {
                 throw new Error('Stream not initialized');
             }
 
-            const mediaRecorder = new MediaRecorder(stream, {
-                mimeType: 'audio/webm'
-            });
+            // --- Modify the MediaRecorder initialization ---
+            const options = { mimeType: 'audio/webm;codecs=opus' };
+            const mediaRecorder = new MediaRecorder(stream, options);
             mediaRecorderRef.current = mediaRecorder;
+            // ---------------------------------------------
 
             // Handle audio data
             mediaRecorder.ondataavailable = (event) => {
+                console.log(`Audio data received: ${event.data.size} bytes`);
                 if (event.data.size > 0) {
                     audioChunksRef.current.push(event.data);
                     // Send to Deepgram
-                    if (deepgramRef.current?.getReadyState() === 1) {
+                    if (isDeepgramReadyRef.current && deepgramRef.current?.getReadyState() === 1) {
                         deepgramRef.current.send(event.data);
+                        console.log('Audio data sent to Deepgram');
+                    } else {
+                        // This log is no longer a warning, it's expected behavior at the start
+                        console.log('Deepgram not ready yet, holding audio data...');
                     }
+                } else {
+                    console.warn('Received empty audio data chunk');
                 }
             };
 
@@ -199,11 +275,12 @@ const TestPage: React.FC = () => {
             };
 
             // Start recording
+            console.log('Starting MediaRecorder with mimeType:', options.mimeType);
             mediaRecorder.start(500); // Send data every 500ms
+            console.log('MediaRecorder started successfully');
             setIsRecording(true);
             setStatus('Recording... Speak clearly!');
             audioChunksRef.current = []; // Clear previous chunks
-            setTranscript(''); // Clear previous transcript
 
         } catch (error) {
             console.error('Error starting recording:', error);
@@ -214,6 +291,7 @@ const TestPage: React.FC = () => {
     // Stop recording function
     const handleStopRecording = () => {
         setIsRecording(false);
+        isDeepgramReadyRef.current = false; // Reset Deepgram state
         setStatus('Stopping recording...');
 
         // Clear timer first to prevent any further countdown
@@ -280,9 +358,12 @@ const TestPage: React.FC = () => {
             }
 
             // Create audio blob
+            console.log(`Creating audio blob from ${audioChunksRef.current.length} chunks`);
             const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-            
+            console.log(`Audio blob created: ${audioBlob.size} bytes`);
+
             if (audioBlob.size === 0) {
+                console.error('Audio blob is empty - no audio was recorded');
                 setStatus('No audio recorded. Please check your microphone and try again.');
                 return;
             }
