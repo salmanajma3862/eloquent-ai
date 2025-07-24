@@ -29,7 +29,7 @@ const LoginPage: React.FC = () => {
 
         try {
             await login(formData.email, formData.password);
-            navigate('/'); // Redirect to dashboard after successful login
+            navigate('/dashboard'); // Redirect to dashboard after successful login
         } catch (error: any) {
             setError(error.response?.data?.message || 'An error occurred during login');
         } finally {
@@ -40,7 +40,7 @@ const LoginPage: React.FC = () => {
     const handleGoogleSuccess = async (credentialResponse: any) => {
         try {
             await googleLogin(credentialResponse.credential);
-            navigate('/'); // Redirect to dashboard after successful Google login
+            navigate('/dashboard'); // Redirect to dashboard after successful Google login
         } catch (error: any) {
             setError(error.response?.data?.message || 'An error occurred during Google login');
         }

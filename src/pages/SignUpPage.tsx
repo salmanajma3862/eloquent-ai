@@ -29,7 +29,7 @@ const SignUpPage: React.FC = () => {
 
         try {
             await signup(formData.name, formData.email, formData.password);
-            navigate('/'); // Redirect to dashboard after successful signup
+            navigate('/dashboard'); // Redirect to dashboard after successful signup
         } catch (error: any) {
             setError(error.response?.data?.message || 'An error occurred during signup');
         } finally {
