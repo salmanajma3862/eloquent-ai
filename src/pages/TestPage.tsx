@@ -326,18 +326,18 @@ const TestPage: React.FC = () => {
     } as const;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800">
+        <div className="min-h-screen bg-black">
             {/* Navigation */}
             <motion.nav
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="bg-slate-800/70 backdrop-blur-xl border-b border-slate-700/50 shadow-lg"
+                className="bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-700/50 shadow-lg"
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex items-center">
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+                            <h1 className="text-2xl font-bold bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent">
                                 Eloquent AI
                             </h1>
                         </div>
@@ -366,11 +366,11 @@ const TestPage: React.FC = () => {
                 {/* Topic Card */}
                 <motion.div
                     variants={itemVariants}
-                    className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl p-8 mb-8"
+                    className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl p-8 mb-8"
                 >
-                    <h2 className="text-2xl font-bold text-white mb-4">Speaking Topic</h2>
-                    <div className="bg-slate-700/30 rounded-xl p-6">
-                        <p className="text-lg text-slate-200 leading-relaxed">
+                    <h2 className="text-2xl font-bold text-zinc-100 mb-4">Speaking Topic</h2>
+                    <div className="bg-zinc-800/30 rounded-xl p-6">
+                        <p className="text-lg text-zinc-200 leading-relaxed">
                             {topic || 'Loading topic...'}
                         </p>
                     </div>
@@ -379,7 +379,7 @@ const TestPage: React.FC = () => {
                 {/* Timer and Controls */}
                 <motion.div
                     variants={itemVariants}
-                    className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl p-8 mb-8 text-center"
+                    className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl p-8 mb-8 text-center"
                 >
                     {/* Timer Display */}
                     <div className="mb-6">
@@ -388,12 +388,12 @@ const TestPage: React.FC = () => {
                         }`}>
                             {formatTime(timer)}
                         </div>
-                        <p className="text-slate-400">Time remaining</p>
+                        <p className="text-zinc-400">Time remaining</p>
                     </div>
 
                     {/* Status */}
                     <div className="mb-6">
-                        <p className="text-lg text-slate-300">{status}</p>
+                        <p className="text-lg text-zinc-300">{status}</p>
                     </div>
 
                     {/* Record Button */}

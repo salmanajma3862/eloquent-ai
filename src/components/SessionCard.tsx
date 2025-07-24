@@ -36,7 +36,7 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
             case 'failed':
                 return { color: 'text-red-400', text: 'Failed' };
             default:
-                return { color: 'text-gray-400', text: 'Unknown' };
+                return { color: 'text-zinc-400', text: 'Unknown' };
         }
     };
 
@@ -46,16 +46,16 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
         <motion.div
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl p-6 cursor-pointer transition-all duration-300 hover:border-blue-500/50"
+            className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl p-6 cursor-pointer transition-all duration-300 hover:border-blue-500/50 max-w-md w-full"
         >
             <div className="flex justify-between items-start mb-4">
-                <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-white mb-2 overflow-hidden">
+                <div className="flex-1 min-w-0">
+                    <h3 className="text-lg font-semibold text-zinc-100 mb-2">
                         <span className="block truncate">
                             {session.topicText}
                         </span>
                     </h3>
-                    <p className="text-slate-400 text-sm">
+                    <p className="text-zinc-400 text-sm">
                         {formatDate(session.createdAt)}
                     </p>
                 </div>

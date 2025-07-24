@@ -19,8 +19,8 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: rgb(17, 24, 39); /* bg-gray-900 */
-  color: rgb(229, 231, 235); /* text-gray-200 */
+  background-color: #000000; /* True black background */
+  color: rgb(228, 228, 231); /* text-zinc-200 */
 }
 
 a {

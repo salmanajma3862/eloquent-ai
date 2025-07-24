@@ -51,14 +51,14 @@ const LoginPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 px-4 py-8">
+        <div className="min-h-screen flex items-center justify-center bg-black px-4 py-8">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
                 className="w-full max-w-md"
             >
-                <div className="relative bg-slate-800/70 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden">
+                <div className="relative bg-zinc-900/90 backdrop-blur-xl border border-zinc-700/50 rounded-2xl shadow-2xl overflow-hidden">
                     {/* Decorative gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 pointer-events-none" />
                     
@@ -69,10 +69,10 @@ const LoginPage: React.FC = () => {
                             transition={{ delay: 0.2, duration: 0.5 }}
                             className="text-center"
                         >
-                            <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent mb-2">
+                            <h1 className="text-4xl font-bold bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent mb-2">
                                 Welcome Back
                             </h1>
-                            <p className="text-slate-400 text-lg">
+                            <p className="text-zinc-400 text-lg">
                                 Sign in to <span className="text-blue-400 font-semibold">Eloquent AI</span>
                             </p>
                         </motion.div>
@@ -86,7 +86,7 @@ const LoginPage: React.FC = () => {
                         >
                             <div className="space-y-5">
                                 <div className="group">
-                                    <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
+                                    <label htmlFor="email" className="block text-sm font-medium text-zinc-300 mb-2">
                                         Email Address
                                     </label>
                                     <motion.input
@@ -98,12 +98,12 @@ const LoginPage: React.FC = () => {
                                         required
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-4 bg-slate-700/50 border border-slate-600 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 backdrop-blur-sm"
+                                        className="w-full px-4 py-4 bg-zinc-800/50 border border-zinc-700 rounded-xl text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 backdrop-blur-sm"
                                         placeholder="your@email.com"
                                     />
                                 </div>
                                 <div className="group">
-                                    <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">
+                                    <label htmlFor="password" className="block text-sm font-medium text-zinc-300 mb-2">
                                         Password
                                     </label>
                                     <motion.input
@@ -115,7 +115,7 @@ const LoginPage: React.FC = () => {
                                         required
                                         value={formData.password}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-4 bg-slate-700/50 border border-slate-600 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 backdrop-blur-sm"
+                                        className="w-full px-4 py-4 bg-zinc-800/50 border border-zinc-700 rounded-xl text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 backdrop-blur-sm"
                                         placeholder="Enter your password"
                                     />
                                 </div>
@@ -181,10 +181,10 @@ const LoginPage: React.FC = () => {
                                 transition={{ delay: 0.5, duration: 0.5 }}
                                 className="text-center pt-4"
                             >
-                                <span className="text-slate-400">
+                                <span className="text-zinc-400">
                                     Don't have an account?{' '}
-                                    <Link 
-                                        to="/signup" 
+                                    <Link
+                                        to="/signup"
                                         className="font-semibold text-blue-400 hover:text-blue-300 transition-colors duration-200 underline decoration-blue-400/30 hover:decoration-blue-300/50 underline-offset-4"
                                     >
                                         Sign up

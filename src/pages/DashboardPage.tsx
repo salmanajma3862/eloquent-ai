@@ -77,23 +77,23 @@ const DashboardPage: React.FC = () => {
     } as const;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800">
+        <div className="min-h-screen bg-black">
             {/* Navigation */}
             <motion.nav
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="bg-slate-800/70 backdrop-blur-xl border-b border-slate-700/50 shadow-lg"
+                className="bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-700/50 shadow-lg"
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex items-center">
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+                            <h1 className="text-2xl font-bold bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent">
                                 Eloquent AI
                             </h1>
                         </div>
                         <div className="flex items-center space-x-4">
-                            <div className="text-slate-300 font-medium">
+                            <div className="text-zinc-300 font-medium">
                                 {userInfo?.name}
                             </div>
                             <motion.button
@@ -116,7 +116,7 @@ const DashboardPage: React.FC = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="relative bg-slate-800/70 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden"
+                        className="relative bg-zinc-900/90 backdrop-blur-xl border border-zinc-700/50 rounded-2xl shadow-2xl overflow-hidden"
                     >
                         {/* Decorative gradient overlay */}
                         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 pointer-events-none" />
@@ -129,10 +129,10 @@ const DashboardPage: React.FC = () => {
                                 transition={{ duration: 0.6, delay: 0.3 }}
                                 className="mb-8"
                             >
-                                <h2 className="text-4xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent mb-3">
+                                <h2 className="text-4xl font-bold bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent mb-3">
                                     Welcome back, {userInfo?.name}!
                                 </h2>
-                                <p className="text-slate-400 text-lg">
+                                <p className="text-zinc-400 text-lg">
                                     Ready to improve your IELTS speaking skills? Let's continue your journey.
                                 </p>
                             </motion.div>
@@ -161,16 +161,16 @@ const DashboardPage: React.FC = () => {
                                 transition={{ duration: 0.6, delay: 0.5 }}
                                 className="mb-8"
                             >
-                                <h3 className="text-2xl font-bold text-white mb-6">Your Test History</h3>
+                                <h3 className="text-2xl font-bold text-zinc-100 mb-6">Your Test History</h3>
 
                                 {/* Loading State */}
                                 {isLoading && (
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                         {[1, 2, 3].map((i) => (
-                                            <div key={i} className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 animate-pulse">
-                                                <div className="h-4 bg-slate-700 rounded mb-4"></div>
-                                                <div className="h-3 bg-slate-700 rounded mb-2"></div>
-                                                <div className="h-3 bg-slate-700 rounded w-2/3"></div>
+                                            <div key={i} className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 p-6 animate-pulse">
+                                                <div className="h-4 bg-zinc-700 rounded mb-4"></div>
+                                                <div className="h-3 bg-zinc-700 rounded mb-2"></div>
+                                                <div className="h-3 bg-zinc-700 rounded w-2/3"></div>
                                             </div>
                                         ))}
                                     </div>
@@ -191,12 +191,12 @@ const DashboardPage: React.FC = () => {
 
                                 {/* Empty State */}
                                 {!isLoading && !error && sessions.length === 0 && (
-                                    <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-8 text-center">
+                                    <div className="bg-zinc-900/30 border border-zinc-700/50 rounded-xl p-8 text-center">
                                         <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                                             <div className="w-8 h-8 bg-blue-400 rounded-full" />
                                         </div>
-                                        <h4 className="text-xl font-semibold text-white mb-2">No tests yet</h4>
-                                        <p className="text-slate-400 mb-6">
+                                        <h4 className="text-xl font-semibold text-zinc-100 mb-2">No tests yet</h4>
+                                        <p className="text-zinc-400 mb-6">
                                             You haven't completed any tests yet. Start your first one now!
                                         </p>
                                         <motion.button
@@ -234,20 +234,20 @@ const DashboardPage: React.FC = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.6 }}
-                                className="bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 p-6 rounded-xl"
+                                className="bg-zinc-800/30 backdrop-blur-sm border border-zinc-700/50 p-6 rounded-xl"
                             >
-                                <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
+                                <h4 className="text-lg font-semibold text-zinc-100 mb-4 flex items-center">
                                     <div className="w-2 h-2 bg-blue-400 rounded-full mr-3" />
                                     Account Information
                                 </h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <p className="text-sm text-slate-400">Email Address</p>
-                                        <p className="text-slate-200 font-medium">{userInfo?.email}</p>
+                                        <p className="text-sm text-zinc-400">Email Address</p>
+                                        <p className="text-zinc-200 font-medium">{userInfo?.email}</p>
                                     </div>
                                     <div className="space-y-2">
-                                        <p className="text-sm text-slate-400">User ID</p>
-                                        <p className="text-slate-200 font-mono text-sm">{userInfo?._id}</p>
+                                        <p className="text-sm text-zinc-400">User ID</p>
+                                        <p className="text-zinc-200 font-mono text-sm">{userInfo?._id}</p>
                                     </div>
                                 </div>
                             </motion.div>
