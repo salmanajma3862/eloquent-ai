@@ -1,10 +1,12 @@
 {
 	"folders": [
 		{
-			"path": "."
+			"name": "eloquent-ai-backend",
+			"path": "../eloquent-ai-backend"
 		},
 		{
-			"path": "../eloquent-ai-backend"
+			"name": "eloquent-ai",
+			"path": "."
 		}
 	],
 	"settings": {}
