@@ -100,4 +100,11 @@ export const getSessionAnalysis = (token: string, sessionId: string) => {
   });
 };
 
+// Get all sessions for the authenticated user
+export const getUserSessions = (token: string) => {
+  return api.get('/api/sessions', {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+};
+
 export default api;

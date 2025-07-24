@@ -1,16 +1,54 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { motion } from 'framer-motion';
+import { getUserSessions } from '../lib/api';
+import SessionCard from '../components/SessionCard';
+
+interface Session {
+    _id: string;
+    topicText: string;
+    createdAt: string;
+    analysis?: {
+        overallBandScore: number;
+    };
+    status: string;
+}
 
 const DashboardPage: React.FC = () => {
-    const { userInfo, logout } = useUserStore();
+    const { userInfo, logout, token } = useUserStore();
     const navigate = useNavigate();
+    const [sessions, setSessions] = useState<Session[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState('');
 
     const handleLogout = () => {
         logout();
         navigate('/login');
     };
+
+    // Fetch user sessions on component mount
+    useEffect(() => {
+        const fetchSessions = async () => {
+            if (!token) {
+                navigate('/login');
+                return;
+            }
+
+            try {
+                const response = await getUserSessions(token);
+                setSessions(response.data);
+                setError('');
+            } catch (err) {
+                setError('Failed to fetch session history.');
+                console.error('Sessions fetch error:', err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchSessions();
+    }, [token, navigate]);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -99,94 +137,96 @@ const DashboardPage: React.FC = () => {
                                 </p>
                             </motion.div>
                             
-                            {/* Action Cards */}
+                            {/* Quick Actions */}
                             <motion.div
-                                variants={containerVariants}
-                                initial="hidden"
-                                animate="visible"
-                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.4 }}
+                                className="mb-8"
                             >
-                                <motion.div
-                                    variants={cardVariants}
-                                    whileHover={{ scale: 1.02, y: -5 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    className="relative bg-slate-700/50 backdrop-blur-sm p-6 rounded-xl border border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 cursor-pointer group"
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={() => navigate('/test')}
+                                    className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 shadow-lg shadow-blue-500/25"
                                 >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    <div className="relative">
-                                        <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                                            <div className="w-6 h-6 bg-blue-400 rounded-full animate-pulse" />
+                                    Start New Practice Session
+                                </motion.button>
+                            </motion.div>
+
+                            {/* Test History Section */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.5 }}
+                                className="mb-8"
+                            >
+                                <h3 className="text-2xl font-bold text-white mb-6">Your Test History</h3>
+
+                                {/* Loading State */}
+                                {isLoading && (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                        {[1, 2, 3].map((i) => (
+                                            <div key={i} className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 animate-pulse">
+                                                <div className="h-4 bg-slate-700 rounded mb-4"></div>
+                                                <div className="h-3 bg-slate-700 rounded mb-2"></div>
+                                                <div className="h-3 bg-slate-700 rounded w-2/3"></div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {/* Error State */}
+                                {error && !isLoading && (
+                                    <div className="bg-red-900/20 border border-red-500/30 rounded-xl p-6 text-center">
+                                        <p className="text-red-400 mb-4">{error}</p>
+                                        <button
+                                            onClick={() => window.location.reload()}
+                                            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                                        >
+                                            Try Again
+                                        </button>
+                                    </div>
+                                )}
+
+                                {/* Empty State */}
+                                {!isLoading && !error && sessions.length === 0 && (
+                                    <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-8 text-center">
+                                        <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <div className="w-8 h-8 bg-blue-400 rounded-full" />
                                         </div>
-                                        <h3 className="text-xl font-semibold text-white mb-2">
-                                            Start Practice
-                                        </h3>
-                                        <p className="text-slate-400 text-sm mb-6">
-                                            Begin your IELTS speaking practice session with AI-powered feedback
+                                        <h4 className="text-xl font-semibold text-white mb-2">No tests yet</h4>
+                                        <p className="text-slate-400 mb-6">
+                                            You haven't completed any tests yet. Start your first one now!
                                         </p>
                                         <motion.button
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                             onClick={() => navigate('/test')}
-                                            className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-lg shadow-blue-500/25"
+                                            className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300"
                                         >
-                                            Start Now
+                                            Take Your First Test
                                         </motion.button>
                                     </div>
-                                </motion.div>
+                                )}
 
-                                <motion.div
-                                    variants={cardVariants}
-                                    whileHover={{ scale: 1.02, y: -5 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    className="relative bg-slate-700/50 backdrop-blur-sm p-6 rounded-xl border border-green-500/30 hover:border-green-400/50 transition-all duration-300 cursor-pointer group"
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    <div className="relative">
-                                        <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                                            <div className="w-6 h-6 bg-green-400 rounded-full animate-pulse" />
-                                        </div>
-                                        <h3 className="text-xl font-semibold text-white mb-2">
-                                            View Progress
-                                        </h3>
-                                        <p className="text-slate-400 text-sm mb-6">
-                                            Track your improvement and see detailed analytics of your performance
-                                        </p>
-                                        <motion.button
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
-                                            className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-lg shadow-green-500/25"
-                                        >
-                                            View Progress
-                                        </motion.button>
-                                    </div>
-                                </motion.div>
-
-                                <motion.div
-                                    variants={cardVariants}
-                                    whileHover={{ scale: 1.02, y: -5 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    className="relative bg-slate-700/50 backdrop-blur-sm p-6 rounded-xl border border-purple-500/30 hover:border-purple-400/50 transition-all duration-300 cursor-pointer group"
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    <div className="relative">
-                                        <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-                                            <div className="w-6 h-6 bg-purple-400 rounded-full animate-pulse" />
-                                        </div>
-                                        <h3 className="text-xl font-semibold text-white mb-2">
-                                            Settings
-                                        </h3>
-                                        <p className="text-slate-400 text-sm mb-6">
-                                            Customize your learning experience and preferences
-                                        </p>
-                                        <motion.button
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
-                                            className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-lg shadow-purple-500/25"
-                                        >
-                                            Settings
-                                        </motion.button>
-                                    </div>
-                                </motion.div>
+                                {/* Sessions List */}
+                                {!isLoading && !error && sessions.length > 0 && (
+                                    <motion.div
+                                        variants={containerVariants}
+                                        initial="hidden"
+                                        animate="visible"
+                                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                                    >
+                                        {sessions.map((session) => (
+                                            <motion.div key={session._id} variants={cardVariants}>
+                                                <Link to={`/analysis/${session._id}`}>
+                                                    <SessionCard session={session} />
+                                                </Link>
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
+                                )}
                             </motion.div>
                             
                             {/* Account Information */}
