@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { useUserStore } from '../store/userStore';
+import { motion } from 'framer-motion';
 
 const LoginPage: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -50,95 +51,150 @@ const LoginPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-900">
-            <div className="w-full max-w-md p-8 space-y-8 bg-gray-800 rounded-xl shadow-2xl">
-                <div>
-                    <h2 className="text-center text-3xl font-extrabold text-white">
-                        Sign in to your account
-                    </h2>
-                    <p className="mt-2 text-center text-sm text-gray-400">
-                        Welcome back to Eloquent AI
-                    </p>
-                </div>
-                <form className="space-y-6" onSubmit={handleSubmit}>
-                    <div className="space-y-4">
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-                                Email Address
-                            </label>
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                required
-                                value={formData.email}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Enter your email address"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-300">
-                                Password
-                            </label>
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                required
-                                value={formData.password}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Enter your password"
-                            />
-                        </div>
-                    </div>
-
-                    {error && (
-                        <div className="text-red-400 text-sm text-center">
-                            {error}
-                        </div>
-                    )}
-
-                    <div>
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="w-full py-3 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 px-4 py-8">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="w-full max-w-md"
+            >
+                <div className="relative bg-slate-800/70 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden">
+                    {/* Decorative gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 pointer-events-none" />
+                    
+                    <div className="relative p-8 space-y-8">
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2, duration: 0.5 }}
+                            className="text-center"
                         >
-                            {isLoading ? 'Signing In...' : 'Sign In'}
-                        </button>
-                    </div>
+                            <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent mb-2">
+                                Welcome Back
+                            </h1>
+                            <p className="text-slate-400 text-lg">
+                                Sign in to <span className="text-blue-400 font-semibold">Eloquent AI</span>
+                            </p>
+                        </motion.div>
 
-                    <div className="relative flex items-center justify-center">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-600"></div>
-                        </div>
-                        <div className="relative bg-gray-800 px-2 text-sm text-gray-400">
-                            Or continue with
-                        </div>
-                    </div>
+                        <motion.form
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.3, duration: 0.5 }}
+                            className="space-y-6"
+                            onSubmit={handleSubmit}
+                        >
+                            <div className="space-y-5">
+                                <div className="group">
+                                    <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
+                                        Email Address
+                                    </label>
+                                    <motion.input
+                                        whileFocus={{ scale: 1.01 }}
+                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        required
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-4 bg-slate-700/50 border border-slate-600 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 backdrop-blur-sm"
+                                        placeholder="your@email.com"
+                                    />
+                                </div>
+                                <div className="group">
+                                    <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">
+                                        Password
+                                    </label>
+                                    <motion.input
+                                        whileFocus={{ scale: 1.01 }}
+                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                        id="password"
+                                        name="password"
+                                        type="password"
+                                        required
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-4 bg-slate-700/50 border border-slate-600 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 backdrop-blur-sm"
+                                        placeholder="Enter your password"
+                                    />
+                                </div>
+                            </div>
 
-                    <div className="w-full inline-flex justify-center py-3 px-4 border border-gray-600 rounded-lg shadow-sm bg-gray-700 text-sm font-medium text-gray-200 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500">
-                        <GoogleLogin
-                            onSuccess={handleGoogleSuccess}
-                            onError={handleGoogleError}
-                            theme="filled_black"
-                            size="large"
-                            width="100%"
-                        />
-                    </div>
+                            {error && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl"
+                                >
+                                    <p className="text-red-400 text-sm text-center font-medium">
+                                        {error}
+                                    </p>
+                                </motion.div>
+                            )}
 
-                    <div className="text-center">
-                        <span className="text-sm text-gray-400">
-                            Don't have an account?{' '}
-                            <Link to="/signup" className="font-medium text-blue-400 hover:text-blue-300">
-                                Sign up
-                            </Link>
-                        </span>
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                type="submit"
+                                disabled={isLoading}
+                                className="w-full py-4 font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-300 shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                            >
+                                {isLoading ? (
+                                    <div className="flex items-center justify-center">
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                                        Signing In...
+                                    </div>
+                                ) : (
+                                    'Sign In'
+                                )}
+                            </motion.button>
+
+                            <div className="relative flex items-center justify-center my-8">
+                                <div className="absolute inset-0 flex items-center">
+                                    <div className="w-full border-t border-slate-600/50"></div>
+                                </div>
+                                <div className="relative bg-slate-800 px-4 text-sm text-slate-400 font-medium">
+                                    Or continue with
+                                </div>
+                            </div>
+
+                            <motion.div
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                className="w-full"
+                            >
+                                <div className="w-full flex justify-center py-4 px-4 border border-slate-600/50 rounded-xl shadow-sm bg-slate-700/30 hover:bg-slate-700/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-blue-500/50 transition-all duration-300 backdrop-blur-sm">
+                                    <GoogleLogin
+                                        onSuccess={handleGoogleSuccess}
+                                        onError={handleGoogleError}
+                                        theme="filled_black"
+                                        size="large"
+                                        width="100%"
+                                    />
+                                </div>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.5, duration: 0.5 }}
+                                className="text-center pt-4"
+                            >
+                                <span className="text-slate-400">
+                                    Don't have an account?{' '}
+                                    <Link 
+                                        to="/signup" 
+                                        className="font-semibold text-blue-400 hover:text-blue-300 transition-colors duration-200 underline decoration-blue-400/30 hover:decoration-blue-300/50 underline-offset-4"
+                                    >
+                                        Sign up
+                                    </Link>
+                                </span>
+                            </motion.div>
+                        </motion.form>
                     </div>
-                </form>
-            </div>
+                </div>
+            </motion.div>
         </div>
     );
 };
