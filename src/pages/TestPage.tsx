@@ -26,6 +26,7 @@ const TestPage: React.FC = () => {
     const audioChunksRef = useRef<Blob[]>([]);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const streamRef = useRef<MediaStream | null>(null);
+    const startTimeRef = useRef<number>(0);
 
     // Load topic on component mount
     useEffect(() => {
@@ -119,6 +120,9 @@ const TestPage: React.FC = () => {
                     alert("CRITICAL ERROR: Your microphone is muted. Please unmute it in your system or browser settings and try again.");
                     return;
                 }
+
+                // Record the start time for duration calculation
+                startTimeRef.current = Date.now();
 
                 streamRef.current = stream;
             } catch (micError) {
@@ -257,14 +261,15 @@ const TestPage: React.FC = () => {
 
                 setStatus("Saving session...");
 
-                // Calculate the final duration
-                const duration = 120 - timer;
+                // Calculate the actual duration based on start and end times
+                const endTime = Date.now();
+                const duration = Math.round((endTime - startTimeRef.current) / 1000);
 
                 // Create session data with the transcribed text
                 const sessionData = {
                     topicText: topic,
                     audioUrl: "placeholder/for/now.webm", // Placeholder as mentioned in instructions
-                    durationInSeconds: duration,
+                    durationInSeconds: duration, // USE THE REAL DURATION
                     transcribedText: newTranscript, // THE TRANSCRIPT IS NO LONGER EMPTY
                 };
 
