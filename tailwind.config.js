@@ -1,3 +1,4 @@
+// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -5,7 +6,10 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {}, // We can add custom colors here later
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),      // Resets form styles for easy customization
+    require('@tailwindcss/typography'), // Provides beautiful typography defaults
+  ],
 }
