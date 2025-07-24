@@ -70,6 +70,27 @@ export const testApi = {
 
         return response;
     },
+
+    // Transcribe audio file using Deepgram prerecorded API
+    transcribeAudioFile: async (token: string, formData: FormData) => {
+        const response = await api.post('/api/test/transcribe', formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data;
+    },
+};
+
+// Export transcribeAudioFile as a standalone function for easier access
+export const transcribeAudioFile = (token: string, formData: FormData) => {
+  return api.post('/api/test/transcribe', formData, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 };
 
 export default api;
