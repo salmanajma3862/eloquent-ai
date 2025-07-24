@@ -126,6 +126,7 @@ const DashboardPage: React.FC = () => {
                                         <motion.button
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
+                                            onClick={() => navigate('/test')}
                                             className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-lg shadow-blue-500/25"
                                         >
                                             Start Now
