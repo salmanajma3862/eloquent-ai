@@ -145,6 +145,16 @@ const DashboardPage: React.FC = () => {
                             <div className="text-zinc-300 font-medium text-lg">
                                 {userInfo?.name}
                             </div>
+                            <Link to="/profile">
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="flex items-center space-x-2 px-4 py-2 bg-zinc-800/50 hover:bg-zinc-700/50 rounded-xl border border-zinc-600/30 transition-all duration-300"
+                                >
+                                    <FaUser className="text-sm" />
+                                    <span>Profile</span>
+                                </motion.button>
+                            </Link>
                             <motion.button
                                 whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)" }}
                                 whileTap={{ scale: 0.95 }}

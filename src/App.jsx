@@ -7,6 +7,7 @@ import SignUpPage from './pages/SignUpPage';
 import DashboardPage from './pages/DashboardPage';
 import TestPage from './pages/TestPage';
 import AnalysisPage from './pages/AnalysisPage';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   return (
@@ -46,6 +47,14 @@ function App() {
         element={
           <ProtectedRoute>
             <AnalysisPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
           </ProtectedRoute>
         }
       />
