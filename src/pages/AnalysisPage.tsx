@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { FaPlay, FaSpinner } from 'react-icons/fa';
 import { useUserStore } from '../store/userStore';
 import { getSessionAnalysis } from '../lib/api';
+import api from '../lib/api';
 
 interface AnalysisData {
     overallBandScore: number;
@@ -31,6 +33,7 @@ interface SessionData {
     durationInSeconds: number;
     transcribedText: string;
     analysis: AnalysisData;
+    suggestedAudioUrl?: string;
     status: string;
     createdAt: string;
     updatedAt: string;
@@ -43,6 +46,11 @@ const AnalysisPage: React.FC = () => {
     const [session, setSession] = useState<SessionData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+
+    // New state for on-demand audio generation
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [audioSrc, setAudioSrc] = useState<string | null>(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
         const fetchAnalysis = async () => {
@@ -71,6 +79,38 @@ const AnalysisPage: React.FC = () => {
 
         fetchAnalysis();
     }, [token, sessionId, navigate]);
+
+    // Handle on-demand audio generation
+    const handleGenerateAudio = async () => {
+        if (!sessionId || !token) return;
+
+        setIsGenerating(true);
+        try {
+            // --- THIS IS THE FIX ---
+            // We must pass the token in the request headers.
+            const response = await api.get(`/api/tts/${sessionId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }, // Add this line
+                responseType: 'blob' // IMPORTANT: Tell Axios to expect a binary blob
+            });
+            // -----------------------
+
+            const audioBlob = new Blob([response.data], { type: 'audio/mpeg' });
+            const audioUrl = URL.createObjectURL(audioBlob);
+            setAudioSrc(audioUrl);
+        } catch (error) {
+            console.error("Failed to generate audio", error);
+            setError('Failed to generate audio. Please try again.');
+        } finally {
+            setIsGenerating(false);
+        }
+    };
+
+    // Play audio when src changes
+    useEffect(() => {
+        if (audioSrc && audioRef.current) {
+            audioRef.current.play();
+        }
+    }, [audioSrc]);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -273,13 +313,43 @@ const AnalysisPage: React.FC = () => {
                                     variants={itemVariants}
                                     className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl p-6"
                                 >
-                                    <h3 className="text-xl font-semibold text-zinc-100 mb-4">Band 9 Suggested Version</h3>
+                                    {/* Card Header with Title and Generate Button */}
+                                    <div className="flex justify-between items-center mb-4">
+                                        <h3 className="text-xl font-semibold text-zinc-100">
+                                            Band 9 Suggested Version
+                                        </h3>
+                                        {/* Generate & Listen Button */}
+                                        <button
+                                            onClick={handleGenerateAudio}
+                                            disabled={isGenerating}
+                                            className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-4 py-2 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900"
+                                        >
+                                            {isGenerating ? (
+                                                <>
+                                                    <FaSpinner className="animate-spin" size={14} />
+                                                    <span className="text-sm">Generating...</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <FaPlay size={14} />
+                                                    <span className="text-sm">Generate & Listen</span>
+                                                </>
+                                            )}
+                                        </button>
+                                    </div>
+
+                                    {/* The suggested text itself */}
                                     <div className="bg-zinc-800/30 rounded-xl p-4">
                                         <p className="text-zinc-200 leading-relaxed italic">
                                             "{session.analysis.improvedText}"
                                         </p>
                                     </div>
                                 </motion.div>
+
+                                {/* Hidden Audio Element for Playback */}
+                                {audioSrc && (
+                                    <audio ref={audioRef} src={audioSrc} controls className="w-full mt-4" />
+                                )}
 
                                 {/* Statistics */}
                                 <motion.div
