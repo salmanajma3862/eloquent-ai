@@ -77,7 +77,7 @@ const LandingPage: React.FC = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center">
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent">
+                            <h1 className="text-2xl font-extrabold bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent tracking-tight">
                                 Eloquent AI
                             </h1>
                         </div>
@@ -86,7 +86,7 @@ const LandingPage: React.FC = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={handleSignIn}
-                                className="text-zinc-300 hover:text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                                className="text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800/50 px-3 sm:px-4 py-2 rounded-lg transition-all duration-200 text-sm sm:text-base"
                             >
                                 Sign In
                             </motion.button>
@@ -94,7 +94,7 @@ const LandingPage: React.FC = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={handleGetStarted}
-                                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300 shadow-lg shadow-blue-500/25"
+                                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 sm:px-6 py-2 rounded-lg font-medium transition-all duration-300 shadow-lg shadow-blue-500/25 text-sm sm:text-base"
                             >
                                 Get Started
                             </motion.button>
@@ -145,7 +145,7 @@ const LandingPage: React.FC = () => {
                     >
                         <motion.h1
                             variants={fadeInUp}
-                            className="text-5xl md:text-7xl font-bold leading-tight"
+                            className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight"
                         >
                             <span className="bg-gradient-to-r from-zinc-100 via-zinc-200 to-zinc-100 bg-clip-text text-transparent">
                                 Master IELTS Speaking
@@ -158,7 +158,7 @@ const LandingPage: React.FC = () => {
 
                         <motion.p
                             variants={fadeInUp}
-                            className="text-xl md:text-2xl text-zinc-300 max-w-3xl mx-auto leading-relaxed"
+                            className="text-lg sm:text-xl md:text-2xl text-zinc-300 max-w-3xl mx-auto leading-relaxed"
                         >
                             Transform your speaking anxiety into <span className="text-blue-400 font-semibold">unshakeable confidence</span>. 
                             Get instant, expert-level feedback from your personal AI coach, available 24/7.
@@ -172,7 +172,7 @@ const LandingPage: React.FC = () => {
                                 whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(59, 130, 246, 0.4)" }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={handleGetStarted}
-                                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25"
+                                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25"
                             >
                                 Start Your Free Practice
                             </motion.button>
@@ -180,7 +180,7 @@ const LandingPage: React.FC = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={handleSignIn}
-                                className="border border-zinc-600 hover:border-zinc-500 text-zinc-300 hover:text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300"
+                                className="border border-zinc-600 hover:border-zinc-400 hover:bg-zinc-800/50 text-zinc-300 hover:text-zinc-100 px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-medium transition-all duration-300"
                             >
                                 Already have an account?
                             </motion.button>
@@ -225,9 +225,9 @@ const LandingPage: React.FC = () => {
                         variants={fadeInUp}
                         className="text-center space-y-8"
                     >
-                        <h2 className="text-4xl md:text-5xl font-bold text-zinc-100 leading-tight">
-                            The IELTS Speaking test doesn't have to be 
-                            <span className="text-red-400"> your biggest fear</span>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-zinc-100 leading-tight tracking-tight">
+                            The IELTS Speaking test doesn't have to be
+                            <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent"> your biggest fear</span>
                         </h2>
                         
                         <div className="grid md:grid-cols-3 gap-8 pt-12">
@@ -251,7 +251,7 @@ const LandingPage: React.FC = () => {
                                     animate={problemInView ? "visible" : "hidden"}
                                     variants={cardVariants}
                                     transition={{ delay: index * 0.2 }}
-                                    className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 p-6 text-center"
+                                    className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 p-6 text-center hover:bg-zinc-900/70 hover:border-zinc-600/50 transition-all duration-300"
                                 >
                                     <h3 className="text-xl font-semibold text-zinc-100 mb-4">{problem.title}</h3>
                                     <p className="text-zinc-400 leading-relaxed">{problem.description}</p>
@@ -273,7 +273,7 @@ const LandingPage: React.FC = () => {
                         className="text-center space-y-12"
                     >
                         <motion.div variants={fadeInUp} className="space-y-6">
-                            <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">
                                 <span className="text-zinc-100">Meet </span>
                                 <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
                                     Eloquent AI
@@ -287,7 +287,7 @@ const LandingPage: React.FC = () => {
 
                         <motion.div
                             variants={scaleIn}
-                            className="bg-zinc-900/50 backdrop-blur-sm rounded-3xl border border-zinc-700/50 p-8 md:p-12 max-w-4xl mx-auto"
+                            className="bg-zinc-900/50 backdrop-blur-sm rounded-3xl border border-zinc-700/50 p-8 md:p-12 max-w-4xl mx-auto hover:bg-zinc-900/70 hover:border-zinc-600/50 transition-all duration-500"
                         >
                             <div className="grid md:grid-cols-2 gap-8 items-center">
                                 <div className="space-y-6 text-left">
@@ -355,8 +355,8 @@ const LandingPage: React.FC = () => {
                         className="space-y-16"
                     >
                         <motion.div variants={fadeInUp} className="text-center space-y-6">
-                            <h2 className="text-4xl md:text-5xl font-bold text-zinc-100">
-                                Everything you need to <span className="text-blue-400">succeed</span>
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-zinc-100 tracking-tight">
+                                Everything you need to <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">succeed</span>
                             </h2>
                             <p className="text-xl text-zinc-300 max-w-3xl mx-auto">
                                 Comprehensive features designed to boost your confidence and maximize your IELTS speaking score.
@@ -423,8 +423,8 @@ const LandingPage: React.FC = () => {
                         className="space-y-16"
                     >
                         <motion.div variants={fadeInUp} className="text-center space-y-6">
-                            <h2 className="text-4xl md:text-5xl font-bold text-zinc-100">
-                                Join the <span className="text-blue-400">success stories</span>
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-zinc-100 tracking-tight">
+                                Join the <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">success stories</span>
                             </h2>
                             <p className="text-xl text-zinc-300 max-w-3xl mx-auto">
                                 Students worldwide are achieving their target IELTS scores with Eloquent AI's personalized coaching.
@@ -456,11 +456,11 @@ const LandingPage: React.FC = () => {
                                     key={index}
                                     variants={cardVariants}
                                     transition={{ delay: index * 0.2 }}
-                                    className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 p-8 relative"
+                                    className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 p-6 sm:p-8 relative hover:bg-zinc-900/70 hover:border-zinc-600/50 transition-all duration-300 group"
                                 >
-                                    <div className="absolute top-4 right-4">
-                                        <div className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold">
-                                            Band {testimonial.score}
+                                    <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+                                        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-semibold shadow-lg shadow-blue-500/25 border border-blue-500/20 group-hover:shadow-blue-500/40 group-hover:scale-105 transition-all duration-300">
+                                            {testimonial.score}
                                         </div>
                                     </div>
                                     <div className="space-y-6">
@@ -486,7 +486,7 @@ const LandingPage: React.FC = () => {
 
             {/* Final CTA Section */}
             <section ref={finalCtaRef} className="py-24 relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10" />
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5" />
                 <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <motion.div
                         initial="hidden"
@@ -495,7 +495,7 @@ const LandingPage: React.FC = () => {
                         className="space-y-12"
                     >
                         <motion.div variants={fadeInUp} className="space-y-8">
-                            <h2 className="text-4xl md:text-6xl font-bold leading-tight">
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
                                 <span className="text-zinc-100">Ready to </span>
                                 <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
                                     transform
@@ -511,7 +511,7 @@ const LandingPage: React.FC = () => {
 
                         <motion.div
                             variants={scaleIn}
-                            className="bg-zinc-900/50 backdrop-blur-sm rounded-3xl border border-zinc-700/50 p-8 md:p-12"
+                            className="bg-zinc-900/50 backdrop-blur-sm rounded-3xl border border-zinc-700/50 p-8 md:p-12 hover:bg-zinc-900/70 hover:border-zinc-600/50 transition-all duration-500"
                         >
                             <div className="space-y-8">
                                 <div className="grid md:grid-cols-3 gap-6 text-center">
@@ -537,7 +537,7 @@ const LandingPage: React.FC = () => {
                                         }}
                                         whileTap={{ scale: 0.95 }}
                                         onClick={handleGetStarted}
-                                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-10 py-5 rounded-xl text-xl font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25"
+                                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-xl text-lg sm:text-xl font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25"
                                     >
                                         Start Your Free Practice Now
                                     </motion.button>
@@ -556,7 +556,7 @@ const LandingPage: React.FC = () => {
             <footer className="py-12 border-t border-zinc-800">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center space-y-4">
-                        <div className="text-2xl font-bold bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent">
+                        <div className="text-2xl font-extrabold bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent tracking-tight">
                             Eloquent AI
                         </div>
                         <p className="text-zinc-400">
