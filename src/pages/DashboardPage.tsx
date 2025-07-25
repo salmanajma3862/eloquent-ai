@@ -13,6 +13,7 @@ interface Session {
         overallBandScore: number;
     };
     status: string;
+    audioUrl?: string;
 }
 
 const DashboardPage: React.FC = () => {
