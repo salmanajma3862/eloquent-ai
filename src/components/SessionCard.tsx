@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { FaTrophy, FaCalendarAlt, FaChartLine } from 'react-icons/fa';
 import { DashboardAudioPlayer } from './DashboardAudioPlayer';
 
 interface Session {
@@ -33,14 +34,22 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
     const getStatusInfo = (status: string) => {
         switch (status) {
             case 'completed':
-                return { color: 'text-green-400', text: 'Completed' };
+                return { color: 'text-green-400', text: 'Completed', bgColor: 'bg-green-500/20', borderColor: 'border-green-500/30' };
             case 'processing':
-                return { color: 'text-yellow-400', text: 'Processing' };
+                return { color: 'text-yellow-400', text: 'Processing', bgColor: 'bg-yellow-500/20', borderColor: 'border-yellow-500/30' };
             case 'failed':
-                return { color: 'text-red-400', text: 'Failed' };
+                return { color: 'text-red-400', text: 'Failed', bgColor: 'bg-red-500/20', borderColor: 'border-red-500/30' };
             default:
-                return { color: 'text-zinc-400', text: 'Unknown' };
+                return { color: 'text-zinc-400', text: 'Unknown', bgColor: 'bg-zinc-500/20', borderColor: 'border-zinc-500/30' };
         }
+    };
+
+    const getBandScoreColor = (score: number) => {
+        if (score >= 8) return 'from-emerald-500 to-green-600';
+        if (score >= 7) return 'from-blue-500 to-indigo-600';
+        if (score >= 6) return 'from-yellow-500 to-orange-600';
+        if (score >= 5) return 'from-orange-500 to-red-600';
+        return 'from-red-500 to-pink-600';
     };
 
     const statusInfo = getStatusInfo(session.status);
@@ -48,54 +57,77 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
     return (
         <Link to={`/analysis/${session._id}`}>
             <motion.div
-                whileHover={{ scale: 1.02 }}
+                whileHover={{
+                    scale: 1.02,
+                    y: -5,
+                    boxShadow: "0 25px 50px rgba(0, 0, 0, 0.5)"
+                }}
                 whileTap={{ scale: 0.98 }}
-                className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl p-6 cursor-pointer transition-all duration-300 hover:border-blue-500/50 max-w-md w-full"
+                className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-6 cursor-pointer transition-all duration-500 hover:border-blue-500/50 max-w-md w-full group relative overflow-hidden"
             >
-            <div className="flex justify-between items-start mb-4">
-                <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-semibold text-zinc-100 mb-2">
-                        <span className="block truncate">
-                            {session.topicText}
-                        </span>
-                    </h3>
-                    <p className="text-zinc-400 text-sm">
-                        {formatDate(session.createdAt)}
-                    </p>
-                </div>
-                
-                {/* Score Badge */}
-                {session.analysis?.overallBandScore && (
-                    <div className="ml-4 flex-shrink-0">
-                        <div className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold">
-                            {session.analysis.overallBandScore}
+                {/* Background gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                <div className="relative z-10">
+                    {/* Header with topic and score */}
+                    <div className="flex justify-between items-start mb-6">
+                        <div className="flex-1 min-w-0">
+                            <div className="flex items-center space-x-2 mb-3">
+                                <FaChartLine className="text-blue-400 text-sm" />
+                                <span className="text-xs text-zinc-400 font-medium uppercase tracking-wide">IELTS Speaking Test</span>
+                            </div>
+                            <h3 className="text-lg font-bold text-zinc-100 mb-3 group-hover:text-blue-300 transition-colors duration-300">
+                                <span className="block truncate">
+                                    {session.topicText}
+                                </span>
+                            </h3>
+                            <div className="flex items-center space-x-2 text-zinc-400 text-sm">
+                                <FaCalendarAlt className="text-xs" />
+                                <span>{formatDate(session.createdAt)}</span>
+                            </div>
                         </div>
-                    </div>
-                )}
-            </div>
 
-            {/* Status and Action */}
-            <div className="flex justify-between items-center">
-                {/* Audio Player for completed sessions, status indicator for others */}
-                {session.status === 'completed' && session.audioUrl ? (
-                    <DashboardAudioPlayer audioUrl={session.audioUrl} />
-                ) : (
-                    <div className="flex items-center space-x-2">
-                        <div className={`w-2 h-2 rounded-full ${
-                            session.status === 'processing' ? 'bg-yellow-400' : 'bg-red-400'
-                        }`}></div>
-                        <span className={`text-sm ${statusInfo.color}`}>
-                            {statusInfo.text}
-                        </span>
+                        {/* Score Badge */}
+                        {session.analysis?.overallBandScore && (
+                            <motion.div
+                                whileHover={{ scale: 1.1, rotate: 5 }}
+                                className="ml-4 flex-shrink-0"
+                            >
+                                <div className={`bg-gradient-to-r ${getBandScoreColor(session.analysis.overallBandScore)} text-white px-4 py-2 rounded-xl text-sm font-bold shadow-lg flex items-center space-x-1`}>
+                                    <FaTrophy className="text-xs" />
+                                    <span>{session.analysis.overallBandScore}</span>
+                                </div>
+                            </motion.div>
+                        )}
                     </div>
-                )}
 
-                {session.status === 'completed' && (
-                    <div className="text-blue-400 text-sm font-medium">
-                        View Analysis →
+                    {/* Status and Action */}
+                    <div className="flex justify-between items-center">
+                        {/* Audio Player for completed sessions, status indicator for others */}
+                        {session.status === 'completed' && session.audioUrl ? (
+                            <DashboardAudioPlayer audioUrl={session.audioUrl} />
+                        ) : (
+                            <div className={`flex items-center space-x-3 px-3 py-2 rounded-lg ${statusInfo.bgColor} border ${statusInfo.borderColor}`}>
+                                <div className={`w-2 h-2 rounded-full ${
+                                    session.status === 'processing' ? 'bg-yellow-400 animate-pulse' : 'bg-red-400'
+                                }`}></div>
+                                <span className={`text-sm font-medium ${statusInfo.color}`}>
+                                    {statusInfo.text}
+                                </span>
+                            </div>
+                        )}
+
+                        {session.status === 'completed' && (
+                            <motion.div
+                                whileHover={{ x: 5 }}
+                                className="text-blue-400 text-sm font-semibold flex items-center space-x-1 group-hover:text-blue-300 transition-colors duration-300"
+                            >
+                                <span>View Analysis</span>
+                                <span className="text-xs">→</span>
+                            </motion.div>
+                        )}
                     </div>
-                )}
-            </div>
+                </div>
             </motion.div>
         </Link>
     );
