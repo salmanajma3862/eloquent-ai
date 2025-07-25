@@ -207,19 +207,7 @@ const AnalysisPage: React.FC = () => {
                     </motion.div>
                 ) : session && session.analysis && (
                     <>
-                        {/* Audio Player */}
-                        {session.audioUrl && (
-                            <motion.div
-                                variants={itemVariants}
-                                className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl p-6 mb-8"
-                            >
-                                <h3 className="text-lg font-semibold text-zinc-100 mb-4">Listen to Your Recording:</h3>
-                                <audio controls className="w-full">
-                                    <source src={session.audioUrl} type="audio/webm" />
-                                    Your browser does not support the audio element.
-                                </audio>
-                            </motion.div>
-                        )}
+
 
                         {/* Overall Score Card */}
                         <motion.div
@@ -306,23 +294,35 @@ const AnalysisPage: React.FC = () => {
                                 </motion.div>
                             </div>
 
-                            {/* Right Column: Improved Text */}
-                            <div className="space-y-6">
-                                {/* Band 9 Suggested Version */}
-                                <motion.div
-                                    variants={itemVariants}
-                                    className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl p-6"
-                                >
-                                    {/* Card Header with Title and Generate Button */}
-                                    <div className="flex justify-between items-center mb-4">
-                                        <h3 className="text-xl font-semibold text-zinc-100">
-                                            Band 9 Suggested Version
-                                        </h3>
-                                        {/* Generate & Listen Button */}
+                            {/* --- NEW: Audio Workbench Section --- */}
+                            <motion.div
+                                variants={itemVariants}
+                                className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl p-6 mb-8"
+                            >
+                                <h3 className="text-xl font-bold text-zinc-100 mb-4">
+                                    Audio Comparison
+                                </h3>
+
+                                {/* 1. User's Original Recording */}
+                                {session.audioUrl && (
+                                    <div className="mb-4">
+                                        <h4 className="text-md font-semibold text-zinc-300 mb-2">Your Original Speech:</h4>
+                                        <audio controls className="w-full">
+                                            <source src={session.audioUrl} type="audio/webm" />
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    </div>
+                                )}
+
+                                {/* 2. AI's Suggested Version */}
+                                <div>
+                                    <h4 className="text-md font-semibold text-zinc-300 mb-2">Band 9 Suggested Speech:</h4>
+                                    {/* This is the on-demand generation logic */}
+                                    {!audioSrc && (
                                         <button
                                             onClick={handleGenerateAudio}
                                             disabled={isGenerating}
-                                            className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-4 py-2 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900"
+                                            className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-4 py-2 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900 mb-2"
                                         >
                                             {isGenerating ? (
                                                 <>
@@ -336,9 +336,21 @@ const AnalysisPage: React.FC = () => {
                                                 </>
                                             )}
                                         </button>
-                                    </div>
+                                    )}
+                                    <audio ref={audioRef} src={audioSrc || ''} controls className={!audioSrc ? 'hidden' : 'w-full'} />
+                                </div>
+                            </motion.div>
 
-                                    {/* The suggested text itself */}
+                            {/* Right Column: Improved Text */}
+                            <div className="space-y-6">
+                                {/* Band 9 Suggested Text */}
+                                <motion.div
+                                    variants={itemVariants}
+                                    className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl p-6"
+                                >
+                                    <h3 className="text-xl font-bold text-zinc-100 mb-4">
+                                        Band 9 Suggested Text
+                                    </h3>
                                     <div className="bg-zinc-800/30 rounded-xl p-4">
                                         <p className="text-zinc-200 leading-relaxed italic">
                                             "{session.analysis.improvedText}"
@@ -346,10 +358,7 @@ const AnalysisPage: React.FC = () => {
                                     </div>
                                 </motion.div>
 
-                                {/* Hidden Audio Element for Playback */}
-                                {audioSrc && (
-                                    <audio ref={audioRef} src={audioSrc} controls className="w-full mt-4" />
-                                )}
+
 
                                 {/* Statistics */}
                                 <motion.div
