@@ -5,6 +5,10 @@ interface UserInfo {
     _id: string;
     name: string;
     email: string;
+    subscription: {
+        plan: string;
+    };
+    totalSessions: number;
 }
 
 interface UserState {

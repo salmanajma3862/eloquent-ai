@@ -39,20 +39,7 @@ export const testApi = {
         return response.data;
     },
 
-    // Create a new test session with results
-    createTestSession: async (token: string, sessionData: {
-        topicText: string;
-        audioUrl: string;
-        durationInSeconds: number;
-        transcribedText: string;
-    }) => {
-        const response = await api.post('/api/test/session', sessionData, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        return response.data;
-    },
+
 
     // Upload audio blob directly to Cloudflare R2 using presigned URL
     uploadAudioToR2: async (uploadUrl: string, audioBlob: Blob) => {
@@ -71,7 +58,7 @@ export const testApi = {
         return response;
     },
 
-    // Transcribe audio file using Deepgram prerecorded API
+    // Transcribe audio file and create session (CEO's new strategy)
     transcribeAudioFile: async (token: string, formData: FormData) => {
         const response = await api.post('/api/test/transcribe', formData, {
             headers: {
@@ -83,7 +70,7 @@ export const testApi = {
     },
 };
 
-// Export transcribeAudioFile as a standalone function for easier access
+// Export transcribeAudioFile as a standalone function for easier access (CEO's new strategy)
 export const transcribeAudioFile = (token: string, formData: FormData) => {
   return api.post('/api/test/transcribe', formData, {
     headers: {

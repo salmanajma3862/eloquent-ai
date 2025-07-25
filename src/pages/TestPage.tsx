@@ -245,48 +245,39 @@ const TestPage: React.FC = () => {
                 return;
             }
 
-            setStatus("Uploading and transcribing...");
+            setStatus("Finalizing and uploading...");
 
             try {
-                // Create FormData to send the file
-                const formData = new FormData();
-                formData.append('audio', audioBlob, 'ielts-test.webm');
-
-                // Call the new transcription API
-                const transcriptionResponse = await transcribeAudioFile(token, formData);
-                const newTranscript = transcriptionResponse.data.transcription.results.channels[0].alternatives[0].transcript;
-
-                // Update the transcript display
-                setTranscript(newTranscript);
-
-                setStatus("Saving session...");
-
-                // Calculate the actual duration based on start and end times
+                // --- NEW: Calculate Duration ---
                 const endTime = Date.now();
                 const duration = Math.round((endTime - startTimeRef.current) / 1000);
 
-                // Create session data with the transcribed text
-                const sessionData = {
-                    topicText: topic,
-                    audioUrl: "placeholder/for/now.webm", // Placeholder as mentioned in instructions
-                    durationInSeconds: duration, // USE THE REAL DURATION
-                    transcribedText: newTranscript, // THE TRANSCRIPT IS NO LONGER EMPTY
-                };
+                // --- NEW: Build Comprehensive FormData ---
+                const formData = new FormData();
+                formData.append('audio', audioBlob, 'ielts-test.webm');
+                formData.append('topicText', topic); // Add the topic text
+                formData.append('durationInSeconds', duration.toString()); // Add the duration
 
-                console.log("SENDING THIS DATA TO BACKEND:", sessionData);
+                // --- MODIFIED: Call the single endpoint ---
+                // The transcribeAudioFile function now handles everything.
+                const response = await transcribeAudioFile(token, formData);
 
-                const newSession = await testApi.createTestSession(token, sessionData);
+                // --- NEW: Handle the new response ---
+                // The backend now returns only the new session's ID.
+                const newSessionId = response.data.sessionId;
 
-                setStatus('Session saved!');
-                navigate(`/analysis/${newSession.session._id}`);
+                setStatus("Session saved!");
+                navigate(`/analysis/${newSessionId}`); // Navigate directly with the new ID
 
             } catch (error) {
-                console.error('Transcription error:', error);
-                throw new Error(
-                    error.message?.includes('timeout')
-                        ? 'Transcription timed out. Please check your internet connection and try again.'
-                        : 'Failed to transcribe recording. Please try again.'
-                );
+                console.error("Error completing recording:", error);
+                // NEW: Check for the specific 403 Forbidden error
+                if (error.response && error.response.status === 403) {
+                    // This error comes from our gating logic on the backend
+                    throw new Error(error.response.data.message || "You have no free tests remaining.");
+                } else {
+                    throw new Error("An error occurred. Please try again.");
+                }
             }
 
         } catch (error) {

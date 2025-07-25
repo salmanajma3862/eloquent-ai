@@ -22,6 +22,9 @@ const DashboardPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
 
+    // Determine if the practice button should be disabled (freemium logic)
+    const isPracticeDisabled = userInfo?.subscription.plan === 'free' && userInfo?.totalSessions >= 3;
+
     const handleLogout = () => {
         logout();
         navigate('/login');
@@ -145,13 +148,23 @@ const DashboardPage: React.FC = () => {
                                 className="mb-8"
                             >
                                 <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
+                                    whileHover={{ scale: isPracticeDisabled ? 1 : 1.05 }}
+                                    whileTap={{ scale: isPracticeDisabled ? 1 : 0.95 }}
+                                    disabled={isPracticeDisabled}
                                     onClick={() => navigate('/test')}
-                                    className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 shadow-lg shadow-blue-500/25"
+                                    className={`px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 shadow-lg ${
+                                        isPracticeDisabled
+                                            ? 'bg-zinc-600 text-zinc-400 cursor-not-allowed shadow-zinc-500/25'
+                                            : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-blue-500/25'
+                                    }`}
                                 >
                                     Start New Practice Session
                                 </motion.button>
+                                {isPracticeDisabled && (
+                                    <p className="text-zinc-400 mt-3 text-sm">
+                                        You have used all your free tests. Upgrade to premium for unlimited practice!
+                                    </p>
+                                )}
                             </motion.div>
 
                             {/* Test History Section */}
@@ -200,13 +213,23 @@ const DashboardPage: React.FC = () => {
                                             You haven't completed any tests yet. Start your first one now!
                                         </p>
                                         <motion.button
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
+                                            whileHover={{ scale: isPracticeDisabled ? 1 : 1.05 }}
+                                            whileTap={{ scale: isPracticeDisabled ? 1 : 0.95 }}
+                                            disabled={isPracticeDisabled}
                                             onClick={() => navigate('/test')}
-                                            className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300"
+                                            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+                                                isPracticeDisabled
+                                                    ? 'bg-zinc-600 text-zinc-400 cursor-not-allowed'
+                                                    : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white'
+                                            }`}
                                         >
                                             Take Your First Test
                                         </motion.button>
+                                        {isPracticeDisabled && (
+                                            <p className="text-zinc-400 mt-3 text-sm">
+                                                You have used all your free tests. Upgrade to premium for unlimited practice!
+                                            </p>
+                                        )}
                                     </div>
                                 )}
 
