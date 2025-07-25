@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { FaGraduationCap, FaRocket, FaTrophy, FaChartLine, FaClock, FaFileAlt, FaUser, FaIdCard, FaPlay } from 'react-icons/fa';
 import { getUserSessions } from '../lib/api';
 import SessionCard from '../components/SessionCard';
+import ProgressChart from '../components/ProgressChart';
 
 interface Session {
     _id: string;
@@ -291,6 +292,16 @@ const DashboardPage: React.FC = () => {
                         </p>
                     )}
                 </motion.div>
+
+                {/* Progress Chart Section */}
+                {!isLoading && sessions.length >= 2 && sessions.some(s => s.analysis?.overallBandScore) && (
+                    <motion.div
+                        variants={cardVariants}
+                        className="mb-8"
+                    >
+                        <ProgressChart sessions={sessions} />
+                    </motion.div>
+                )}
 
                 {/* Test History Section */}
                 <motion.div
