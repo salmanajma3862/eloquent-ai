@@ -24,6 +24,9 @@ export const DashboardAudioPlayer: React.FC<DashboardAudioPlayerProps> = ({ audi
 
         return () => {
             document.removeEventListener('play', handlePlay, true);
+            // Stop audio when component unmounts (page changes)
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
         };
     }, []);
 
