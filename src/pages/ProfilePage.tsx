@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { motion } from 'framer-motion';
 import { FaGraduationCap, FaUser, FaEnvelope, FaCrown, FaChartLine, FaArrowLeft, FaRocket } from 'react-icons/fa';
@@ -13,10 +13,7 @@ const ProfilePage: React.FC = () => {
         navigate('/login');
     };
 
-    const handleUpgrade = () => {
-        // TODO: Implement upgrade logic
-        console.log('Upgrade to Premium clicked');
-    };
+
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -207,15 +204,16 @@ const ProfilePage: React.FC = () => {
                                         <li>• Progress tracking and insights</li>
                                     </ul>
                                 </div>
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={handleUpgrade}
-                                    className="px-6 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-bold rounded-xl shadow-lg transition-all duration-300 flex items-center space-x-2"
-                                >
-                                    <FaRocket />
-                                    <span>Upgrade Now</span>
-                                </motion.button>
+                                <Link to="/pricing">
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="px-6 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-bold rounded-xl shadow-lg transition-all duration-300 flex items-center space-x-2"
+                                    >
+                                        <FaRocket />
+                                        <span>Upgrade Now</span>
+                                    </motion.button>
+                                </Link>
                             </div>
                         </div>
                     )}

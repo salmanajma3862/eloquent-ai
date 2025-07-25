@@ -8,6 +8,7 @@ import DashboardPage from './pages/DashboardPage';
 import TestPage from './pages/TestPage';
 import AnalysisPage from './pages/AnalysisPage';
 import ProfilePage from './pages/ProfilePage';
+import PricingPage from './pages/PricingPage';
 
 function App() {
   return (
@@ -55,6 +56,14 @@ function App() {
         element={
           <ProtectedRoute>
             <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/pricing"
+        element={
+          <ProtectedRoute>
+            <PricingPage />
           </ProtectedRoute>
         }
       />

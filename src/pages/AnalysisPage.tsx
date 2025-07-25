@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaPlay, FaSpinner, FaMicrophone, FaChartLine, FaBookOpen, FaGraduationCap, FaClock, FaFileAlt, FaRocket, FaTrophy } from 'react-icons/fa';
 import { useUserStore } from '../store/userStore';
@@ -474,7 +474,7 @@ const AnalysisPage: React.FC = () => {
                                                     ) : (
                                                         <>
                                                             <FaPlay className="text-lg" />
-                                                            <span>Generate AI Voice</span>
+                                                            <span>Generate & Listen</span>
                                                         </>
                                                     )}
                                                 </motion.button>
@@ -624,25 +624,40 @@ const AnalysisPage: React.FC = () => {
                                         >
                                             <FaTrophy className="text-5xl text-yellow-500" />
                                         </motion.div>
-                                        <motion.button
-                                            whileHover={{
-                                                scale: 1.05,
-                                                boxShadow: isPracticeDisabled ? "0 20px 40px rgba(234, 179, 8, 0.4)" : "0 20px 40px rgba(59, 130, 246, 0.4)"
-                                            }}
-                                            whileTap={{ scale: 0.95 }}
-                                            onClick={() => isPracticeDisabled ? window.open('https://buy.stripe.com/your-upgrade-link', '_blank') : navigate('/test')}
-                                            className={`px-8 py-4 rounded-xl transition-all duration-300 font-bold text-lg shadow-2xl relative overflow-hidden group ${
-                                                isPracticeDisabled
-                                                    ? 'bg-gradient-to-r from-yellow-600 via-yellow-700 to-orange-700 hover:from-yellow-700 hover:via-yellow-800 hover:to-orange-800 text-white'
-                                                    : 'bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-700 hover:via-blue-800 hover:to-indigo-800 text-white'
-                                            }`}
-                                        >
-                                            <span className={`absolute inset-0 bg-gradient-to-r ${isPracticeDisabled ? 'from-yellow-400 to-orange-400' : 'from-blue-400 to-indigo-400'} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}></span>
-                                            <span className="relative flex items-center space-x-2">
-                                                {isPracticeDisabled ? <FaTrophy /> : <FaRocket />}
-                                                <span>{isPracticeDisabled ? 'Upgrade to Premium' : 'Take Another Test'}</span>
-                                            </span>
-                                        </motion.button>
+                                        {isPracticeDisabled ? (
+                                            <Link to="/pricing">
+                                                <motion.button
+                                                    whileHover={{
+                                                        scale: 1.05,
+                                                        boxShadow: "0 20px 40px rgba(234, 179, 8, 0.4)"
+                                                    }}
+                                                    whileTap={{ scale: 0.95 }}
+                                                    className="px-8 py-4 rounded-xl transition-all duration-300 font-bold text-lg shadow-2xl relative overflow-hidden group bg-gradient-to-r from-yellow-600 via-yellow-700 to-orange-700 hover:from-yellow-700 hover:via-yellow-800 hover:to-orange-800 text-white"
+                                                >
+                                                    <span className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
+                                                    <span className="relative flex items-center space-x-2">
+                                                        <FaTrophy />
+                                                        <span>Upgrade to Premium</span>
+                                                    </span>
+                                                </motion.button>
+                                            </Link>
+                                        ) : (
+                                            <motion.button
+                                                whileHover={{
+                                                    scale: 1.05,
+                                                    boxShadow: "0 20px 40px rgba(59, 130, 246, 0.4)"
+                                                }}
+                                                whileTap={{ scale: 0.95 }}
+                                                onClick={() => navigate('/test')}
+                                                className="px-8 py-4 rounded-xl transition-all duration-300 font-bold text-lg shadow-2xl relative overflow-hidden group bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-700 hover:via-blue-800 hover:to-indigo-800 text-white"
+                                            >
+                                                <span className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
+                                                <span className="relative flex items-center space-x-2">
+                                                    <FaRocket />
+                                                    <span>Take Another Test</span>
+                                                </span>
+                                            </motion.button>
+                                        )}
                                     </div>
                                 </div>
                             </div>
