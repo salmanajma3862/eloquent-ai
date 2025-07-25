@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { motion } from 'framer-motion';
-import { FaGraduationCap, FaRocket, FaTrophy, FaChartLine, FaClock, FaFileAlt, FaUser, FaIdCard, FaPlay } from 'react-icons/fa';
+import { FaGraduationCap, FaRocket, FaTrophy, FaChartLine, FaClock, FaFileAlt, FaUser, FaPlay } from 'react-icons/fa';
 import { getUserSessions } from '../lib/api';
 import SessionCard from '../components/SessionCard';
 import ProgressChart from '../components/ProgressChart';
@@ -428,45 +428,6 @@ const DashboardPage: React.FC = () => {
                             ))}
                         </motion.div>
                     )}
-                </motion.div>
-
-                {/* Account Information */}
-                <motion.div
-                    variants={cardVariants}
-                    className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-8"
-                >
-                    <div className="flex items-center space-x-3 mb-6">
-                        <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
-                            <FaUser className="text-white" />
-                        </div>
-                        <h4 className="text-xl lg:text-2xl font-bold text-zinc-100">Account Information</h4>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <motion.div
-                            whileHover={{ scale: 1.02 }}
-                            className="bg-zinc-800/50 rounded-xl p-6 border border-zinc-700/30 hover:border-zinc-600/50 transition-all duration-300"
-                        >
-                            <div className="flex items-center space-x-3 mb-3">
-                                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                                    <FaUser className="text-white text-sm" />
-                                </div>
-                                <p className="text-sm text-zinc-400 font-medium">Email Address</p>
-                            </div>
-                            <p className="text-zinc-200 font-semibold text-lg">{userInfo?.email}</p>
-                        </motion.div>
-                        <motion.div
-                            whileHover={{ scale: 1.02 }}
-                            className="bg-zinc-800/50 rounded-xl p-6 border border-zinc-700/30 hover:border-zinc-600/50 transition-all duration-300"
-                        >
-                            <div className="flex items-center space-x-3 mb-3">
-                                <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
-                                    <FaIdCard className="text-white text-sm" />
-                                </div>
-                                <p className="text-sm text-zinc-400 font-medium">User ID</p>
-                            </div>
-                            <p className="text-zinc-200 font-mono text-sm break-all">{userInfo?._id}</p>
-                        </motion.div>
-                    </div>
                 </motion.div>
             </motion.div>
         </div>
