@@ -15,6 +15,7 @@ interface Session {
     };
     status: string;
     audioUrl?: string;
+    suggestedAudioUrl?: string;
 }
 
 const DashboardPage: React.FC = () => {
@@ -257,24 +258,21 @@ const DashboardPage: React.FC = () => {
 
                     <motion.button
                         whileHover={{
-                            scale: isPracticeDisabled ? 1 : 1.05,
-                            boxShadow: isPracticeDisabled ? undefined : "0 20px 40px rgba(59, 130, 246, 0.4)"
+                            scale: 1.05,
+                            boxShadow: isPracticeDisabled ? "0 20px 40px rgba(234, 179, 8, 0.4)" : "0 20px 40px rgba(59, 130, 246, 0.4)"
                         }}
-                        whileTap={{ scale: isPracticeDisabled ? 1 : 0.95 }}
-                        disabled={isPracticeDisabled}
-                        onClick={() => navigate('/test')}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => isPracticeDisabled ? window.open('https://buy.stripe.com/your-upgrade-link', '_blank') : navigate('/test')}
                         className={`px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg relative overflow-hidden group ${
                             isPracticeDisabled
-                                ? 'bg-zinc-600 text-zinc-400 cursor-not-allowed shadow-zinc-500/25'
+                                ? 'bg-gradient-to-r from-yellow-600 via-yellow-700 to-orange-700 hover:from-yellow-700 hover:via-yellow-800 hover:to-orange-800 text-white shadow-yellow-500/25'
                                 : 'bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-700 hover:via-blue-800 hover:to-indigo-800 text-white shadow-blue-500/25'
                         }`}
                     >
-                        {!isPracticeDisabled && (
-                            <span className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
-                        )}
+                        <span className={`absolute inset-0 bg-gradient-to-r ${isPracticeDisabled ? 'from-yellow-400 to-orange-400' : 'from-blue-400 to-indigo-400'} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}></span>
                         <span className="relative flex items-center justify-center space-x-2">
-                            <FaPlay />
-                            <span>Start New Practice Session</span>
+                            {isPracticeDisabled ? <FaTrophy /> : <FaPlay />}
+                            <span>{isPracticeDisabled ? 'Upgrade to Premium' : 'Start New Practice Session'}</span>
                         </span>
                     </motion.button>
                     {isPracticeDisabled && (
@@ -367,24 +365,21 @@ const DashboardPage: React.FC = () => {
                             </motion.div>
                             <motion.button
                                 whileHover={{
-                                    scale: isPracticeDisabled ? 1 : 1.05,
-                                    boxShadow: isPracticeDisabled ? undefined : "0 20px 40px rgba(59, 130, 246, 0.4)"
+                                    scale: 1.05,
+                                    boxShadow: isPracticeDisabled ? "0 20px 40px rgba(234, 179, 8, 0.4)" : "0 20px 40px rgba(59, 130, 246, 0.4)"
                                 }}
-                                whileTap={{ scale: isPracticeDisabled ? 1 : 0.95 }}
-                                disabled={isPracticeDisabled}
-                                onClick={() => navigate('/test')}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => isPracticeDisabled ? window.open('https://buy.stripe.com/your-upgrade-link', '_blank') : navigate('/test')}
                                 className={`px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg relative overflow-hidden group ${
                                     isPracticeDisabled
-                                        ? 'bg-zinc-600 text-zinc-400 cursor-not-allowed'
+                                        ? 'bg-gradient-to-r from-yellow-600 via-yellow-700 to-orange-700 hover:from-yellow-700 hover:via-yellow-800 hover:to-orange-800 text-white'
                                         : 'bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-700 hover:via-blue-800 hover:to-indigo-800 text-white'
                                 }`}
                             >
-                                {!isPracticeDisabled && (
-                                    <span className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
-                                )}
+                                <span className={`absolute inset-0 bg-gradient-to-r ${isPracticeDisabled ? 'from-yellow-400 to-orange-400' : 'from-blue-400 to-indigo-400'} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}></span>
                                 <span className="relative flex items-center space-x-2">
-                                    <FaPlay />
-                                    <span>Take Your First Test</span>
+                                    {isPracticeDisabled ? <FaTrophy /> : <FaPlay />}
+                                    <span>{isPracticeDisabled ? 'Upgrade to Premium' : 'Take Your First Test'}</span>
                                 </span>
                             </motion.button>
                             {isPracticeDisabled && (

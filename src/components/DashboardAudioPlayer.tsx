@@ -3,9 +3,17 @@ import { FaPlay, FaPause } from 'react-icons/fa';
 
 interface DashboardAudioPlayerProps {
     audioUrl: string;
+    colorClass?: string;
+    label?: string;
+    icon?: React.ReactNode;
 }
 
-export const DashboardAudioPlayer: React.FC<DashboardAudioPlayerProps> = ({ audioUrl }) => {
+export const DashboardAudioPlayer: React.FC<DashboardAudioPlayerProps> = ({
+    audioUrl,
+    colorClass = "bg-blue-600 hover:bg-blue-700",
+    label,
+    icon
+}) => {
     const audioRef = useRef(new Audio(audioUrl));
     const [isPlaying, setIsPlaying] = useState(false);
 
@@ -44,12 +52,20 @@ export const DashboardAudioPlayer: React.FC<DashboardAudioPlayerProps> = ({ audi
     };
 
     return (
-        <button
-            onClick={togglePlayPause}
-            className="text-white bg-blue-600 hover:bg-blue-700 p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-blue-500 transition-all duration-200 shadow-md hover:shadow-lg"
-            aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
-        >
-            {isPlaying ? <FaPause size={12} /> : <FaPlay size={12} />}
-        </button>
+        <div className="flex flex-col items-center space-y-1">
+            <button
+                onClick={togglePlayPause}
+                className={`text-white ${colorClass} p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-blue-500 transition-all duration-200 shadow-md hover:shadow-lg`}
+                aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
+            >
+                {isPlaying ? <FaPause size={12} /> : <FaPlay size={12} />}
+            </button>
+            {label && (
+                <div className="flex items-center space-x-1">
+                    {icon}
+                    <span className="text-xs text-zinc-400 font-medium text-center">{label}</span>
+                </div>
+            )}
+        </div>
     );
 };

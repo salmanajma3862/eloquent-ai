@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaTrophy, FaCalendarAlt, FaChartLine } from 'react-icons/fa';
+import { FaTrophy, FaCalendarAlt, FaChartLine, FaMicrophone, FaRobot } from 'react-icons/fa';
 import { DashboardAudioPlayer } from './DashboardAudioPlayer';
 
 interface Session {
@@ -13,6 +13,7 @@ interface Session {
     };
     status: string;
     audioUrl?: string;
+    suggestedAudioUrl?: string;
 }
 
 interface SessionCardProps {
@@ -50,6 +51,15 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
         if (score >= 6) return 'from-yellow-500 to-orange-600';
         if (score >= 5) return 'from-orange-500 to-red-600';
         return 'from-red-500 to-pink-600';
+    };
+
+    const getAudioPlayerColor = (score?: number) => {
+        if (!score) return 'bg-blue-600 hover:bg-blue-700';
+        if (score >= 8) return 'bg-emerald-600 hover:bg-emerald-700';
+        if (score >= 7) return 'bg-blue-600 hover:bg-blue-700';
+        if (score >= 6) return 'bg-yellow-600 hover:bg-yellow-700';
+        if (score >= 5) return 'bg-orange-600 hover:bg-orange-700';
+        return 'bg-red-600 hover:bg-red-700';
     };
 
     const statusInfo = getStatusInfo(session.status);
@@ -101,12 +111,46 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
                         )}
                     </div>
 
-                    {/* Status and Action */}
-                    <div className="flex justify-between items-center">
-                        {/* Audio Player for completed sessions, status indicator for others */}
-                        {session.status === 'completed' && session.audioUrl ? (
-                            <DashboardAudioPlayer audioUrl={session.audioUrl} />
-                        ) : (
+                    {/* Audio Players and Status */}
+                    {session.status === 'completed' && session.audioUrl ? (
+                        <div className="space-y-4">
+                            {/* Audio Players Section */}
+                            <div className="bg-zinc-800/30 rounded-xl p-4 border border-zinc-700/20">
+                                <div className="flex items-center justify-between gap-3">
+                                    {/* Original Audio */}
+                                    <DashboardAudioPlayer
+                                        audioUrl={session.audioUrl}
+                                        colorClass={getAudioPlayerColor(session.analysis?.overallBandScore)}
+                                        label="Your Speech"
+                                        icon={<FaMicrophone className="text-xs text-zinc-400" />}
+                                    />
+
+                                    {/* Suggested Audio (if available) */}
+                                    {session.suggestedAudioUrl && (
+                                        <DashboardAudioPlayer
+                                            audioUrl={session.suggestedAudioUrl}
+                                            colorClass="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
+                                            label="AI Suggested"
+                                            icon={<FaRobot className="text-xs text-zinc-400" />}
+                                        />
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* View Analysis Link */}
+                            <div className="flex justify-end">
+                                <motion.div
+                                    whileHover={{ x: 5 }}
+                                    className="text-blue-400 text-sm font-semibold flex items-center space-x-1 group-hover:text-blue-300 transition-colors duration-300"
+                                >
+                                    <span>View Analysis</span>
+                                    <span className="text-xs">→</span>
+                                </motion.div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex justify-between items-center">
+                            {/* Status indicator for non-completed sessions */}
                             <div className={`flex items-center space-x-3 px-3 py-2 rounded-lg ${statusInfo.bgColor} border ${statusInfo.borderColor}`}>
                                 <div className={`w-2 h-2 rounded-full ${
                                     session.status === 'processing' ? 'bg-yellow-400 animate-pulse' : 'bg-red-400'
@@ -115,18 +159,8 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
                                     {statusInfo.text}
                                 </span>
                             </div>
-                        )}
-
-                        {session.status === 'completed' && (
-                            <motion.div
-                                whileHover={{ x: 5 }}
-                                className="text-blue-400 text-sm font-semibold flex items-center space-x-1 group-hover:text-blue-300 transition-colors duration-300"
-                            >
-                                <span>View Analysis</span>
-                                <span className="text-xs">→</span>
-                            </motion.div>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
             </motion.div>
         </Link>
