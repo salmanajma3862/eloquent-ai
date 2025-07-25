@@ -43,10 +43,10 @@ export const DashboardAudioPlayer: React.FC<DashboardAudioPlayerProps> = ({ audi
     return (
         <button
             onClick={togglePlayPause}
-            className="text-white bg-blue-600 hover:bg-blue-700 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-blue-500 transition-all duration-200 shadow-lg hover:shadow-xl"
+            className="text-white bg-blue-600 hover:bg-blue-700 p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-blue-500 transition-all duration-200 shadow-md hover:shadow-lg"
             aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
         >
-            {isPlaying ? <FaPause size={16} /> : <FaPlay size={16} />}
+            {isPlaying ? <FaPause size={12} /> : <FaPlay size={12} />}
         </button>
     );
 };

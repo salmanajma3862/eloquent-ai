@@ -76,29 +76,25 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
 
             {/* Status and Action */}
             <div className="flex justify-between items-center">
-                <div className="flex items-center space-x-2">
-                    <div className={`w-2 h-2 rounded-full ${
-                        session.status === 'completed' ? 'bg-green-400' :
-                        session.status === 'processing' ? 'bg-yellow-400' : 'bg-red-400'
-                    }`}></div>
-                    <span className={`text-sm ${statusInfo.color}`}>
-                        {statusInfo.text}
-                    </span>
-                </div>
-
-                {/* Audio Player for completed sessions with audioUrl */}
+                {/* Audio Player for completed sessions, status indicator for others */}
                 {session.status === 'completed' && session.audioUrl ? (
-                    <div className="flex items-center space-x-3">
-                        <DashboardAudioPlayer audioUrl={session.audioUrl} />
-                        <div className="text-blue-400 text-sm font-medium">
-                            View Analysis →
-                        </div>
+                    <DashboardAudioPlayer audioUrl={session.audioUrl} />
+                ) : (
+                    <div className="flex items-center space-x-2">
+                        <div className={`w-2 h-2 rounded-full ${
+                            session.status === 'processing' ? 'bg-yellow-400' : 'bg-red-400'
+                        }`}></div>
+                        <span className={`text-sm ${statusInfo.color}`}>
+                            {statusInfo.text}
+                        </span>
                     </div>
-                ) : session.status === 'completed' ? (
+                )}
+
+                {session.status === 'completed' && (
                     <div className="text-blue-400 text-sm font-medium">
                         View Analysis →
                     </div>
-                ) : null}
+                )}
             </div>
             </motion.div>
         </Link>
