@@ -23,11 +23,24 @@ interface AnalysisData {
     improvedText: string;
 }
 
+interface SessionData {
+    _id: string;
+    user: string;
+    topicText: string;
+    audioUrl: string;
+    durationInSeconds: number;
+    transcribedText: string;
+    analysis: AnalysisData;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
 const AnalysisPage: React.FC = () => {
     const navigate = useNavigate();
     const { sessionId } = useParams<{ sessionId: string }>();
     const { token } = useUserStore();
-    const [analysis, setAnalysis] = useState<AnalysisData | null>(null);
+    const [session, setSession] = useState<SessionData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -46,7 +59,7 @@ const AnalysisPage: React.FC = () => {
 
             try {
                 const response = await getSessionAnalysis(token, sessionId);
-                setAnalysis(response.data);
+                setSession(response.data);
                 setError('');
             } catch (err) {
                 setError('Failed to fetch analysis. Please try again later.');
@@ -152,8 +165,22 @@ const AnalysisPage: React.FC = () => {
                             Try Again
                         </button>
                     </motion.div>
-                ) : analysis && (
+                ) : session && session.analysis && (
                     <>
+                        {/* Audio Player */}
+                        {session.audioUrl && (
+                            <motion.div
+                                variants={itemVariants}
+                                className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl p-6 mb-8"
+                            >
+                                <h3 className="text-lg font-semibold text-zinc-100 mb-4">Listen to Your Recording:</h3>
+                                <audio controls className="w-full">
+                                    <source src={session.audioUrl} type="audio/webm" />
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </motion.div>
+                        )}
+
                         {/* Overall Score Card */}
                         <motion.div
                             variants={itemVariants}
@@ -163,24 +190,24 @@ const AnalysisPage: React.FC = () => {
                             <div className="relative inline-flex items-center justify-center w-32 h-32 mx-auto mb-6">
                                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full"></div>
                                 <div className="relative text-4xl font-bold text-zinc-100">
-                                    {analysis.overallBandScore}
+                                    {session.analysis.overallBandScore}
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 <div className="bg-zinc-800/30 rounded-xl p-4 text-center">
-                                    <div className="text-2xl font-bold text-blue-400">{analysis.fluencyAndCoherence.score}</div>
+                                    <div className="text-2xl font-bold text-blue-400">{session.analysis.fluencyAndCoherence.score}</div>
                                     <div className="text-sm text-zinc-300">Fluency & Coherence</div>
                                 </div>
                                 <div className="bg-zinc-800/30 rounded-xl p-4 text-center">
-                                    <div className="text-2xl font-bold text-blue-400">{analysis.lexicalResource.score}</div>
+                                    <div className="text-2xl font-bold text-blue-400">{session.analysis.lexicalResource.score}</div>
                                     <div className="text-sm text-zinc-300">Lexical Resource</div>
                                 </div>
                                 <div className="bg-zinc-800/30 rounded-xl p-4 text-center">
-                                    <div className="text-2xl font-bold text-blue-400">{analysis.grammaticalRangeAndAccuracy.score}</div>
+                                    <div className="text-2xl font-bold text-blue-400">{session.analysis.grammaticalRangeAndAccuracy.score}</div>
                                     <div className="text-sm text-zinc-300">Grammar</div>
                                 </div>
                                 <div className="bg-zinc-800/30 rounded-xl p-4 text-center">
-                                    <div className="text-2xl font-bold text-green-400">{analysis.wordsPerMinute}</div>
+                                    <div className="text-2xl font-bold text-green-400">{session.analysis.wordsPerMinute}</div>
                                     <div className="text-sm text-zinc-300">Words/Min</div>
                                 </div>
                             </div>
@@ -198,11 +225,11 @@ const AnalysisPage: React.FC = () => {
                                     <div className="flex items-center justify-between mb-4">
                                         <h3 className="text-xl font-semibold text-zinc-100">Fluency and Coherence</h3>
                                         <div className="text-2xl font-bold text-blue-400">
-                                            {analysis.fluencyAndCoherence.score}
+                                            {session.analysis.fluencyAndCoherence.score}
                                         </div>
                                     </div>
                                     <p className="text-zinc-300 leading-relaxed">
-                                        {analysis.fluencyAndCoherence.feedback}
+                                        {session.analysis.fluencyAndCoherence.feedback}
                                     </p>
                                 </motion.div>
 
@@ -214,11 +241,11 @@ const AnalysisPage: React.FC = () => {
                                     <div className="flex items-center justify-between mb-4">
                                         <h3 className="text-xl font-semibold text-zinc-100">Lexical Resource</h3>
                                         <div className="text-2xl font-bold text-blue-400">
-                                            {analysis.lexicalResource.score}
+                                            {session.analysis.lexicalResource.score}
                                         </div>
                                     </div>
                                     <p className="text-zinc-300 leading-relaxed">
-                                        {analysis.lexicalResource.feedback}
+                                        {session.analysis.lexicalResource.feedback}
                                     </p>
                                 </motion.div>
 
@@ -230,11 +257,11 @@ const AnalysisPage: React.FC = () => {
                                     <div className="flex items-center justify-between mb-4">
                                         <h3 className="text-xl font-semibold text-zinc-100">Grammatical Range and Accuracy</h3>
                                         <div className="text-2xl font-bold text-blue-400">
-                                            {analysis.grammaticalRangeAndAccuracy.score}
+                                            {session.analysis.grammaticalRangeAndAccuracy.score}
                                         </div>
                                     </div>
                                     <p className="text-zinc-300 leading-relaxed">
-                                        {analysis.grammaticalRangeAndAccuracy.feedback}
+                                        {session.analysis.grammaticalRangeAndAccuracy.feedback}
                                     </p>
                                 </motion.div>
                             </div>
@@ -249,7 +276,7 @@ const AnalysisPage: React.FC = () => {
                                     <h3 className="text-xl font-semibold text-zinc-100 mb-4">Band 9 Suggested Version</h3>
                                     <div className="bg-zinc-800/30 rounded-xl p-4">
                                         <p className="text-zinc-200 leading-relaxed italic">
-                                            "{analysis.improvedText}"
+                                            "{session.analysis.improvedText}"
                                         </p>
                                     </div>
                                 </motion.div>
@@ -262,11 +289,11 @@ const AnalysisPage: React.FC = () => {
                                     <h3 className="text-xl font-semibold text-zinc-100 mb-4">Performance Statistics</h3>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="bg-zinc-800/30 rounded-xl p-4 text-center">
-                                            <div className="text-2xl font-bold text-green-400">{analysis.wordCount}</div>
+                                            <div className="text-2xl font-bold text-green-400">{session.analysis.wordCount}</div>
                                             <div className="text-sm text-zinc-300">Total Words</div>
                                         </div>
                                         <div className="bg-zinc-800/30 rounded-xl p-4 text-center">
-                                            <div className="text-2xl font-bold text-green-400">{analysis.wordsPerMinute}</div>
+                                            <div className="text-2xl font-bold text-green-400">{session.analysis.wordsPerMinute}</div>
                                             <div className="text-sm text-zinc-300">Words/Min</div>
                                         </div>
                                     </div>

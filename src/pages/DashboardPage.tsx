@@ -23,7 +23,7 @@ const DashboardPage: React.FC = () => {
     const [error, setError] = useState('');
 
     // Determine if the practice button should be disabled (freemium logic)
-    const isPracticeDisabled = userInfo?.subscription.plan === 'free' && userInfo?.totalSessions >= 3;
+    const isPracticeDisabled = userInfo?.subscription?.plan === 'free' && userInfo?.totalSessions >= 3;
 
     const handleLogout = () => {
         logout();
@@ -33,7 +33,7 @@ const DashboardPage: React.FC = () => {
     // Fetch user sessions on component mount
     useEffect(() => {
         const fetchSessions = async () => {
-            if (!token) {
+            if (!token || !userInfo) {
                 navigate('/login');
                 return;
             }
@@ -51,7 +51,7 @@ const DashboardPage: React.FC = () => {
         };
 
         fetchSessions();
-    }, [token, navigate]);
+    }, [token, userInfo, navigate]);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -78,6 +78,15 @@ const DashboardPage: React.FC = () => {
             }
         }
     } as const;
+
+    // Early return if userInfo is not available
+    if (!userInfo) {
+        return (
+            <div className="min-h-screen bg-black flex items-center justify-center">
+                <div className="text-zinc-100">Loading...</div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-black">

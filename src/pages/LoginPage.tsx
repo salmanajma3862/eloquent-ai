@@ -170,7 +170,6 @@ const LoginPage: React.FC = () => {
                                         onError={handleGoogleError}
                                         theme="filled_black"
                                         size="large"
-                                        width="100%"
                                     />
                                 </div>
                             </motion.div>
