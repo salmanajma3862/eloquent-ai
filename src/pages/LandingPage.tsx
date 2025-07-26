@@ -247,7 +247,7 @@ const LandingPage: React.FC = () => {
                                     Eloquent AI
                                 </span>
                             </h2>
-                            <p className="text-xl md:text-2xl text-zinc-300 max-w-4xl mx-auto leading-relaxed">
+                            <p className="text-lg md:text-xl text-zinc-300 max-w-4xl mx-auto leading-relaxed">
                                 Your personal AI speaking coach, available 24/7. Get the expert guidance you need
                                 to transform your speaking skills and achieve your target IELTS score.
                             </p>
@@ -326,7 +326,7 @@ const LandingPage: React.FC = () => {
                             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-zinc-100 tracking-tight">
                                 Everything you need to <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">succeed</span>
                             </h2>
-                            <p className="text-lg text-zinc-300 max-w-3xl mx-auto">
+                            <p className="text-base text-zinc-300 max-w-3xl mx-auto">
                                 Comprehensive features designed to boost your confidence and maximize your IELTS speaking score.
                             </p>
                         </motion.div>
@@ -394,7 +394,7 @@ const LandingPage: React.FC = () => {
                             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-zinc-100 tracking-tight">
                                 Join the <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">success stories</span>
                             </h2>
-                            <p className="text-xl text-zinc-300 max-w-3xl mx-auto">
+                            <p className="text-base text-zinc-300 max-w-3xl mx-auto">
                                 Students worldwide are achieving their target IELTS scores with Eloquent AI's personalized coaching.
                             </p>
                         </motion.div>
@@ -432,7 +432,7 @@ const LandingPage: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-6">
-                                        <p className="text-zinc-300 leading-relaxed italic">
+                                        <p className="text-zinc-300 leading-relaxed italic pr-16 sm:pr-20">
                                             "{testimonial.quote}"
                                         </p>
                                         <div className="flex items-center space-x-4">
@@ -471,7 +471,7 @@ const LandingPage: React.FC = () => {
                                 <br />
                                 <span className="text-zinc-100">your speaking skills?</span>
                             </h2>
-                            <p className="text-xl md:text-2xl text-zinc-300 max-w-3xl mx-auto leading-relaxed">
+                            <p className="text-lg md:text-xl text-zinc-300 max-w-3xl mx-auto leading-relaxed">
                                 Join thousands of students who've achieved their target IELTS scores.
                                 Start your journey to speaking confidence today.
                             </p>
@@ -484,16 +484,16 @@ const LandingPage: React.FC = () => {
                             <div className="space-y-8">
                                 <div className="grid md:grid-cols-3 gap-6 text-center">
                                     <div className="space-y-2">
-                                        <div className="text-3xl font-bold text-blue-400">24/7</div>
-                                        <div className="text-zinc-300">AI Coaching Available</div>
+                                        <div className="text-2xl font-bold text-blue-400">24/7</div>
+                                        <div className="text-zinc-300 text-sm">AI Coaching Available</div>
                                     </div>
                                     <div className="space-y-2">
-                                        <div className="text-3xl font-bold text-blue-400">Instant</div>
-                                        <div className="text-zinc-300">Detailed Feedback</div>
+                                        <div className="text-2xl font-bold text-blue-400">Instant</div>
+                                        <div className="text-zinc-300 text-sm">Detailed Feedback</div>
                                     </div>
                                     <div className="space-y-2">
-                                        <div className="text-3xl font-bold text-blue-400">Unlimited</div>
-                                        <div className="text-zinc-300">Practice Sessions</div>
+                                        <div className="text-2xl font-bold text-blue-400">Unlimited</div>
+                                        <div className="text-zinc-300 text-sm">Practice Sessions</div>
                                     </div>
                                 </div>
 
@@ -505,7 +505,7 @@ const LandingPage: React.FC = () => {
                                         }}
                                         whileTap={{ scale: 0.95 }}
                                         onClick={handleGetStarted}
-                                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-xl text-lg sm:text-xl font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25"
+                                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25"
                                     >
                                         Start Your Free Practice Now
                                     </motion.button>
@@ -527,7 +527,7 @@ const LandingPage: React.FC = () => {
                         <div className="text-2xl font-extrabold bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent tracking-tight">
                             Eloquent AI
                         </div>
-                        <p className="text-zinc-400">
+                        <p className="text-zinc-400 text-sm">
                             Your AI-powered path to IELTS speaking success
                         </p>
                         <div className="text-zinc-500 text-sm">
