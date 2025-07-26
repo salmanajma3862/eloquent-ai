@@ -143,11 +143,11 @@ const ProfilePage: React.FC = () => {
 
                     {isFreeUser && (
                         <div className="bg-gradient-to-r from-yellow-600/10 to-orange-600/10 border border-yellow-600/30 rounded-xl p-6">
-                            <div className="flex items-center justify-between">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                                 <div>
                                     <h4 className="text-yellow-200 font-bold text-lg mb-2">Upgrade to Premium</h4>
                                     <p className="text-yellow-300/80 mb-4">
-                                        {testsRemaining === 0 
+                                        {testsRemaining === 0
                                             ? "You've used all your free tests. Upgrade for unlimited practice!"
                                             : `You have ${testsRemaining} free test${testsRemaining === 1 ? '' : 's'} remaining.`
                                         }
@@ -159,16 +159,18 @@ const ProfilePage: React.FC = () => {
                                         <li>• Progress tracking and insights</li>
                                     </ul>
                                 </div>
-                                <Link to="/pricing">
-                                    <motion.button
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="px-6 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-bold rounded-xl shadow-lg transition-all duration-300 flex items-center space-x-2"
-                                    >
-                                        <FaRocket />
-                                        <span>Upgrade Now</span>
-                                    </motion.button>
-                                </Link>
+                                <div className="flex-shrink-0">
+                                    <Link to="/pricing">
+                                        <motion.button
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                            className="w-full md:w-auto px-6 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-bold rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                                        >
+                                            <FaRocket />
+                                            <span>Upgrade Now</span>
+                                        </motion.button>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     )}
