@@ -113,7 +113,7 @@ const LandingPage: React.FC = () => {
                     >
                         <motion.h1
                             variants={fadeInUp}
-                            className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight"
+                            className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight tracking-tight"
                         >
                             <span className="bg-gradient-to-r from-zinc-100 via-zinc-200 to-zinc-100 bg-clip-text text-transparent">
                                 Master IELTS Speaking
@@ -126,7 +126,7 @@ const LandingPage: React.FC = () => {
 
                         <motion.p
                             variants={fadeInUp}
-                            className="text-lg sm:text-xl md:text-2xl text-zinc-300 max-w-3xl mx-auto leading-relaxed"
+                            className="text-base sm:text-lg md:text-xl text-zinc-300 max-w-3xl mx-auto leading-relaxed"
                         >
                             Transform your speaking anxiety into <span className="text-blue-400 font-semibold">unshakeable confidence</span>. 
                             Get instant, expert-level feedback from your personal AI coach, available 24/7.
@@ -323,10 +323,10 @@ const LandingPage: React.FC = () => {
                         className="space-y-16"
                     >
                         <motion.div variants={fadeInUp} className="text-center space-y-6">
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-zinc-100 tracking-tight">
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-zinc-100 tracking-tight">
                                 Everything you need to <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">succeed</span>
                             </h2>
-                            <p className="text-xl text-zinc-300 max-w-3xl mx-auto">
+                            <p className="text-lg text-zinc-300 max-w-3xl mx-auto">
                                 Comprehensive features designed to boost your confidence and maximize your IELTS speaking score.
                             </p>
                         </motion.div>
@@ -463,7 +463,7 @@ const LandingPage: React.FC = () => {
                         className="space-y-12"
                     >
                         <motion.div variants={fadeInUp} className="space-y-8">
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
                                 <span className="text-zinc-100">Ready to </span>
                                 <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
                                     transform
@@ -512,7 +512,7 @@ const LandingPage: React.FC = () => {
                                 </div>
 
                                 <div className="text-zinc-500 text-sm">
-                                    <p>✓ No credit card required • ✓ Start practicing immediately • ✓ Cancel anytime</p>
+                                    <p>✓ No credit card required</p>
                                 </div>
                             </div>
                         </motion.div>

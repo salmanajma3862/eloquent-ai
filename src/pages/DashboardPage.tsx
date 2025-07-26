@@ -139,11 +139,11 @@ const DashboardPage: React.FC = () => {
                             transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
                             className="mb-8"
                         >
-                            <FaTrophy className="text-6xl text-yellow-500 mx-auto mb-4" />
-                            <h2 className="text-3xl lg:text-5xl font-bold bg-gradient-to-r from-zinc-100 via-blue-200 to-purple-200 bg-clip-text text-transparent mb-4">
+                            <FaTrophy className="text-4xl text-yellow-500 mx-auto mb-4" />
+                            <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-zinc-100 via-blue-200 to-purple-200 bg-clip-text text-transparent mb-4">
                                 Welcome back, {userInfo?.name}!
                             </h2>
-                            <p className="text-zinc-400 text-xl max-w-2xl mx-auto">
+                            <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
                                 Ready to elevate your IELTS speaking skills?
                             </p>
                         </motion.div>
@@ -204,8 +204,8 @@ const DashboardPage: React.FC = () => {
                         transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
                         className="mb-6"
                     >
-                        <FaRocket className="text-4xl text-blue-400 mx-auto mb-4" />
-                        <h3 className="text-2xl font-bold text-zinc-100 mb-2">Ready for Your Next Challenge?</h3>
+                        <FaRocket className="text-3xl text-blue-400 mx-auto mb-4" />
+                        <h3 className="text-xl font-bold text-zinc-100 mb-2">Ready for Your Next Challenge?</h3>
                         <p className="text-zinc-400">Take another IELTS speaking test and track your improvement</p>
                     </motion.div>
 
@@ -276,11 +276,11 @@ const DashboardPage: React.FC = () => {
                             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
                             className="mb-8"
                         >
-                            <div className="w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <FaRocket className="text-3xl text-white" />
+                            <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <FaRocket className="text-2xl text-white" />
                             </div>
-                            <h4 className="text-2xl font-bold text-zinc-100 mb-4">Ready to Begin Your Journey?</h4>
-                            <p className="text-zinc-400 text-lg mb-8 max-w-md mx-auto">
+                            <h4 className="text-xl font-bold text-zinc-100 mb-4">Ready to Begin Your Journey?</h4>
+                            <p className="text-zinc-400 text-base mb-8 max-w-md mx-auto">
                                 Take your first IELTS speaking test and discover your potential!
                             </p>
                         </motion.div>

@@ -334,9 +334,9 @@ const TestPage: React.FC = () => {
                     variants={itemVariants}
                     className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl p-8 mb-8"
                 >
-                    <h2 className="text-2xl font-bold text-zinc-100 mb-4">Speaking Topic</h2>
+                    <h2 className="text-xl font-bold text-zinc-100 mb-4">Speaking Topic</h2>
                     <div className="bg-zinc-800/30 rounded-xl p-6">
-                        <p className="text-lg text-zinc-200 leading-relaxed">
+                        <p className="text-base text-zinc-200 leading-relaxed">
                             {topic || 'Loading topic...'}
                         </p>
                     </div>

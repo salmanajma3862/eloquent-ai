@@ -238,11 +238,11 @@ const AnalysisPage: React.FC = () => {
                                     transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
                                     className="mb-8"
                                 >
-                                    <FaTrophy className="text-6xl text-yellow-500 mx-auto mb-4" />
-                                    <h2 className="text-2xl lg:text-4xl font-bold text-zinc-100 mb-2">
+                                    <FaTrophy className="text-4xl text-yellow-500 mx-auto mb-4" />
+                                    <h2 className="text-xl lg:text-3xl font-bold text-zinc-100 mb-2">
                                         IELTS Speaking Assessment
                                     </h2>
-                                    <p className="text-zinc-400 text-lg">Complete Band Score Analysis</p>
+                                    <p className="text-zinc-400 text-base">Complete Band Score Analysis</p>
                                 </motion.div>
 
                                 {/* Main Score Display */}
@@ -250,16 +250,16 @@ const AnalysisPage: React.FC = () => {
                                     initial={{ scale: 0, rotate: -180 }}
                                     animate={{ scale: 1, rotate: 0 }}
                                     transition={{ delay: 0.5, type: "spring", stiffness: 150 }}
-                                    className="relative inline-flex items-center justify-center w-40 h-40 lg:w-48 lg:h-48 mx-auto mb-8"
+                                    className="relative inline-flex items-center justify-center w-32 h-32 lg:w-40 lg:h-40 mx-auto mb-8"
                                 >
                                     <div className={`absolute inset-0 bg-gradient-to-r ${getBandScoreColor(session.analysis.overallBandScore)} rounded-full shadow-2xl`}>
                                         <div className="absolute inset-2 bg-zinc-900 rounded-full" />
                                     </div>
                                     <div className="relative text-center">
-                                        <div className="text-5xl lg:text-6xl font-bold text-zinc-100 mb-1">
+                                        <div className="text-3xl lg:text-4xl font-bold text-zinc-100 mb-1">
                                             {session.analysis.overallBandScore}
                                         </div>
-                                        <div className="text-sm lg:text-base text-zinc-300 font-semibold">
+                                        <div className="text-xs lg:text-sm text-zinc-300 font-semibold">
                                             {getBandScoreText(session.analysis.overallBandScore)}
                                         </div>
                                     </div>

@@ -96,8 +96,8 @@ const PricingPage: React.FC = () => {
                         transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
                         className="mb-6 md:mb-8"
                     >
-                        <FaRocket className="text-4xl md:text-5xl lg:text-6xl text-blue-500 mx-auto mb-4 md:mb-6" />
-                        <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold bg-gradient-to-r from-zinc-100 via-blue-200 to-purple-200 bg-clip-text text-transparent mb-4 md:mb-6 px-4">
+                        <FaRocket className="text-3xl md:text-4xl lg:text-5xl text-blue-500 mx-auto mb-4 md:mb-6" />
+                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-zinc-100 via-blue-200 to-purple-200 bg-clip-text text-transparent mb-4 md:mb-6 px-4">
                             Unlock Your Full Potential
                         </h2>
                         <p className="text-zinc-400 text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed px-4">
@@ -231,10 +231,10 @@ const PricingPage: React.FC = () => {
                     variants={itemVariants}
                     className="text-center mb-8 md:mb-12 px-4"
                 >
-                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-zinc-100 mb-3 md:mb-4">
+                    <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-zinc-100 mb-3 md:mb-4">
                         Frequently Asked Questions
                     </h3>
-                    <p className="text-zinc-400 text-base md:text-lg">
+                    <p className="text-zinc-400 text-sm md:text-base">
                         Everything you need to know about our pricing plans
                     </p>
                 </motion.div>

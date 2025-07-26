@@ -65,10 +65,10 @@ const ProfilePage: React.FC = () => {
                     variants={cardVariants}
                     className="text-center mb-8"
                 >
-                    <h2 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-zinc-100 via-blue-200 to-purple-200 bg-clip-text text-transparent mb-4">
+                    <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-zinc-100 via-blue-200 to-purple-200 bg-clip-text text-transparent mb-4">
                         Your Profile
                     </h2>
-                    <p className="text-zinc-400 text-xl">
+                    <p className="text-zinc-400 text-lg">
                         Manage your account and track your progress
                     </p>
                 </motion.div>
@@ -82,7 +82,7 @@ const ProfilePage: React.FC = () => {
                         <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
                             <FaUser className="text-white text-lg" />
                         </div>
-                        <h3 className="text-2xl font-bold text-zinc-100">Account Details</h3>
+                        <h3 className="text-xl font-bold text-zinc-100">Account Details</h3>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
