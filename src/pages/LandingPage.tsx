@@ -194,7 +194,7 @@ const LandingPage: React.FC = () => {
                         className="text-center space-y-8"
                     >
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-zinc-100 leading-tight tracking-tight">
-                            The IELTS Speaking test doesn't have to be
+                            The IELTS Speaking test does not have to be
                             <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent"> your biggest fear</span>
                         </h2>
                         
@@ -247,7 +247,7 @@ const LandingPage: React.FC = () => {
                                     Eloquent AI
                                 </span>
                             </h2>
-                            <p className="text-lg md:text-xl text-zinc-300 max-w-4xl mx-auto leading-relaxed">
+                            <p className="text-md md:text-xl text-zinc-300 max-w-4xl mx-auto leading-relaxed">
                                 Your personal AI speaking coach, available 24/7. Get the expert guidance you need
                                 to transform your speaking skills and achieve your target IELTS score.
                             </p>

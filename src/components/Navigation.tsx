@@ -63,7 +63,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center">
-                            <h1 className="text-lg font-bold bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent tracking-tight">
+                            <h1 className="text-lg font-bold bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent tracking-tight">
                                 Eloquent AI
                             </h1>
                         </div>
