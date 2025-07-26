@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 interface Session {
@@ -24,23 +24,25 @@ interface ProgressChartProps {
     sessions: Session[];
 }
 
-const ProgressChart: React.FC<ProgressChartProps> = ({ sessions }) => {
-    // 1. Format the data for the chart
-    const chartData = sessions
-        // Filter out sessions without analysis scores
-        .filter(session => session.analysis?.overallBandScore)
-        // Ensure sessions are sorted from oldest to newest for the chart's x-axis
-        .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-        .map(session => ({
-            // Format the date for a clean x-axis label
-            date: new Date(session.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-            // The score to be plotted on the y-axis
-            'Overall Band Score': session.analysis?.overallBandScore || 0,
-            // We can also add sub-scores for more detailed charts later!
-            'Fluency': session.analysis?.fluencyAndCoherence?.score || 0,
-            'Lexical': session.analysis?.lexicalResource?.score || 0,
-            'Grammar': session.analysis?.grammaticalRangeAndAccuracy?.score || 0,
-        }));
+const ProgressChart: React.FC<ProgressChartProps> = React.memo(({ sessions }) => {
+    // 1. Memoize the chart data formatting
+    const chartData = useMemo(() => {
+        return sessions
+            // Filter out sessions without analysis scores
+            .filter(session => session.analysis?.overallBandScore)
+            // Ensure sessions are sorted from oldest to newest for the chart's x-axis
+            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+            .map(session => ({
+                // Format the date for a clean x-axis label
+                date: new Date(session.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                // The score to be plotted on the y-axis
+                'Overall Band Score': session.analysis?.overallBandScore || 0,
+                // We can also add sub-scores for more detailed charts later!
+                'Fluency': session.analysis?.fluencyAndCoherence?.score || 0,
+                'Lexical': session.analysis?.lexicalResource?.score || 0,
+                'Grammar': session.analysis?.grammaticalRangeAndAccuracy?.score || 0,
+            }));
+    }, [sessions]);
 
     // Don't render if we don't have enough data points
     if (chartData.length < 2) {
@@ -149,6 +151,18 @@ const ProgressChart: React.FC<ProgressChartProps> = ({ sessions }) => {
             </div>
         </div>
     );
-};
+}, (prevProps, nextProps) => {
+    // Only re-render if sessions array length or content changes
+    if (prevProps.sessions.length !== nextProps.sessions.length) return false;
+
+    // Check if any session analysis scores have changed
+    for (let i = 0; i < prevProps.sessions.length; i++) {
+        if (prevProps.sessions[i]._id !== nextProps.sessions[i]._id ||
+            prevProps.sessions[i].analysis?.overallBandScore !== nextProps.sessions[i].analysis?.overallBandScore) {
+            return false;
+        }
+    }
+    return true;
+});
 
 export default ProgressChart;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { motion } from 'framer-motion';
@@ -12,17 +12,24 @@ import {
     FaHeadphones,
     FaLifeRing,
     FaStar,
-    FaInfinity
+    FaInfinity,
+    FaChevronDown,
+    FaChevronUp
 } from 'react-icons/fa';
 import Navigation from '../components/Navigation';
 
 const PricingPage: React.FC = () => {
     const { userInfo } = useUserStore();
     const navigate = useNavigate();
+    const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
     const handleUpgrade = () => {
         // TODO: Implement Stripe integration
         console.log('Upgrade to Premium clicked');
+    };
+
+    const toggleFaq = (index: number) => {
+        setExpandedFaq(expandedFaq === index ? null : index);
     };
 
     const containerVariants = {
@@ -162,13 +169,6 @@ const PricingPage: React.FC = () => {
                         variants={cardVariants}
                         className="bg-gradient-to-br from-blue-900/20 via-blue-800/10 to-purple-900/20 backdrop-blur-xl rounded-2xl border-2 border-blue-500/50 shadow-2xl p-6 md:p-8 relative overflow-hidden"
                     >
-                        {/* Most Popular Badge */}
-                        <div className="absolute -top-3 md:-top-4 left-1/2 transform -translate-x-1/2">
-                            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 md:px-6 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-bold flex items-center space-x-1 md:space-x-2">
-                                <FaStar className="text-yellow-400 text-xs md:text-sm" />
-                                <span>Most Popular</span>
-                            </div>
-                        </div>
 
                         {/* Glow Effect */}
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-2xl" />
@@ -180,7 +180,7 @@ const PricingPage: React.FC = () => {
                                 </div>
                                 <h3 className="text-xl md:text-2xl font-bold text-zinc-100 mb-2">Premium</h3>
                                 <div className="text-3xl md:text-4xl font-bold text-zinc-100 mb-2">
-                                    $10
+                                    $20
                                     <span className="text-base md:text-lg text-zinc-400 font-normal"> / month</span>
                                 </div>
                                 <p className="text-blue-300 text-sm md:text-base">Everything you need to excel</p>
@@ -226,76 +226,109 @@ const PricingPage: React.FC = () => {
                     </motion.div>
                 </motion.div>
 
-                {/* FAQ Section */}
+                {/* FAQ Section - Headers outside cards */}
                 <motion.div
                     variants={itemVariants}
-                    className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-6 md:p-8 lg:p-12 mx-4"
+                    className="text-center mb-8 md:mb-12 px-4"
                 >
-                    <div className="text-center mb-8 md:mb-12">
-                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-zinc-100 mb-3 md:mb-4">
-                            Frequently Asked Questions
-                        </h3>
-                        <p className="text-zinc-400 text-base md:text-lg">
-                            Everything you need to know about our pricing plans
-                        </p>
-                    </div>
+                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-zinc-100 mb-3 md:mb-4">
+                        Frequently Asked Questions
+                    </h3>
+                    <p className="text-zinc-400 text-base md:text-lg">
+                        Everything you need to know about our pricing plans
+                    </p>
+                </motion.div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-                        {[
-                            {
-                                question: "Can I cancel anytime?",
-                                answer: "Yes! You can cancel your Premium subscription at any time. You'll continue to have access to Premium features until the end of your billing period."
-                            },
-                            {
-                                question: "What payment methods do you accept?",
-                                answer: "We accept all major credit cards (Visa, MasterCard, American Express) and PayPal. All payments are processed securely through Stripe."
-                            },
-                            {
-                                question: "How does the weekly reset work for free users?",
-                                answer: "Free users get 3 AI-analyzed tests that reset every 7 days from their last test. This gives you consistent practice opportunities while encouraging upgrade to unlimited access."
-                            },
-                            {
-                                question: "Is there a free trial for Premium?",
-                                answer: "Your free plan serves as an extended trial! Experience our AI analysis with 3 tests, then upgrade to Premium for unlimited access and advanced features."
-                            },
-                            {
-                                question: "What makes the AI analysis so accurate?",
-                                answer: "Our AI is trained on thousands of IELTS speaking samples and uses advanced language models to provide detailed feedback on fluency, vocabulary, grammar, and pronunciation."
-                            },
-                            {
-                                question: "Do you offer student discounts?",
-                                answer: "We're working on student pricing options! Contact our support team with your student ID for potential discounts and early access to student plans."
-                            }
-                        ].map((faq, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.7 + index * 0.1 }}
-                                className="bg-zinc-800/30 rounded-xl p-4 md:p-6 border border-zinc-700/30"
+                {/* Individual FAQ Cards */}
+                <motion.div
+                    variants={itemVariants}
+                    className="space-y-4 md:space-y-6 px-4 mb-8 md:mb-12"
+                >
+                    {[
+                        {
+                            question: "Can I cancel anytime?",
+                            answer: "Yes! You can cancel your Premium subscription at any time. You'll continue to have access to Premium features until the end of your billing period."
+                        },
+                        {
+                            question: "What payment methods do you accept?",
+                            answer: "We accept all major credit cards (Visa, MasterCard, American Express) and PayPal. All payments are processed securely through Stripe."
+                        },
+                        {
+                            question: "How does the weekly reset work for free users?",
+                            answer: "Free users get 3 AI-analyzed tests that reset every 7 days from their last test. This gives you consistent practice opportunities while encouraging upgrade to unlimited access."
+                        },
+                        {
+                            question: "Is there a free trial for Premium?",
+                            answer: "Your free plan serves as an extended trial! Experience our AI analysis with 3 tests, then upgrade to Premium for unlimited access and advanced features."
+                        },
+                        {
+                            question: "What makes the AI analysis so accurate?",
+                            answer: "Our AI is trained on thousands of IELTS speaking samples and uses advanced language models to provide detailed feedback on fluency, vocabulary, grammar, and pronunciation."
+                        },
+                        {
+                            question: "Do you offer student discounts?",
+                            answer: "We're working on student pricing options! Contact our support team with your student ID for potential discounts and early access to student plans."
+                        }
+                    ].map((faq, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.7 + index * 0.1 }}
+                            className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl overflow-hidden"
+                        >
+                            <motion.button
+                                onClick={() => toggleFaq(index)}
+                                className="w-full p-4 md:p-6 text-left flex items-center justify-between hover:bg-zinc-800/30 transition-all duration-300"
+                                whileHover={{ scale: 1.01 }}
+                                whileTap={{ scale: 0.99 }}
                             >
-                                <h4 className="text-base md:text-lg font-bold text-zinc-100 mb-2 md:mb-3">
+                                <h4 className="text-base md:text-lg font-bold text-zinc-100 pr-4">
                                     {faq.question}
                                 </h4>
-                                <p className="text-zinc-300 leading-relaxed text-sm md:text-base">
-                                    {faq.answer}
-                                </p>
-                            </motion.div>
-                        ))}
-                    </div>
+                                <motion.div
+                                    animate={{ rotate: expandedFaq === index ? 180 : 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="flex-shrink-0"
+                                >
+                                    <FaChevronDown className="text-zinc-400 text-sm" />
+                                </motion.div>
+                            </motion.button>
 
-                    <div className="text-center mt-8 md:mt-12">
-                        <p className="text-zinc-400 mb-3 md:mb-4 text-sm md:text-base">
-                            Still have questions? We're here to help!
-                        </p>
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="px-4 md:px-6 py-2 md:py-3 bg-zinc-800/50 hover:bg-zinc-700/50 text-zinc-200 rounded-xl border border-zinc-600/30 transition-all duration-300 text-sm md:text-base"
-                        >
-                            Contact Support
-                        </motion.button>
-                    </div>
+                            <motion.div
+                                initial={false}
+                                animate={{
+                                    height: expandedFaq === index ? "auto" : 0,
+                                    opacity: expandedFaq === index ? 1 : 0
+                                }}
+                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                                className="overflow-hidden"
+                            >
+                                <div className="px-4 md:px-6 pb-4 md:pb-6 border-t border-zinc-700/30">
+                                    <p className="text-zinc-300 leading-relaxed text-sm md:text-base pt-4">
+                                        {faq.answer}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        </motion.div>
+                    ))}
+                </motion.div>
+
+                {/* Contact Support Section */}
+                <motion.div
+                    variants={itemVariants}
+                    className="text-center px-4"
+                >
+                    <p className="text-zinc-400 mb-3 md:mb-4 text-sm md:text-base">
+                        Still have questions? We're here to help!
+                    </p>
+                    <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="px-4 md:px-6 py-2 md:py-3 bg-zinc-800/50 hover:bg-zinc-700/50 text-zinc-200 rounded-xl border border-zinc-600/30 transition-all duration-300 text-sm md:text-base"
+                    >
+                        Contact Support
+                    </motion.button>
                 </motion.div>
             </motion.div>
         </div>

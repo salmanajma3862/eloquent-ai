@@ -20,7 +20,7 @@ interface SessionCardProps {
     session: Session;
 }
 
-const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
+const SessionCard: React.FC<SessionCardProps> = React.memo(({ session }) => {
     // Format the date to a readable string
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -165,6 +165,11 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
             </motion.div>
         </Link>
     );
-};
+}, (prevProps, nextProps) => {
+    // Only re-render if session ID or status changes
+    return prevProps.session._id === nextProps.session._id &&
+           prevProps.session.status === nextProps.session.status &&
+           prevProps.session.analysis?.overallBandScore === nextProps.session.analysis?.overallBandScore;
+});
 
 export default SessionCard;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { motion } from 'framer-motion';
@@ -29,6 +29,22 @@ const DashboardPage: React.FC = () => {
 
     // Determine if the practice button should be disabled (freemium logic)
     const isPracticeDisabled = userInfo?.subscription?.plan === 'free' && userInfo?.totalSessions >= 3;
+
+    // Memoize expensive calculations
+    const stats = useMemo(() => {
+        const scoredSessions = sessions.filter(s => s.analysis?.overallBandScore);
+        const completedSessions = sessions.filter(s => s.status === 'completed');
+
+        const averageScore = scoredSessions.length > 0
+            ? (scoredSessions.reduce((acc, s) => acc + (s.analysis?.overallBandScore || 0), 0) / scoredSessions.length).toFixed(1)
+            : "N/A";
+
+        return {
+            totalTests: sessions.length,
+            averageScore,
+            completedTests: completedSessions.length
+        };
+    }, [sessions]);
 
     // Fetch user sessions on component mount
     useEffect(() => {
@@ -90,32 +106,10 @@ const DashboardPage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-black via-zinc-900 to-black relative overflow-hidden">
-            {/* Animated Background Elements */}
+            {/* Static Background Elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <motion.div
-                    animate={{
-                        rotate: 360,
-                        scale: [1, 1.2, 1],
-                    }}
-                    transition={{
-                        duration: 20,
-                        repeat: Infinity,
-                        ease: "linear"
-                    }}
-                    className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-full blur-3xl"
-                />
-                <motion.div
-                    animate={{
-                        rotate: -360,
-                        scale: [1.2, 1, 1.2],
-                    }}
-                    transition={{
-                        duration: 25,
-                        repeat: Infinity,
-                        ease: "linear"
-                    }}
-                    className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-full blur-3xl"
-                />
+                <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-full blur-3xl" />
+                <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-full blur-3xl" />
             </div>
 
             {/* Navigation */}
@@ -163,32 +157,28 @@ const DashboardPage: React.FC = () => {
                 >
                     {[
                         {
-                            value: sessions.length,
+                            value: stats.totalTests,
                             label: "Total Tests",
                             icon: FaFileAlt,
                             gradient: "from-blue-600 to-indigo-600"
                         },
                         {
-                            value: sessions.filter(s => s.analysis?.overallBandScore).length > 0
-                                ? (sessions.filter(s => s.analysis?.overallBandScore).reduce((acc, s) => acc + (s.analysis?.overallBandScore || 0), 0) / sessions.filter(s => s.analysis?.overallBandScore).length).toFixed(1)
-                                : "N/A",
+                            value: stats.averageScore,
                             label: "Average Score",
                             icon: FaChartLine,
                             gradient: "from-emerald-600 to-green-600"
                         },
                         {
-                            value: sessions.filter(s => s.status === 'completed').length,
+                            value: stats.completedTests,
                             label: "Completed",
                             icon: FaTrophy,
                             gradient: "from-yellow-600 to-orange-600"
                         }
                     ].map((stat, index) => (
-                        <motion.div
+                        <div
                             key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.4 + index * 0.1 }}
-                            className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-6 text-center group hover:border-zinc-600/50 transition-all duration-300"
+                            className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-6 text-center group hover:border-zinc-600/50 transition-all duration-300 animate-fade-in-up"
+                            style={{ animationDelay: `${0.4 + index * 0.1}s` }}
                         >
                             <div className={`w-12 h-12 bg-gradient-to-r ${stat.gradient} rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
                                 <stat.icon className="text-white text-lg" />
@@ -199,7 +189,7 @@ const DashboardPage: React.FC = () => {
                             <div className="text-zinc-400 font-medium">
                                 {stat.label}
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
                 </motion.div>
 

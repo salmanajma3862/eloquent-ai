@@ -11,8 +11,8 @@ interface NavigationProps {
     backButtonPath?: string;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ 
-    variant = 'dashboard', 
+const Navigation: React.FC<NavigationProps> = React.memo(({
+    variant = 'dashboard',
     showBackButton = false,
     backButtonText = 'Back to Dashboard',
     backButtonPath = '/dashboard'
@@ -279,6 +279,12 @@ const Navigation: React.FC<NavigationProps> = ({
             </div>
         </motion.nav>
     );
-};
+}, (prevProps, nextProps) => {
+    // Only re-render if props actually change
+    return prevProps.variant === nextProps.variant &&
+           prevProps.showBackButton === nextProps.showBackButton &&
+           prevProps.backButtonText === nextProps.backButtonText &&
+           prevProps.backButtonPath === nextProps.backButtonPath;
+});
 
 export default Navigation;

@@ -14,34 +14,45 @@ export const DashboardAudioPlayer: React.FC<DashboardAudioPlayerProps> = ({
     label,
     icon
 }) => {
-    const audioRef = useRef(new Audio(audioUrl));
+    const audioRef = useRef<HTMLAudioElement | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
 
-    // This effect will pause this player if another one starts playing.
+    // Initialize audio and handle cleanup
     useEffect(() => {
+        // Initialize audio if not already created
+        if (!audioRef.current) {
+            audioRef.current = new Audio(audioUrl);
+        }
+
+        const audio = audioRef.current;
+
         const handlePlay = (e: Event) => {
-            if (e.target !== audioRef.current) {
-                audioRef.current.pause();
+            if (e.target !== audio) {
+                audio.pause();
                 setIsPlaying(false);
             }
         };
-        document.addEventListener('play', handlePlay, true);
 
-        // When the audio finishes playing, reset the icon to 'Play'
-        audioRef.current.onended = () => setIsPlaying(false);
+        const handleEnded = () => setIsPlaying(false);
+
+        document.addEventListener('play', handlePlay, true);
+        audio.addEventListener('ended', handleEnded);
 
         return () => {
             document.removeEventListener('play', handlePlay, true);
+            audio.removeEventListener('ended', handleEnded);
             // Stop audio when component unmounts (page changes)
-            audioRef.current.pause();
-            audioRef.current.currentTime = 0;
+            audio.pause();
+            audio.currentTime = 0;
         };
-    }, []);
+    }, [audioUrl]);
 
     const togglePlayPause = (e: React.MouseEvent) => {
         // Prevent the click from bubbling up to the parent Link
         e.preventDefault();
         e.stopPropagation();
+
+        if (!audioRef.current) return;
 
         if (isPlaying) {
             audioRef.current.pause();
