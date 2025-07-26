@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useUserStore } from '../store/userStore';
 import { testApi, transcribeAudioFile } from '../lib/api';
+import Navigation from '../components/Navigation';
 
 interface Topic {
     topic: string;
@@ -319,33 +320,7 @@ const TestPage: React.FC = () => {
     return (
         <div className="min-h-screen bg-black">
             {/* Navigation */}
-            <motion.nav
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-700/50 shadow-lg"
-            >
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex items-center">
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent">
-                                Eloquent AI
-                            </h1>
-                        </div>
-                        <div className="flex items-center space-x-4">
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => navigate('/dashboard')}
-                                disabled={isRecording}
-                                className="px-4 py-2 bg-slate-600 hover:bg-slate-700 disabled:bg-slate-700 disabled:opacity-50 text-white rounded-lg font-medium transition-colors"
-                            >
-                                Back to Dashboard
-                            </motion.button>
-                        </div>
-                    </div>
-                </div>
-            </motion.nav>
+            <Navigation variant="dashboard" showBackButton={true} backButtonText="Back to Dashboard" />
 
             {/* Main Content */}
             <motion.div

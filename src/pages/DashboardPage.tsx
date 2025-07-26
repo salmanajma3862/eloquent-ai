@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { motion } from 'framer-motion';
-import { FaGraduationCap, FaRocket, FaTrophy, FaChartLine, FaClock, FaFileAlt, FaUser, FaPlay } from 'react-icons/fa';
+import { FaRocket, FaTrophy, FaChartLine, FaClock, FaFileAlt, FaPlay } from 'react-icons/fa';
 import { getUserSessions } from '../lib/api';
 import SessionCard from '../components/SessionCard';
 import ProgressChart from '../components/ProgressChart';
+import Navigation from '../components/Navigation';
 
 interface Session {
     _id: string;
@@ -20,7 +21,7 @@ interface Session {
 }
 
 const DashboardPage: React.FC = () => {
-    const { userInfo, logout, token } = useUserStore();
+    const { userInfo, token } = useUserStore();
     const navigate = useNavigate();
     const [sessions, setSessions] = useState<Session[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -28,11 +29,6 @@ const DashboardPage: React.FC = () => {
 
     // Determine if the practice button should be disabled (freemium logic)
     const isPracticeDisabled = userInfo?.subscription?.plan === 'free' && userInfo?.totalSessions >= 3;
-
-    const handleLogout = () => {
-        logout();
-        navigate('/login');
-    };
 
     // Fetch user sessions on component mount
     useEffect(() => {
@@ -123,51 +119,7 @@ const DashboardPage: React.FC = () => {
             </div>
 
             {/* Navigation */}
-            <motion.nav
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="relative z-50 bg-zinc-900/70 backdrop-blur-2xl border-b border-zinc-700/30 shadow-2xl"
-            >
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-20">
-                        <motion.div
-                            className="flex items-center space-x-3"
-                            whileHover={{ scale: 1.02 }}
-                        >
-                            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                                <FaGraduationCap className="text-white text-lg" />
-                            </div>
-                            <h1 className="text-3xl font-bold bg-gradient-to-r from-zinc-100 via-blue-200 to-purple-200 bg-clip-text text-transparent">
-                                Eloquent AI
-                            </h1>
-                        </motion.div>
-                        <div className="flex items-center space-x-4">
-                            <div className="text-zinc-300 font-medium text-lg">
-                                {userInfo?.name}
-                            </div>
-                            <Link to="/profile">
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="flex items-center space-x-2 px-4 py-2 bg-zinc-800/50 hover:bg-zinc-700/50 rounded-xl border border-zinc-600/30 transition-all duration-300"
-                                >
-                                    <FaUser className="text-sm" />
-                                    <span>Profile</span>
-                                </motion.button>
-                            </Link>
-                            <motion.button
-                                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)" }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={handleLogout}
-                                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl font-semibold transition-all duration-300 shadow-lg"
-                            >
-                                Logout
-                            </motion.button>
-                        </div>
-                    </div>
-                </div>
-            </motion.nav>
+            <Navigation variant="dashboard" />
 
             {/* Main Content */}
             <motion.div
@@ -267,40 +219,42 @@ const DashboardPage: React.FC = () => {
                         <p className="text-zinc-400">Take another IELTS speaking test and track your improvement</p>
                     </motion.div>
 
-                    {isPracticeDisabled ? (
-                        <Link to="/pricing">
+                    <div className="flex flex-col md:flex-row gap-4 justify-center">
+                        {isPracticeDisabled ? (
+                            <Link to="/pricing" className="w-full md:w-auto">
+                                <motion.button
+                                    whileHover={{
+                                        scale: 1.05,
+                                        boxShadow: "0 20px 40px rgba(234, 179, 8, 0.4)"
+                                    }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="w-full md:w-auto px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg relative overflow-hidden group bg-gradient-to-r from-yellow-600 via-yellow-700 to-orange-700 hover:from-yellow-700 hover:via-yellow-800 hover:to-orange-800 text-white shadow-yellow-500/25"
+                                >
+                                    <span className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
+                                    <span className="relative flex items-center justify-center space-x-2">
+                                        <FaTrophy />
+                                        <span>Upgrade to Premium</span>
+                                    </span>
+                                </motion.button>
+                            </Link>
+                        ) : (
                             <motion.button
                                 whileHover={{
                                     scale: 1.05,
-                                    boxShadow: "0 20px 40px rgba(234, 179, 8, 0.4)"
+                                    boxShadow: "0 20px 40px rgba(59, 130, 246, 0.4)"
                                 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="w-full px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg relative overflow-hidden group bg-gradient-to-r from-yellow-600 via-yellow-700 to-orange-700 hover:from-yellow-700 hover:via-yellow-800 hover:to-orange-800 text-white shadow-yellow-500/25"
+                                onClick={() => navigate('/test')}
+                                className="w-full md:w-auto px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg relative overflow-hidden group bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-700 hover:via-blue-800 hover:to-indigo-800 text-white shadow-blue-500/25"
                             >
-                                <span className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
+                                <span className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
                                 <span className="relative flex items-center justify-center space-x-2">
-                                    <FaTrophy />
-                                    <span>Upgrade to Premium</span>
+                                    <FaPlay />
+                                    <span>Start New Practice Session</span>
                                 </span>
                             </motion.button>
-                        </Link>
-                    ) : (
-                        <motion.button
-                            whileHover={{
-                                scale: 1.05,
-                                boxShadow: "0 20px 40px rgba(59, 130, 246, 0.4)"
-                            }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => navigate('/test')}
-                            className="px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg relative overflow-hidden group bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-700 hover:via-blue-800 hover:to-indigo-800 text-white shadow-blue-500/25"
-                        >
-                            <span className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
-                            <span className="relative flex items-center justify-center space-x-2">
-                                <FaPlay />
-                                <span>Start New Practice Session</span>
-                            </span>
-                        </motion.button>
-                    )}
+                        )}
+                    </div>
                     {isPracticeDisabled && (
                         <p className="text-zinc-400 mt-4 text-sm">
                             You have used all your free tests. Upgrade to premium for unlimited practice!
@@ -399,40 +353,42 @@ const DashboardPage: React.FC = () => {
                                     You haven't completed any tests yet. Take your first IELTS speaking test and discover your potential!
                                 </p>
                             </motion.div>
-                            {isPracticeDisabled ? (
-                                <Link to="/pricing">
+                            <div className="flex flex-col md:flex-row gap-4 justify-center">
+                                {isPracticeDisabled ? (
+                                    <Link to="/pricing" className="w-full md:w-auto">
+                                        <motion.button
+                                            whileHover={{
+                                                scale: 1.05,
+                                                boxShadow: "0 20px 40px rgba(234, 179, 8, 0.4)"
+                                            }}
+                                            whileTap={{ scale: 0.95 }}
+                                            className="w-full md:w-auto px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg relative overflow-hidden group bg-gradient-to-r from-yellow-600 via-yellow-700 to-orange-700 hover:from-yellow-700 hover:via-yellow-800 hover:to-orange-800 text-white"
+                                        >
+                                            <span className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
+                                            <span className="relative flex items-center space-x-2">
+                                                <FaTrophy />
+                                                <span>Upgrade to Premium</span>
+                                            </span>
+                                        </motion.button>
+                                    </Link>
+                                ) : (
                                     <motion.button
                                         whileHover={{
                                             scale: 1.05,
-                                            boxShadow: "0 20px 40px rgba(234, 179, 8, 0.4)"
+                                            boxShadow: "0 20px 40px rgba(59, 130, 246, 0.4)"
                                         }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg relative overflow-hidden group bg-gradient-to-r from-yellow-600 via-yellow-700 to-orange-700 hover:from-yellow-700 hover:via-yellow-800 hover:to-orange-800 text-white"
+                                        onClick={() => navigate('/test')}
+                                        className="w-full md:w-auto px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg relative overflow-hidden group bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-700 hover:via-blue-800 hover:to-indigo-800 text-white"
                                     >
-                                        <span className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
+                                        <span className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
                                         <span className="relative flex items-center space-x-2">
-                                            <FaTrophy />
-                                            <span>Upgrade to Premium</span>
+                                            <FaPlay />
+                                            <span>Take Your First Test</span>
                                         </span>
                                     </motion.button>
-                                </Link>
-                            ) : (
-                                <motion.button
-                                    whileHover={{
-                                        scale: 1.05,
-                                        boxShadow: "0 20px 40px rgba(59, 130, 246, 0.4)"
-                                    }}
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={() => navigate('/test')}
-                                    className="px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 shadow-lg relative overflow-hidden group bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-700 hover:via-blue-800 hover:to-indigo-800 text-white"
-                                >
-                                    <span className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
-                                    <span className="relative flex items-center space-x-2">
-                                        <FaPlay />
-                                        <span>Take Your First Test</span>
-                                    </span>
-                                </motion.button>
-                            )}
+                                )}
+                            </div>
                             {isPracticeDisabled && (
                                 <p className="text-zinc-400 mt-4 text-sm">
                                     You have used all your free tests. Upgrade to premium for unlimited practice!

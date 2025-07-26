@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import Navigation from '../components/Navigation';
 
 const LandingPage: React.FC = () => {
     const navigate = useNavigate();
@@ -68,40 +69,7 @@ const LandingPage: React.FC = () => {
     return (
         <div className="min-h-screen bg-black overflow-hidden">
             {/* Navigation */}
-            <motion.nav
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-zinc-700/50"
-            >
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-16">
-                        <div className="flex items-center">
-                            <h1 className="text-2xl font-extrabold bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent tracking-tight">
-                                Eloquent AI
-                            </h1>
-                        </div>
-                        <div className="flex items-center space-x-4">
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={handleSignIn}
-                                className="text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800/50 px-3 sm:px-4 py-2 rounded-lg transition-all duration-200 text-sm sm:text-base"
-                            >
-                                Sign In
-                            </motion.button>
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={handleGetStarted}
-                                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 sm:px-6 py-2 rounded-lg font-medium transition-all duration-300 shadow-lg shadow-blue-500/25 text-sm sm:text-base"
-                            >
-                                Get Started
-                            </motion.button>
-                        </div>
-                    </div>
-                </div>
-            </motion.nav>
+            <Navigation variant="landing" />
 
             {/* Hero Section */}
             <section ref={heroRef} className="relative min-h-screen flex items-center justify-center pt-16">

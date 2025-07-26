@@ -5,6 +5,7 @@ import { FaPlay, FaSpinner, FaMicrophone, FaChartLine, FaBookOpen, FaGraduationC
 import { useUserStore } from '../store/userStore';
 import { getSessionAnalysis } from '../lib/api';
 import api from '../lib/api';
+import Navigation from '../components/Navigation';
 
 interface AnalysisData {
     overallBandScore: number;
@@ -182,36 +183,7 @@ const AnalysisPage: React.FC = () => {
             </div>
 
             {/* Navigation */}
-            <motion.nav
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="relative z-50 bg-zinc-900/70 backdrop-blur-2xl border-b border-zinc-700/30 shadow-2xl"
-            >
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-20">
-                        <motion.div 
-                            className="flex items-center space-x-3"
-                            whileHover={{ scale: 1.02 }}
-                        >
-                            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                                <FaGraduationCap className="text-white text-lg" />
-                            </div>
-                            <h1 className="text-3xl font-bold bg-gradient-to-r from-zinc-100 via-blue-200 to-purple-200 bg-clip-text text-transparent">
-                                Eloquent AI
-                            </h1>
-                        </motion.div>
-                        <motion.button
-                            whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)" }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => navigate('/dashboard')}
-                            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl font-semibold transition-all duration-300 shadow-lg"
-                        >
-                            Back to Dashboard
-                        </motion.button>
-                    </div>
-                </div>
-            </motion.nav>
+            <Navigation variant="dashboard" showBackButton={true} backButtonText="Back to Dashboard" />
 
             {/* Main Content */}
             <motion.div

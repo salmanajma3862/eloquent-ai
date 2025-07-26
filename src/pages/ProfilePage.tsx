@@ -2,16 +2,12 @@ import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { motion } from 'framer-motion';
-import { FaGraduationCap, FaUser, FaEnvelope, FaCrown, FaChartLine, FaArrowLeft, FaRocket } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaCrown, FaChartLine, FaRocket } from 'react-icons/fa';
+import Navigation from '../components/Navigation';
 
 const ProfilePage: React.FC = () => {
-    const { userInfo, logout } = useUserStore();
+    const { userInfo } = useUserStore();
     const navigate = useNavigate();
-
-    const handleLogout = () => {
-        logout();
-        navigate('/login');
-    };
 
 
 
@@ -55,48 +51,7 @@ const ProfilePage: React.FC = () => {
             <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent" />
 
             {/* Navigation */}
-            <motion.nav
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="relative z-50 bg-zinc-900/70 backdrop-blur-2xl border-b border-zinc-700/30 shadow-2xl"
-            >
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-20">
-                        <motion.div
-                            className="flex items-center space-x-3"
-                            whileHover={{ scale: 1.02 }}
-                        >
-                            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                                <FaGraduationCap className="text-white text-lg" />
-                            </div>
-                            <h1 className="text-3xl font-bold bg-gradient-to-r from-zinc-100 via-blue-200 to-purple-200 bg-clip-text text-transparent">
-                                Eloquent AI
-                            </h1>
-                        </motion.div>
-
-                        <div className="flex items-center space-x-4">
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => navigate('/dashboard')}
-                                className="flex items-center space-x-2 px-4 py-2 bg-zinc-800/50 hover:bg-zinc-700/50 rounded-xl border border-zinc-600/30 transition-all duration-300"
-                            >
-                                <FaArrowLeft className="text-sm" />
-                                <span>Back to Dashboard</span>
-                            </motion.button>
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={handleLogout}
-                                className="px-6 py-2 bg-red-600/20 hover:bg-red-600/30 text-red-400 rounded-xl border border-red-600/30 transition-all duration-300"
-                            >
-                                Logout
-                            </motion.button>
-                        </div>
-                    </div>
-                </div>
-            </motion.nav>
+            <Navigation variant="dashboard" showBackButton={true} backButtonText="Back to Dashboard" />
 
             {/* Main Content */}
             <motion.div
