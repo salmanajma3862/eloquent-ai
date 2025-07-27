@@ -106,7 +106,7 @@ const PricingPage: React.FC = () => {
                 {/* Pricing Cards */}
                 <motion.div
                     variants={itemVariants}
-                    className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto mb-12 md:mb-16 px-4"
+                    className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto mb-12 md:mb-16 px-4"
                 >
                     {/* Free Plan Card */}
                     <motion.div
@@ -124,7 +124,9 @@ const PricingPage: React.FC = () => {
 
                         <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
                             {[
-                                "3 AI-Analyzed Tests (Resets Weekly)",
+                                "3 Sessions (Resets Weekly)",
+                                "1-Minute Session Limit",
+                                "AI-Voice generation for suggested answers",
                                 "Detailed Feedback on Fluency, Vocabulary & Grammar",
                                 "Progress Tracking",
                                 "Basic Performance Statistics"
@@ -158,7 +160,7 @@ const PricingPage: React.FC = () => {
                         </motion.button>
                     </motion.div>
 
-                    {/* Premium Plan Card */}
+                    {/* Monthly Premium Plan Card */}
                     <motion.div
                         variants={cardVariants}
                         className="bg-gradient-to-br from-blue-900/20 via-blue-800/10 to-purple-900/20 backdrop-blur-xl rounded-2xl border-2 border-blue-500/50 shadow-2xl p-6 md:p-8 relative overflow-hidden"
@@ -172,22 +174,22 @@ const PricingPage: React.FC = () => {
                                 <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4">
                                     <FaCrown className="text-white text-lg md:text-2xl" />
                                 </div>
-                                <h3 className="text-xl md:text-2xl font-bold text-zinc-100 mb-2">Premium</h3>
+                                <h3 className="text-xl md:text-2xl font-bold text-zinc-100 mb-2">Monthly Premium</h3>
                                 <div className="text-3xl md:text-4xl font-bold text-zinc-100 mb-2">
-                                    $20
+                                    $10
                                     <span className="text-base md:text-lg text-zinc-400 font-normal"> / month</span>
                                 </div>
-                                <p className="text-blue-300 text-sm md:text-base">Everything you need to excel</p>
                             </div>
 
                             <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
                                 <div className="text-xs md:text-sm font-semibold text-blue-300 mb-2 md:mb-3">Everything in Free, plus:</div>
                                 {[
-                                    { icon: FaInfinity, text: "Unlimited AI-Analyzed Tests" },
+                                    { icon: FaInfinity, text: "100 Sessions per Month" },
+                                    { icon: FaMicrophone, text: "complete 2-Minute Sessions" },
                                     { icon: FaHeadphones, text: "AI Voice Generation for Suggested Answers" },
                                     { icon: FaChartLine, text: "Advanced Progress Analysis & Insights" },
                                     { icon: FaLifeRing, text: "Priority Support" },
-                                    { icon: FaMicrophone, text: "Enhanced Audio Quality Analysis" },
+                                    { icon: FaMicrophone, text: "Enhanced Audio Quality" },
                                     { icon: FaRocket, text: "Early Access to New Features" }
                                 ].map((feature, index) => (
                                     <motion.div
@@ -214,7 +216,68 @@ const PricingPage: React.FC = () => {
                                 onClick={handleUpgrade}
                                 className="w-full py-3 md:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-xl font-bold text-sm md:text-lg transition-all duration-300 shadow-lg"
                             >
-                                {isCurrentlyFree ? 'Upgrade to Premium' : 'Current Plan'}
+                                {isCurrentlyFree ? 'Upgrade to Monthly' : 'Current Plan'}
+                            </motion.button>
+                        </div>
+                    </motion.div>
+
+                    {/* 3-Month Premium Plan Card */}
+                    <motion.div
+                        variants={cardVariants}
+                        className="bg-gradient-to-br from-purple-900/20 via-purple-800/10 to-pink-900/20 backdrop-blur-xl rounded-2xl border-2 border-purple-500/50 shadow-2xl p-6 md:p-8 relative overflow-hidden"
+                    >
+
+                        {/* Glow Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-pink-600/10 rounded-2xl" />
+
+                        <div className="relative z-10">
+                            <div className="text-center mb-6 md:mb-8 mt-3 md:mt-4">
+                                <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4">
+                                    <FaRocket className="text-white text-lg md:text-2xl" />
+                                </div>
+                                <h3 className="text-xl md:text-2xl font-bold text-zinc-100 mb-2">3-Month Premium</h3>
+                                <div className="text-3xl md:text-4xl font-bold text-zinc-100 mb-2">
+                                    $25
+                                    <span className="text-base md:text-lg text-zinc-400 font-normal"> / 3 months</span>
+                                </div>
+                            </div>
+
+                            <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
+                                <div className="text-xs md:text-sm font-semibold text-purple-300 mb-2 md:mb-3">Everything in Free, plus:</div>
+                                {[
+                                    { icon: FaInfinity, text: "300 Sessions over 3 Months" },
+                                    { icon: FaMicrophone, text: "Complete 2-Minute Sessions" },
+                                    { icon: FaHeadphones, text: "AI Voice Generation for Suggested Answers" },
+                                    { icon: FaChartLine, text: "Advanced Progress Analysis & Insights" },
+                                    { icon: FaLifeRing, text: "Priority Support" },
+                                    { icon: FaMicrophone, text: "Enhanced Audio Quality" },
+                                    { icon: FaRocket, text: "Early Access to New Features" }
+                                ].map((feature, index) => (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: 0.5 + index * 0.1 }}
+                                        className="flex items-start space-x-3"
+                                    >
+                                        <div className="w-4 h-4 md:w-5 md:h-5 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <feature.icon className="text-white text-xs" />
+                                        </div>
+                                        <span className="text-zinc-200 text-sm md:text-base leading-relaxed">{feature.text}</span>
+                                    </motion.div>
+                                ))}
+                            </div>
+
+                            <motion.button
+                                whileHover={{
+                                    scale: 1.02,
+                                    boxShadow: "0 20px 40px rgba(147, 51, 234, 0.4)"
+                                }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={handleUpgrade}
+                                className="w-full py-3 md:py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl font-bold text-sm md:text-lg transition-all duration-300 shadow-lg"
+                            >
+                                {isCurrentlyFree ? 'Upgrade to 3-Month' : 'Current Plan'}
                             </motion.button>
                         </div>
                     </motion.div>
