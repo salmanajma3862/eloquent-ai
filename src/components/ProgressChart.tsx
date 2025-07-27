@@ -57,8 +57,8 @@ const ProgressChart: React.FC<ProgressChartProps> = React.memo(({ sessions }) =>
 
     return (
         <div className="space-y-8">
-            {/* Chart - Free from container constraints */}
-            <div className="bg-zinc-800/30 rounded-xl p-6">
+            {/* Chart - Free from container constraints but with proper padding */}
+            <div className="bg-zinc-800/30 rounded-xl p-6 mx-4 sm:mx-6 lg:mx-8">
                 <ResponsiveContainer width="100%" height={400}>
                     <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#4a4a4a" opacity={0.3} />
@@ -182,7 +182,7 @@ const ProgressChart: React.FC<ProgressChartProps> = React.memo(({ sessions }) =>
             </div>
 
             {/* Progress Summary */}
-            <div className="mt-6 space-y-6">
+            <div className="mt-6 space-y-6 mx-4 sm:mx-6 lg:mx-8">
                 {/* Overall Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="bg-zinc-800/30 rounded-lg p-4 text-center">
