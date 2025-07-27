@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaPlay, FaSpinner, FaMicrophone, FaChartLine, FaBookOpen, FaGraduationCap, FaClock, FaFileAlt, FaRocket, FaTrophy } from 'react-icons/fa';
+import { FaPlay, FaSpinner, FaMicrophone, FaChartLine, FaBookOpen, FaCheck, FaClock, FaFileAlt, FaRocket, FaTrophy } from 'react-icons/fa';
 import { useUserStore } from '../store/userStore';
 import { getSessionAnalysis } from '../lib/api';
 import api from '../lib/api';
@@ -270,7 +270,7 @@ const AnalysisPage: React.FC = () => {
                                     {[
                                         { score: session.analysis.fluencyAndCoherence.score, label: "Fluency & Coherence", icon: FaChartLine },
                                         { score: session.analysis.lexicalResource.score, label: "Lexical Resource", icon: FaBookOpen },
-                                        { score: session.analysis.grammaticalRangeAndAccuracy.score, label: "Grammar", icon: FaGraduationCap },
+                                        { score: session.analysis.grammaticalRangeAndAccuracy.score, label: "Grammar", icon: FaCheck },
                                         { score: session.analysis.wordsPerMinute, label: "Words/Min", icon: FaClock, isMetric: true }
                                     ].map((item, index) => (
                                         <motion.div
@@ -317,7 +317,7 @@ const AnalysisPage: React.FC = () => {
                                         title: "Grammatical Range and Accuracy",
                                         score: session.analysis.grammaticalRangeAndAccuracy.score,
                                         feedback: session.analysis.grammaticalRangeAndAccuracy.feedback,
-                                        icon: FaGraduationCap,
+                                        icon: FaCheck,
                                         gradient: "from-green-600 to-emerald-600"
                                     }
                                 ].map((item, index) => (
@@ -543,7 +543,7 @@ const AnalysisPage: React.FC = () => {
                                 <div className="grid md:grid-cols-2 gap-8">
                                     <div className="space-y-4">
                                         <h4 className="text-xl font-semibold text-zinc-100 mb-4 flex items-center space-x-2">
-                                            <FaGraduationCap className="text-blue-400" />
+                                            <FaRocket className="text-blue-400" />
                                             <span>Continue Improving</span>
                                         </h4>
                                         <div className="space-y-3">

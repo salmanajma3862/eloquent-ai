@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaGraduationCap, FaArrowLeft, FaBars, FaTimes, FaUser, FaChartLine, FaDollarSign, FaChartBar } from 'react-icons/fa';
+import { FaArrowLeft, FaBars, FaTimes, FaUser, FaChartLine, FaDollarSign, FaChartBar } from 'react-icons/fa';
 
 interface NavigationProps {
     variant?: 'landing' | 'dashboard';
@@ -163,14 +163,11 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
                 <div className="flex justify-between items-center h-20">
                     {/* Logo */}
                     <motion.div
-                        className="flex items-center space-x-2"
+                        className="flex items-center"
                         whileHover={{ scale: 1.02 }}
                         onClick={() => handleNavigation('/dashboard')}
                         style={{ cursor: 'pointer' }}
                     >
-                        <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                            <FaGraduationCap className="text-white text-sm" />
-                        </div>
                         <h1 className="text-xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent">
                             Eloquent AI
                         </h1>

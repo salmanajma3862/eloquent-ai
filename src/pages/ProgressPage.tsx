@@ -15,21 +15,21 @@ interface Session {
     transcribedText: string;
     analysis?: {
         overallBandScore: number;
-        wordCount: number;
-        wordsPerMinute: number;
-        fluencyAndCoherence?: {
+        wordCount?: number;
+        wordsPerMinute?: number;
+        fluencyAndCoherence: {
             score: number;
             feedback: string;
         };
-        lexicalResource?: {
+        lexicalResource: {
             score: number;
             feedback: string;
         };
-        grammaticalRangeAndAccuracy?: {
+        grammaticalRangeAndAccuracy: {
             score: number;
             feedback: string;
         };
-        improvedText: string;
+        improvedText?: string;
     };
     status: string;
     createdAt: string;
@@ -49,7 +49,7 @@ const ProgressPage: React.FC = () => {
             try {
                 setIsLoading(true);
                 const response = await getUserSessions(token);
-                setSessions(response.data || []);
+                setSessions(response.data);
                 setError('');
             } catch (err) {
                 console.error('Error fetching sessions:', err);
@@ -71,7 +71,7 @@ const ProgressPage: React.FC = () => {
                 staggerChildren: 0.1,
             }
         }
-    };
+    } as const;
 
     const itemVariants = {
         hidden: { opacity: 0, y: 30 },
@@ -83,10 +83,10 @@ const ProgressPage: React.FC = () => {
                 ease: "easeOut"
             }
         }
-    };
+    } as const;
 
     // Filter sessions with analysis data for the chart
-    const sessionsWithAnalysis = sessions.filter(session => 
+    const sessionsWithAnalysis = sessions.filter(session =>
         session.analysis?.overallBandScore && session.status === 'completed'
     );
 
@@ -106,22 +106,17 @@ const ProgressPage: React.FC = () => {
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12"
+                className="relative z-10 py-8 lg:py-12"
             >
                 {/* Header */}
                 <motion.div
                     variants={itemVariants}
-                    className="text-center mb-12"
+                    className="text-center mb-12 px-4 sm:px-6 lg:px-8"
                 >
-                    <div className="flex items-center justify-center space-x-3 mb-6">
-                        <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                            <FaChartLine className="text-white text-xl" />
-                        </div>
-                        <h1 className="text-3xl lg:text-4xl font-bold text-zinc-100">
-                            Your Progress Journey
-                        </h1>
-                    </div>
-                    <p className="text-lg text-zinc-300 max-w-2xl mx-auto">
+                    <h1 className="text-3xl lg:text-4xl font-bold text-zinc-100 mb-6">
+                        Your Progress Over Time
+                    </h1>
+                    <p className="text-lg text-zinc-300">
                         Track your IELTS Speaking improvement across all scoring criteria and see how far you've come.
                     </p>
                 </motion.div>
@@ -191,7 +186,7 @@ const ProgressPage: React.FC = () => {
                 {sessionsWithAnalysis.length >= 2 && (
                     <motion.div
                         variants={itemVariants}
-                        className="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+                        className="mt-12 px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 lg:grid-cols-4 gap-6"
                     >
                         {[
                             {

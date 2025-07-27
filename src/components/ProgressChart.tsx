@@ -7,15 +7,21 @@ interface Session {
     createdAt: string;
     analysis?: {
         overallBandScore: number;
-        fluencyAndCoherence?: {
+        wordCount?: number;
+        wordsPerMinute?: number;
+        fluencyAndCoherence: {
             score: number;
+            feedback: string;
         };
-        lexicalResource?: {
+        lexicalResource: {
             score: number;
+            feedback: string;
         };
-        grammaticalRangeAndAccuracy?: {
+        grammaticalRangeAndAccuracy: {
             score: number;
+            feedback: string;
         };
+        improvedText?: string;
     };
     status: string;
 }
@@ -37,10 +43,10 @@ const ProgressChart: React.FC<ProgressChartProps> = React.memo(({ sessions }) =>
                 date: new Date(session.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                 // The score to be plotted on the y-axis
                 'Overall Band Score': session.analysis?.overallBandScore || 0,
-                // We can also add sub-scores for more detailed charts later!
-                'Fluency': session.analysis?.fluencyAndCoherence?.score || 0,
-                'Lexical': session.analysis?.lexicalResource?.score || 0,
-                'Grammar': session.analysis?.grammaticalRangeAndAccuracy?.score || 0,
+                // Individual IELTS criteria scores - now available from backend
+                'Fluency': session.analysis?.fluencyAndCoherence.score || 0,
+                'Lexical': session.analysis?.lexicalResource.score || 0,
+                'Grammar': session.analysis?.grammaticalRangeAndAccuracy.score || 0,
             }));
     }, [sessions]);
 
@@ -50,18 +56,10 @@ const ProgressChart: React.FC<ProgressChartProps> = React.memo(({ sessions }) =>
     }
 
     return (
-        <div className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-8">
-            <h3 className="text-2xl font-bold text-zinc-100 mb-6 flex items-center space-x-3">
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                </div>
-                <span>Your Progress Over Time</span>
-            </h3>
-            
-            <div className="bg-zinc-800/30 rounded-xl p-4">
-                <ResponsiveContainer width="100%" height={300}>
+        <div className="space-y-8">
+            {/* Chart - Free from container constraints */}
+            <div className="bg-zinc-800/30 rounded-xl p-6">
+                <ResponsiveContainer width="100%" height={400}>
                     <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#4a4a4a" opacity={0.3} />
                         <XAxis 
@@ -182,7 +180,7 @@ const ProgressChart: React.FC<ProgressChartProps> = React.memo(({ sessions }) =>
                     </LineChart>
                 </ResponsiveContainer>
             </div>
-            
+
             {/* Progress Summary */}
             <div className="mt-6 space-y-6">
                 {/* Overall Stats */}

@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { motion } from 'framer-motion';
 import {
-    FaGraduationCap,
     FaCheck,
     FaCrown,
     FaRocket,
@@ -11,10 +10,8 @@ import {
     FaMicrophone,
     FaHeadphones,
     FaLifeRing,
-    FaStar,
     FaInfinity,
-    FaChevronDown,
-    FaChevronUp
+    FaChevronDown
 } from 'react-icons/fa';
 import Navigation from '../components/Navigation';
 
@@ -117,9 +114,6 @@ const PricingPage: React.FC = () => {
                         className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-6 md:p-8 relative"
                     >
                         <div className="text-center mb-6 md:mb-8">
-                            <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-zinc-600 to-zinc-700 rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4">
-                                <FaGraduationCap className="text-white text-lg md:text-2xl" />
-                            </div>
                             <h3 className="text-xl md:text-2xl font-bold text-zinc-100 mb-2">Free</h3>
                             <div className="text-3xl md:text-4xl font-bold text-zinc-100 mb-2">
                                 $0
