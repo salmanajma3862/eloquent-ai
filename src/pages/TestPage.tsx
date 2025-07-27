@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useUserStore } from '../store/userStore';
 import { testApi, transcribeAudioFile } from '../lib/api';
@@ -13,13 +13,17 @@ interface Topic {
 
 const TestPage: React.FC = () => {
     const navigate = useNavigate();
-    const { token } = useUserStore();
+    const { token, userInfo } = useUserStore();
+
+    // Determine user plan and max duration
+    const isPremiumUser = userInfo?.subscription.plan === 'premium';
+    const MAX_DURATION = isPremiumUser ? 120 : 60; // 120s for premium, 60s for free
 
     // State management
     const [topic, setTopic] = useState<string>('');
     const [transcript, setTranscript] = useState<string>('');
     const [isRecording, setIsRecording] = useState<boolean>(false);
-    const [timer, setTimer] = useState<number>(120); // 2 minutes
+    const [timer, setTimer] = useState<number>(MAX_DURATION);
     const [status, setStatus] = useState<string>('Loading Topic...');
 
     // Refs for media handling
@@ -86,8 +90,8 @@ const TestPage: React.FC = () => {
                 return;
             }
 
-            if (timer !== 120) {
-                setTimer(120); // Reset timer if it was modified
+            if (timer !== MAX_DURATION) {
+                setTimer(MAX_DURATION); // Reset timer if it was modified
             }
 
             setStatus('Requesting microphone access...');
@@ -355,6 +359,17 @@ const TestPage: React.FC = () => {
                             {formatTime(timer)}
                         </div>
                         <p className="text-zinc-400">Time remaining</p>
+
+                        {/* --- NEW: UI Message for Free Users --- */}
+                        {!isPremiumUser && (
+                            <div className="text-center mt-4 p-3 bg-yellow-900/50 text-yellow-300 border border-yellow-700 rounded-lg">
+                                <p className="mb-2">Free accounts are limited to a 1-minute recording.</p>
+                                <Link to="/pricing" className="font-bold underline hover:text-white transition-colors">
+                                    Upgrade for 2-minute tests!
+                                </Link>
+                            </div>
+                        )}
+                        {/* ------------------------------------ */}
                     </div>
 
                     {/* Status */}
