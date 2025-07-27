@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -21,6 +21,24 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
     const navigate = useNavigate();
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isOpen]);
 
     const handleLogout = () => {
         logout();
@@ -89,46 +107,44 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
                         </div>
 
                         {/* Mobile Hamburger Button */}
-                        <button
-                            className="md:hidden p-2 text-zinc-300 hover:text-white transition-colors duration-200"
-                            onClick={() => setIsOpen(!isOpen)}
-                            aria-label="Toggle menu"
-                        >
-                            {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
-                        </button>
-                    </div>
-
-                    {/* Mobile Navigation Menu */}
-                    <AnimatePresence>
-                        {isOpen && (
-                            <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="md:hidden border-t border-zinc-700/50 mt-4 pt-4 pb-4"
+                        <div className="md:hidden relative" ref={menuRef}>
+                            <button
+                                className="p-2 text-zinc-300 hover:text-white transition-colors duration-200"
+                                onClick={() => setIsOpen(!isOpen)}
+                                aria-label="Toggle menu"
                             >
-                                <div className="flex flex-col space-y-3">
-                                    <motion.button
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        onClick={handleSignIn}
-                                        className="w-full text-left px-4 py-3 text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all duration-200"
+                                {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+                            </button>
+
+                            {/* Mobile Navigation Dropdown */}
+                            <AnimatePresence>
+                                {isOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                                        exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="absolute right-0 top-full mt-2 w-48 bg-zinc-900/95 backdrop-blur-xl rounded-xl border border-zinc-700/50 shadow-2xl py-2 z-50"
                                     >
-                                        Sign In
-                                    </motion.button>
-                                    <motion.button
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        onClick={handleGetStarted}
-                                        className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-lg font-semibold transition-all duration-300"
-                                    >
-                                        Get Started
-                                    </motion.button>
-                                </div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
+                                        <div className="px-2 space-y-1">
+                                            <button
+                                                onClick={handleSignIn}
+                                                className="w-full text-left px-3 py-2 text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all duration-200 text-sm"
+                                            >
+                                                Sign In
+                                            </button>
+                                            <button
+                                                onClick={handleGetStarted}
+                                                className="w-full text-left px-3 py-2 text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all duration-200 text-sm"
+                                            >
+                                                Get Started
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </div>
                 </div>
             </motion.nav>
         );
@@ -209,73 +225,73 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
                     </div>
 
                     {/* Mobile Hamburger Button */}
-                    <button
-                        className="md:hidden p-2 text-zinc-300 hover:text-white transition-colors duration-200"
-                        onClick={() => setIsOpen(!isOpen)}
-                        aria-label="Toggle menu"
-                    >
-                        {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
-                    </button>
-                </div>
-
-                {/* Mobile Navigation Menu */}
-                <AnimatePresence>
-                    {isOpen && (
-                        <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="md:hidden border-t border-zinc-700/50 mt-4 pt-4 pb-4"
+                    <div className="md:hidden relative" ref={menuRef}>
+                        <button
+                            className="p-2 text-zinc-300 hover:text-white transition-colors duration-200"
+                            onClick={() => setIsOpen(!isOpen)}
+                            aria-label="Toggle menu"
                         >
-                            <div className="flex flex-col space-y-3">
-                                {/* Navigation Links */}
-                                {navItems.map((item) => {
-                                    const Icon = item.icon;
-                                    return (
-                                        <motion.button
-                                            key={item.path}
-                                            whileHover={{ scale: 1.02 }}
-                                            whileTap={{ scale: 0.98 }}
-                                            onClick={() => handleNavigation(item.path)}
-                                            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                                                isCurrentPath(item.path)
-                                                    ? 'bg-blue-600/20 border border-blue-600/30 text-blue-400'
-                                                    : 'text-zinc-300 hover:text-white hover:bg-zinc-800/50'
-                                            }`}
-                                        >
-                                            <Icon className="text-sm" />
-                                            <span>{item.label}</span>
-                                        </motion.button>
-                                    );
-                                })}
+                            {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+                        </button>
 
-                                {/* Back Button (if needed) */}
-                                {showBackButton && (
-                                    <motion.button
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        onClick={() => navigate(backButtonPath)}
-                                        className="w-full flex items-center space-x-3 px-4 py-3 text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all duration-200"
-                                    >
-                                        <FaArrowLeft className="text-sm" />
-                                        <span>{backButtonText}</span>
-                                    </motion.button>
-                                )}
-
-                                {/* Logout Button */}
-                                <motion.button
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    onClick={handleLogout}
-                                    className="w-full px-4 py-3 bg-red-600/20 hover:bg-red-600/30 text-red-400 rounded-lg border border-red-600/30 transition-all duration-300"
+                        {/* Mobile Navigation Dropdown */}
+                        <AnimatePresence>
+                            {isOpen && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="absolute right-0 top-full mt-2 w-48 bg-zinc-900/95 backdrop-blur-xl rounded-xl border border-zinc-700/50 shadow-2xl py-2 z-50"
                                 >
-                                    Logout
-                                </motion.button>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                                    <div className="px-2 space-y-1">
+                                        {/* Navigation Links */}
+                                        {navItems.map((item) => {
+                                            const Icon = item.icon;
+                                            return (
+                                                <button
+                                                    key={item.path}
+                                                    onClick={() => handleNavigation(item.path)}
+                                                    className={`w-full flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 text-sm ${
+                                                        isCurrentPath(item.path)
+                                                            ? 'bg-blue-600/20 text-blue-400'
+                                                            : 'text-zinc-300 hover:text-white hover:bg-zinc-800/50'
+                                                    }`}
+                                                >
+                                                    <Icon className="text-xs" />
+                                                    <span>{item.label}</span>
+                                                </button>
+                                            );
+                                        })}
+
+                                        {/* Back Button (if needed) */}
+                                        {showBackButton && (
+                                            <>
+                                                <div className="border-t border-zinc-700/50 my-1"></div>
+                                                <button
+                                                    onClick={() => navigate(backButtonPath)}
+                                                    className="w-full flex items-center space-x-2 px-3 py-2 text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all duration-200 text-sm"
+                                                >
+                                                    <FaArrowLeft className="text-xs" />
+                                                    <span>{backButtonText}</span>
+                                                </button>
+                                            </>
+                                        )}
+
+                                        {/* Logout Button */}
+                                        <div className="border-t border-zinc-700/50 my-1"></div>
+                                        <button
+                                            onClick={handleLogout}
+                                            className="w-full text-left px-3 py-2 text-red-400 hover:bg-red-600/20 rounded-lg transition-all duration-200 text-sm"
+                                        >
+                                            Logout
+                                        </button>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+                </div>
             </div>
         </motion.nav>
     );
