@@ -320,7 +320,7 @@ const TestPage: React.FC = () => {
     return (
         <div className="min-h-screen bg-black">
             {/* Navigation */}
-            <Navigation variant="dashboard" showBackButton={true} backButtonText="Back to Dashboard" />
+            <Navigation variant="dashboard" />
 
             {/* Main Content */}
             <motion.div

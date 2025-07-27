@@ -2,25 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaArrowLeft, FaBars, FaTimes, FaUser, FaChartLine, FaDollarSign, FaChartBar } from 'react-icons/fa';
+import { FaBars, FaTimes, FaUser, FaChartLine, FaDollarSign, FaChartBar } from 'react-icons/fa';
+import ConfirmationModal from './ConfirmationModal';
 
 interface NavigationProps {
     variant?: 'landing' | 'dashboard';
-    showBackButton?: boolean;
-    backButtonText?: string;
-    backButtonPath?: string;
 }
 
 const Navigation: React.FC<NavigationProps> = React.memo(({
-    variant = 'dashboard',
-    showBackButton = false,
-    backButtonText = 'Back to Dashboard',
-    backButtonPath = '/dashboard'
+    variant = 'dashboard'
 }) => {
-    const { userInfo, logout } = useUserStore();
+    const { logout } = useUserStore();
     const navigate = useNavigate();
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
     // Close menu when clicking outside
@@ -41,9 +37,14 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
     }, [isOpen]);
 
     const handleLogout = () => {
+        setShowLogoutModal(true);
+        setIsOpen(false);
+    };
+
+    const confirmLogout = () => {
         logout();
         navigate('/login');
-        setIsOpen(false);
+        setShowLogoutModal(false);
     };
 
     const handleSignIn = () => {
@@ -66,7 +67,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
         { path: '/dashboard', label: 'Dashboard', icon: FaChartLine },
         { path: '/progress', label: 'Progress', icon: FaChartBar },
         { path: '/profile', label: 'Profile', icon: FaUser },
-        { path: '/pricing', label: 'Pricing', icon: FaDollarSign },
+        { path: '/pricing', label: 'Upgrade', icon: FaDollarSign },
     ];
 
     const isCurrentPath = (path: string) => location.pathname === path;
@@ -198,18 +199,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
                             })}
                         </div>
 
-                        {/* Back Button (if needed) */}
-                        {showBackButton && (
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => navigate(backButtonPath)}
-                                className="flex items-center space-x-2 px-4 py-2 bg-zinc-800/50 hover:bg-zinc-700/50 rounded-xl border border-zinc-600/30 transition-all duration-300"
-                            >
-                                <FaArrowLeft className="text-sm" />
-                                <span>{backButtonText}</span>
-                            </motion.button>
-                        )}
+
 
                         {/* Logout Button */}
                         <motion.button
@@ -262,19 +252,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
                                             );
                                         })}
 
-                                        {/* Back Button (if needed) */}
-                                        {showBackButton && (
-                                            <>
-                                                <div className="border-t border-zinc-700/50 my-1"></div>
-                                                <button
-                                                    onClick={() => navigate(backButtonPath)}
-                                                    className="w-full flex items-center space-x-2 px-3 py-2 text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all duration-200 text-sm"
-                                                >
-                                                    <FaArrowLeft className="text-xs" />
-                                                    <span>{backButtonText}</span>
-                                                </button>
-                                            </>
-                                        )}
+
 
                                         {/* Logout Button */}
                                         <div className="border-t border-zinc-700/50 my-1"></div>
@@ -291,14 +269,23 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
                     </div>
                 </div>
             </div>
+
+            {/* Logout Confirmation Modal */}
+            <ConfirmationModal
+                isOpen={showLogoutModal}
+                onClose={() => setShowLogoutModal(false)}
+                onConfirm={confirmLogout}
+                title="Confirm Logout"
+                message="Are you sure you want to logout? You'll need to sign in again to access your account."
+                confirmText="Logout"
+                cancelText="Stay Logged In"
+                type="danger"
+            />
         </motion.nav>
     );
 }, (prevProps, nextProps) => {
     // Only re-render if props actually change
-    return prevProps.variant === nextProps.variant &&
-           prevProps.showBackButton === nextProps.showBackButton &&
-           prevProps.backButtonText === nextProps.backButtonText &&
-           prevProps.backButtonPath === nextProps.backButtonPath;
+    return prevProps.variant === nextProps.variant;
 });
 
 export default Navigation;

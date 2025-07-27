@@ -161,7 +161,7 @@ const AnalysisPage: React.FC = () => {
             </div>
 
             {/* Navigation */}
-            <Navigation variant="dashboard" showBackButton={true} backButtonText="Back to Dashboard" />
+            <Navigation variant="dashboard" />
 
             {/* Main Content */}
             <motion.div

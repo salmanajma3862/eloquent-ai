@@ -99,7 +99,7 @@ const ProgressPage: React.FC = () => {
             </div>
 
             {/* Navigation */}
-            <Navigation variant="dashboard" showBackButton={true} backButtonText="Back to Dashboard" backButtonPath="/dashboard" />
+            <Navigation variant="dashboard" />
 
             {/* Main Content */}
             <motion.div

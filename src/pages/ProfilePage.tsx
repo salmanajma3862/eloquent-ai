@@ -51,7 +51,7 @@ const ProfilePage: React.FC = () => {
             <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent" />
 
             {/* Navigation */}
-            <Navigation variant="dashboard" showBackButton={true} backButtonText="Back to Dashboard" />
+            <Navigation variant="dashboard" />
 
             {/* Main Content */}
             <motion.div
