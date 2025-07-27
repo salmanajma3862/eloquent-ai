@@ -26,7 +26,7 @@ const TermsOfServicePage: React.FC = () => {
             y: 0,
             transition: {
                 duration: 0.5,
-                ease: "easeOut"
+                ease: [0.25, 0.46, 0.45, 0.94] as const
             }
         }
     };
@@ -74,101 +74,116 @@ const TermsOfServicePage: React.FC = () => {
                 >
                     <div className="prose prose-invert prose-zinc max-w-none">
                         <div className="space-y-8 text-zinc-200 leading-relaxed">
-                            <div>
-                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">Acceptance of Terms</h2>
-                                <p>
-                                    By accessing and using Eloquent AI, you accept and agree to be bound by the terms 
-                                    and provision of this agreement. If you do not agree to abide by the above, please 
-                                    do not use this service.
-                                </p>
+
+                            {/* Introduction */}
+                            <div className="text-center pb-6 border-b border-zinc-700">
+                                <p className="text-sm text-zinc-400 mb-2">Last updated July 27, 2025</p>
                             </div>
 
+                            {/* Introduction Section */}
                             <div>
-                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">Service Description</h2>
+                                <p className="mb-6 text-lg">
+                                    Welcome to <strong className="text-zinc-100">Eloquent AI</strong>! These terms and conditions outline the rules and regulations for the use of our application.
+                                </p>
                                 <p className="mb-4">
-                                    Eloquent AI provides AI-powered IELTS speaking practice and assessment services. Our platform includes:
+                                    By accessing this application, we assume you accept these terms and conditions. Do not continue to use Eloquent AI if you do not agree to all of the terms and conditions stated on this page.
                                 </p>
-                                <ul className="list-disc list-inside space-y-2 ml-4">
-                                    <li>Speaking practice sessions with AI feedback</li>
-                                    <li>Performance analytics and progress tracking</li>
-                                    <li>Audio recording and transcription services</li>
-                                    <li>Personalized improvement recommendations</li>
-                                </ul>
                             </div>
 
-                            <div>
-                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">User Responsibilities</h2>
+
+                            {/* Section 1 */}
+                            <div id="section1">
+                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">1. Accounts</h2>
                                 <p className="mb-4">
-                                    As a user of our service, you agree to:
+                                    When you create an account with us, you must provide us with information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our Service.
                                 </p>
-                                <ul className="list-disc list-inside space-y-2 ml-4">
-                                    <li>Provide accurate and complete information when creating your account</li>
-                                    <li>Use the service only for legitimate IELTS practice purposes</li>
-                                    <li>Not share your account credentials with others</li>
-                                    <li>Respect intellectual property rights</li>
-                                    <li>Not attempt to reverse engineer or hack our systems</li>
-                                </ul>
-                            </div>
-
-                            <div>
-                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">Subscription and Billing</h2>
                                 <p className="mb-4">
-                                    Our service offers both free and premium subscription tiers:
-                                </p>
-                                <ul className="list-disc list-inside space-y-2 ml-4">
-                                    <li>Free users receive limited practice sessions</li>
-                                    <li>Premium subscribers enjoy unlimited access to all features</li>
-                                    <li>Subscription fees are billed monthly and are non-refundable</li>
-                                    <li>You may cancel your subscription at any time</li>
-                                </ul>
-                            </div>
-
-                            <div>
-                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">Intellectual Property</h2>
-                                <p>
-                                    All content, features, and functionality of Eloquent AI are owned by us and are 
-                                    protected by copyright, trademark, and other intellectual property laws. You may 
-                                    not reproduce, distribute, or create derivative works without our express permission.
+                                    You are responsible for safeguarding the password that you use to access the Service and for any activities or actions under your password. You agree not to disclose your password to any third party.
                                 </p>
                             </div>
 
-                            <div>
-                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">Limitation of Liability</h2>
-                                <p>
-                                    Eloquent AI is provided "as is" without warranties of any kind. We shall not be 
-                                    liable for any indirect, incidental, special, or consequential damages arising 
-                                    from your use of our service.
+
+                            {/* Section 2 */}
+                            <div id="section2">
+                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">2. User-Generated Content</h2>
+                                <p className="mb-4">
+                                    Our Service allows you to create, record, and store content, including audio recordings and their transcriptions ("User Content"). You retain any and all of your rights to any User Content you submit.
+                                </p>
+                                <p className="mb-4">
+                                    By using the Service, you grant us a license to use, process, and display your User Content solely for the purpose of providing and improving the Service for you. We will not share your personal User Content with any third party without your consent.
                                 </p>
                             </div>
 
-                            <div>
-                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">Termination</h2>
-                                <p>
-                                    We reserve the right to terminate or suspend your account at any time for violations 
-                                    of these terms or for any other reason at our sole discretion.
+
+                            {/* Section 3 */}
+                            <div id="section3">
+                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">3. Subscriptions, Cancellations, and Refunds</h2>
+                                <p className="mb-4">
+                                    Some parts of the Service are billed on a subscription basis. You will be billed in advance on a recurring and periodic basis ("Billing Cycle").
+                                </p>
+
+                                <h3 className="text-xl font-semibold text-zinc-100 mb-3">Cancellation</h3>
+                                <p className="mb-4">
+                                    You may cancel your subscription at any time. Your subscription will remain active until the end of your current Billing Cycle, and you will not be charged for the next cycle.
+                                </p>
+
+                                <h3 className="text-xl font-semibold text-zinc-100 mb-3">Refund Policy</h3>
+                                <p className="mb-4">
+                                    <strong className="text-zinc-100">All payments are non-refundable.</strong> We do not provide refunds or credits for any partial subscription periods or unused time. You may cancel your subscription at any time to prevent future charges, but payments already made are final. All purchases are final.
                                 </p>
                             </div>
 
-                            <div>
-                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">Changes to Terms</h2>
-                                <p>
-                                    We reserve the right to modify these terms at any time. Changes will be effective 
-                                    immediately upon posting. Your continued use of the service constitutes acceptance 
-                                    of the modified terms.
+
+                            {/* Section 4 */}
+                            <div id="section4">
+                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">4. Acceptable Use</h2>
+                                <p className="mb-4">
+                                    You agree not to use the Service for any unlawful purpose or any purpose prohibited under this clause. You agree not to use the Service in any way that could damage the Service, the services of any third party, or the general business of Eloquent AI.
                                 </p>
                             </div>
 
-                            <div>
-                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">Contact Information</h2>
-                                <p>
-                                    If you have any questions about these Terms of Service, please contact us at 
-                                    legal@eloquent-ai.com
+
+                            {/* Section 5 */}
+                            <div id="section5">
+                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">5. Termination</h2>
+                                <p className="mb-4">
+                                    We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.
+                                </p>
+                            </div>
+
+
+                            {/* Section 6 */}
+                            <div id="section6">
+                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">6. Limitation of Liability</h2>
+                                <p className="mb-4">
+                                    In no event shall Eloquent AI, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the Service.
+                                </p>
+                                <p className="mb-4">
+                                    <strong className="text-zinc-100">The AI-generated feedback is provided for educational purposes only and is not guaranteed to be perfectly accurate.</strong>
+                                </p>
+                            </div>
+
+
+                            {/* Section 7 */}
+                            <div id="section7">
+                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">7. Changes to Terms</h2>
+                                <p className="mb-4">
+                                    We reserve the right, at our sole discretion, to modify or replace these Terms at any time. We will provide at least 30 days' notice prior to any new terms taking effect.
+                                </p>
+                            </div>
+
+
+                            {/* Section 8 */}
+                            <div id="section8">
+                                <h2 className="text-2xl font-bold text-zinc-100 mb-4">8. Contact Us</h2>
+                                <p className="mb-4">
+                                    If you have any questions about these Terms, please contact us at <a href="mailto:businesscontact422@gmail.com" className="text-blue-400 hover:text-blue-300 underline">businesscontact422@gmail.com</a>.
                                 </p>
                             </div>
 
                             <div className="pt-6 border-t border-zinc-700">
                                 <p className="text-sm text-zinc-400">
-                                    Last updated: January 2025
+                                    Last updated: July 27, 2025
                                 </p>
                             </div>
                         </div>
