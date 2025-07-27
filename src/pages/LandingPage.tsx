@@ -67,15 +67,16 @@ const LandingPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-black overflow-hidden">
+        <div className="min-h-screen bg-gradient-to-br from-black via-zinc-900 to-black overflow-hidden">
             {/* Navigation */}
             <Navigation variant="landing" />
 
             {/* Hero Section */}
             <section ref={heroRef} className="relative min-h-screen flex items-center justify-center pt-16">
-                {/* Animated Background */}
-                <div className="absolute inset-0 overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5" />
+                {/* Static Background Elements */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-full blur-3xl" />
+                    <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-full blur-3xl" />
                     {/* Animated Sound Waves */}
                     <motion.div
                         animate={{
@@ -115,7 +116,7 @@ const LandingPage: React.FC = () => {
                             variants={fadeInUp}
                             className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight tracking-tight"
                         >
-                            <span className="bg-gradient-to-r from-zinc-100 via-zinc-200 to-zinc-100 bg-clip-text text-transparent">
+                            <span className="text-zinc-100">
                                 Master IELTS Speaking
                             </span>
                             <br />
@@ -128,7 +129,7 @@ const LandingPage: React.FC = () => {
                             variants={fadeInUp}
                             className="text-base sm:text-lg md:text-xl text-zinc-300 max-w-3xl mx-auto leading-relaxed"
                         >
-                            Transform your speaking anxiety into <span className="text-blue-400 font-semibold">unshakeable confidence</span>. 
+                            Transform your speaking anxiety into <span className="text-blue-400 font-semibold">unshakeable confidence</span>.
                             Get instant, expert-level feedback from your personal AI coach, available 24/7.
                         </motion.p>
 
@@ -156,7 +157,7 @@ const LandingPage: React.FC = () => {
 
                         <motion.div
                             variants={fadeInUp}
-                            className="pt-12 text-zinc-500"
+                            className="pt-12 text-zinc-400"
                         >
                             <p className="text-sm">No credit card required • Start practicing immediately</p>
                         </motion.div>
@@ -232,7 +233,9 @@ const LandingPage: React.FC = () => {
 
             {/* Solution Section */}
             <section ref={solutionRef} className="py-24 relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5" />
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-full blur-3xl" />
+                </div>
                 <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial="hidden"
@@ -255,7 +258,7 @@ const LandingPage: React.FC = () => {
 
                         <motion.div
                             variants={scaleIn}
-                            className="bg-zinc-900/50 backdrop-blur-sm rounded-3xl border border-zinc-700/50 p-8 md:p-12 max-w-4xl mx-auto hover:bg-zinc-900/70 hover:border-zinc-600/50 transition-all duration-500"
+                            className="bg-zinc-900/40 backdrop-blur-xl rounded-3xl border border-zinc-700/30 shadow-2xl p-8 md:p-12 max-w-4xl mx-auto hover:border-zinc-600/50 transition-all duration-500"
                         >
                             <div className="grid md:grid-cols-2 gap-8 items-center">
                                 <div className="space-y-6 text-left">
@@ -366,7 +369,7 @@ const LandingPage: React.FC = () => {
                                     variants={cardVariants}
                                     transition={{ delay: index * 0.2 }}
                                     whileHover={{ scale: 1.05, y: -10 }}
-                                    className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 p-8 text-center hover:border-blue-500/50 transition-all duration-300 group"
+                                    className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-8 text-center hover:border-blue-500/50 transition-all duration-300 group"
                                 >
                                     <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-white group-hover:bg-blue-500 transition-colors duration-300">
                                         {feature.icon}
@@ -382,7 +385,9 @@ const LandingPage: React.FC = () => {
 
             {/* Social Proof Section */}
             <section ref={socialProofRef} className="py-24 relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-blue-500/5" />
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-purple-600/10 to-pink-600/10 rounded-full blur-3xl" />
+                </div>
                 <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial="hidden"
@@ -424,7 +429,7 @@ const LandingPage: React.FC = () => {
                                     key={index}
                                     variants={cardVariants}
                                     transition={{ delay: index * 0.2 }}
-                                    className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-700/50 p-6 sm:p-8 relative hover:bg-zinc-900/70 hover:border-zinc-600/50 transition-all duration-300 group"
+                                    className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-6 sm:p-8 relative hover:border-zinc-600/50 transition-all duration-300 group"
                                 >
                                     <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
                                         <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-semibold shadow-lg shadow-blue-500/25 border border-blue-500/20 group-hover:shadow-blue-500/40 group-hover:scale-105 transition-all duration-300">
@@ -454,7 +459,9 @@ const LandingPage: React.FC = () => {
 
             {/* Final CTA Section */}
             <section ref={finalCtaRef} className="py-24 relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5" />
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-full blur-3xl" />
+                </div>
                 <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <motion.div
                         initial="hidden"
