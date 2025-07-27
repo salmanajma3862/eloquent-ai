@@ -79,36 +79,40 @@ const SessionCard: React.FC<SessionCardProps> = React.memo(({ session }) => {
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                 <div className="relative z-10">
-                    {/* Header with topic and score */}
-                    <div className="flex justify-between items-start mb-6">
-                        <div className="flex-1 min-w-0">
-                            <div className="flex items-center space-x-2 mb-3">
-                                <FaChartLine className="text-blue-400 text-sm" />
-                                <span className="text-xs text-zinc-400 font-medium uppercase tracking-wide">IELTS Speaking Test</span>
-                            </div>
-                            <h3 className="text-lg font-bold text-zinc-100 mb-3 group-hover:text-blue-300 transition-colors duration-300">
+                    {/* Small IELTS label at top */}
+                    <div className="flex items-center space-x-1 mb-2">
+                        <FaChartLine className="text-blue-400 text-xs" />
+                        <span className="text-xs text-zinc-500 font-medium uppercase tracking-wide">IELTS Speaking Test</span>
+                    </div>
+
+                    {/* Topic and Score in same row */}
+                    <div className="flex justify-between items-start mb-3">
+                        <div className="flex-1 min-w-0 pr-3">
+                            <h3 className="text-lg font-bold text-zinc-100 group-hover:text-blue-300 transition-colors duration-300">
                                 <span className="block truncate">
                                     {session.topicText}
                                 </span>
                             </h3>
-                            <div className="flex items-center space-x-2 text-zinc-400 text-sm">
-                                <FaCalendarAlt className="text-xs" />
-                                <span>{formatDate(session.createdAt)}</span>
-                            </div>
                         </div>
 
                         {/* Score Badge */}
                         {session.analysis?.overallBandScore && (
                             <motion.div
                                 whileHover={{ scale: 1.1, rotate: 5 }}
-                                className="ml-4 flex-shrink-0"
+                                className="flex-shrink-0"
                             >
-                                <div className={`bg-gradient-to-r ${getBandScoreColor(session.analysis.overallBandScore)} text-white px-4 py-2 rounded-xl text-sm font-bold shadow-lg flex items-center space-x-1`}>
+                                <div className={`bg-gradient-to-r ${getBandScoreColor(session.analysis.overallBandScore)} text-white px-3 py-1.5 rounded-xl text-sm font-bold shadow-lg flex items-center space-x-1`}>
                                     <FaTrophy className="text-xs" />
                                     <span>{session.analysis.overallBandScore}</span>
                                 </div>
                             </motion.div>
                         )}
+                    </div>
+
+                    {/* Date below */}
+                    <div className="flex items-center space-x-2 text-zinc-400 text-sm mb-4">
+                        <FaCalendarAlt className="text-xs" />
+                        <span>{formatDate(session.createdAt)}</span>
                     </div>
 
                     {/* Audio Players and Status */}

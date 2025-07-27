@@ -125,7 +125,7 @@ const DashboardPage: React.FC = () => {
                 {/* Hero Welcome Section */}
                 <motion.div
                     variants={cardVariants}
-                    className="bg-gradient-to-br from-zinc-900/60 via-zinc-800/40 to-zinc-900/60 backdrop-blur-xl rounded-3xl border border-zinc-700/30 shadow-2xl p-8 lg:p-12 mb-8 mx-4 sm:mx-6 lg:mx-8 text-center relative overflow-hidden"
+                    className="bg-gradient-to-br from-zinc-900/60 via-zinc-800/40 to-zinc-900/60 backdrop-blur-xl rounded-3xl border border-zinc-700/30 shadow-2xl p-6 lg:p-8 mb-6 mx-4 sm:mx-6 lg:mx-8 text-center relative overflow-hidden"
                 >
                     {/* Background Pattern */}
                     <div className="absolute inset-0 opacity-5">
@@ -137,10 +137,10 @@ const DashboardPage: React.FC = () => {
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-                            className="mb-8"
+                            className="mb-6"
                         >
-                            <FaTrophy className="text-4xl text-yellow-500 mx-auto mb-4" />
-                            <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-zinc-100 via-blue-200 to-purple-200 bg-clip-text text-transparent mb-4">
+                            <FaTrophy className="text-3xl text-yellow-500 mx-auto mb-3" />
+                            <h2 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-zinc-100 via-blue-200 to-purple-200 bg-clip-text text-transparent mb-3">
                                 Welcome back, {userInfo?.name}!
                             </h2>
                             <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
@@ -177,16 +177,16 @@ const DashboardPage: React.FC = () => {
                     ].map((stat, index) => (
                         <div
                             key={index}
-                            className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-6 text-center group hover:border-zinc-600/50 transition-all duration-300 animate-fade-in-up"
+                            className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-4 text-center group hover:border-zinc-600/50 transition-all duration-300 animate-fade-in-up"
                             style={{ animationDelay: `${0.4 + index * 0.1}s` }}
                         >
-                            <div className={`w-12 h-12 bg-gradient-to-r ${stat.gradient} rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                                <stat.icon className="text-white text-lg" />
+                            <div className={`w-10 h-10 bg-gradient-to-r ${stat.gradient} rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                                <stat.icon className="text-white text-sm" />
                             </div>
-                            <div className="text-3xl font-bold text-zinc-100 mb-2">
+                            <div className="text-2xl font-bold text-zinc-100 mb-1">
                                 {stat.value}
                             </div>
-                            <div className="text-zinc-400 font-medium">
+                            <div className="text-zinc-400 font-medium text-sm">
                                 {stat.label}
                             </div>
                         </div>
