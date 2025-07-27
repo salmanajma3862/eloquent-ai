@@ -148,7 +148,7 @@ const LandingPage: React.FC = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={handleSignIn}
-                                className="border border-zinc-600 hover:border-zinc-400 hover:bg-zinc-800/50 text-zinc-300 hover:text-zinc-100 px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-medium transition-all duration-300"
+                                className="bg-white text-black hover:bg-black hover:text-white border border-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold transition-all duration-300"
                             >
                                 Already have an account?
                             </motion.button>
@@ -326,7 +326,7 @@ const LandingPage: React.FC = () => {
                             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-zinc-100 tracking-tight">
                                 Everything you need to <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">succeed</span>
                             </h2>
-                            <p className="text-base text-zinc-300 max-w-3xl mx-auto">
+                            <p className="text-md md:text-xl text-zinc-300 max-w-3xl mx-auto">
                                 Comprehensive features designed to boost your confidence and maximize your IELTS speaking score.
                             </p>
                         </motion.div>
@@ -394,7 +394,7 @@ const LandingPage: React.FC = () => {
                             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-zinc-100 tracking-tight">
                                 Join the <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">success stories</span>
                             </h2>
-                            <p className="text-base text-zinc-300 max-w-3xl mx-auto">
+                            <p className="text-md md:text-xl text-zinc-300 max-w-3xl mx-auto">
                                 Students worldwide are achieving their target IELTS scores with Eloquent AI's personalized coaching.
                             </p>
                         </motion.div>
@@ -402,10 +402,10 @@ const LandingPage: React.FC = () => {
                         <div className="grid md:grid-cols-3 gap-8">
                             {[
                                 {
-                                    quote: "This was the key to my Band 8.5. The feedback was more detailed than any human tutor I've worked with.",
+                                    quote: "This was the key to my Band 8.0. The feedback was more detailed than any human tutor I've worked with.",
                                     author: "Sarah Chen",
                                     role: "Medical Student",
-                                    score: "8.5"
+                                    score: "8.0"
                                 },
                                 {
                                     quote: "I went from freezing up during practice to speaking confidently in my actual test. The AI coaching really works.",

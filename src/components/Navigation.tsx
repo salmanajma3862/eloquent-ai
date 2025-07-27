@@ -63,7 +63,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center">
-                            <h1 className="text-lg font-bold bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent tracking-tight">
+                            <h1 className="text-lg font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent tracking-tight">
                                 Eloquent AI
                             </h1>
                         </div>
@@ -74,7 +74,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={handleSignIn}
-                                className="px-4 py-2 text-zinc-300 hover:text-white transition-colors duration-200"
+                                className="px-6 py-2 bg-white text-black hover:bg-black hover:text-white border border-white rounded-xl font-semibold transition-all duration-300"
                             >
                                 Sign In
                             </motion.button>
@@ -154,7 +154,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
                         <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                             <FaGraduationCap className="text-white text-sm" />
                         </div>
-                        <h1 className="text-xl font-bold bg-gradient-to-r from-zinc-100 via-blue-200 to-purple-200 bg-clip-text text-transparent">
+                        <h1 className="text-xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent">
                             Eloquent AI
                         </h1>
                     </motion.div>
