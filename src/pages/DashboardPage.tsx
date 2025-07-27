@@ -120,12 +120,12 @@ const DashboardPage: React.FC = () => {
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12"
+                className="relative z-10 py-8 lg:py-12"
             >
                 {/* Hero Welcome Section */}
                 <motion.div
                     variants={cardVariants}
-                    className="bg-gradient-to-br from-zinc-900/60 via-zinc-800/40 to-zinc-900/60 backdrop-blur-xl rounded-3xl border border-zinc-700/30 shadow-2xl p-8 lg:p-12 mb-8 text-center relative overflow-hidden"
+                    className="bg-gradient-to-br from-zinc-900/60 via-zinc-800/40 to-zinc-900/60 backdrop-blur-xl rounded-3xl border border-zinc-700/30 shadow-2xl p-8 lg:p-12 mb-8 mx-4 sm:mx-6 lg:mx-8 text-center relative overflow-hidden"
                 >
                     {/* Background Pattern */}
                     <div className="absolute inset-0 opacity-5">
@@ -153,7 +153,7 @@ const DashboardPage: React.FC = () => {
                 {/* Quick Stats Overview */}
                 <motion.div
                     variants={cardVariants}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+                    className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 mx-4 sm:mx-6 lg:mx-8"
                 >
                     {[
                         {
@@ -256,7 +256,7 @@ const DashboardPage: React.FC = () => {
                 {!isLoading && sessions.length >= 2 && sessions.some(s => s.analysis?.overallBandScore) && (
                     <motion.div
                         variants={cardVariants}
-                        className="mb-8"
+                        className="mb-8 mx-4 sm:mx-6 lg:mx-8"
                     >
                         <motion.div
                             whileHover={{ scale: 1.02, y: -5 }}
@@ -326,7 +326,7 @@ const DashboardPage: React.FC = () => {
                         variants={cardVariants}
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="bg-gradient-to-br from-zinc-800/50 to-zinc-800/30 border border-zinc-700/30 rounded-2xl p-12 text-center mb-8"
+                        className="bg-gradient-to-br from-zinc-800/50 to-zinc-800/30 border border-zinc-700/30 rounded-2xl p-12 mx-4 sm:mx-6 lg:mx-8 text-center mb-8"
                     >
                         <motion.div
                             initial={{ scale: 0 }}
@@ -386,84 +386,87 @@ const DashboardPage: React.FC = () => {
                     </motion.div>
                 )}
 
-                {/* Test History Section - Only show when loading, error, or has sessions */}
-                {(isLoading || error || (!isLoading && !error && sessions.length > 0)) && (
+                {/* Test History Title - Only show when there are sessions */}
+                {!isLoading && !error && sessions.length > 0 && (
                     <motion.div
                         variants={cardVariants}
-                        className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-8 mb-8"
+                        className="mx-4 sm:mx-6 lg:mx-8 mb-8"
                     >
-                        <div className="flex items-center space-x-3 mb-8">
+                        <div className="flex items-center space-x-3">
                             <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
                                 <FaClock className="text-white" />
                             </div>
                             <h3 className="text-2xl lg:text-3xl font-bold text-zinc-100">Your Test History</h3>
                         </div>
+                    </motion.div>
+                )}
 
-                        {/* Loading State */}
-                        {isLoading && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {[1, 2, 3].map((i) => (
-                                    <motion.div
-                                        key={i}
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: i * 0.1 }}
-                                        className="bg-zinc-800/50 backdrop-blur-sm rounded-2xl border border-zinc-700/30 p-6 animate-pulse"
-                                    >
-                                        <div className="h-4 bg-zinc-700 rounded mb-4"></div>
-                                        <div className="h-3 bg-zinc-700 rounded mb-2"></div>
-                                        <div className="h-3 bg-zinc-700 rounded w-2/3"></div>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        )}
-
-                        {/* Error State */}
-                        {error && !isLoading && (
+                {/* Loading State */}
+                {isLoading && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-4 sm:mx-6 lg:mx-8 mb-8">
+                        {[1, 2, 3].map((i) => (
                             <motion.div
+                                key={i}
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                className="bg-red-900/20 border border-red-500/30 rounded-xl p-8 text-center"
+                                transition={{ delay: i * 0.1 }}
+                                className="bg-zinc-800/50 rounded-xl p-6 animate-pulse"
                             >
-                                <motion.div
-                                    animate={{ rotate: [0, 10, -10, 0] }}
-                                    transition={{ duration: 0.5, repeat: 3 }}
-                                    className="text-red-400 mb-6"
-                                >
-                                    <svg className="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </motion.div>
-                                <h4 className="text-xl font-bold text-zinc-100 mb-4">Error Loading History</h4>
-                                <p className="text-red-400 mb-6">{error}</p>
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={() => window.location.reload()}
-                                    className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl transition-all duration-300 font-semibold shadow-lg"
-                                >
-                                    Try Again
-                                </motion.button>
+                                <div className="h-4 bg-zinc-700 rounded mb-4"></div>
+                                <div className="h-3 bg-zinc-700 rounded mb-2"></div>
+                                <div className="h-3 bg-zinc-700 rounded w-2/3"></div>
                             </motion.div>
-                        )}
+                        ))}
+                    </div>
+                )}
 
-                        {/* Sessions List */}
-                        {!isLoading && !error && sessions.length > 0 && (
-                            <motion.div
-                                variants={containerVariants}
-                                initial="hidden"
-                                animate="visible"
-                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                            >
-                                {sessions.map((session) => (
-                                    <motion.div key={session._id} variants={cardVariants}>
-                                        <Link to={`/analysis/${session._id}`}>
-                                            <SessionCard session={session} />
-                                        </Link>
-                                    </motion.div>
-                                ))}
+                {/* Error State */}
+                {error && !isLoading && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="bg-red-900/20 border border-red-500/30 rounded-xl p-8 mx-4 sm:mx-6 lg:mx-8 mb-8 text-center"
+                    >
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                            className="text-red-400 mb-6"
+                        >
+                            <svg className="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </motion.div>
+                        <h4 className="text-xl font-bold text-zinc-100 mb-4">Error Loading History</h4>
+                        <p className="text-red-400 mb-6">{error}</p>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => window.location.reload()}
+                            className="px-6 py-3 bg-red-600/20 hover:bg-red-600/30 text-red-400 rounded-xl border border-red-600/30 transition-all duration-300"
+                        >
+                            Try Again
+                        </motion.button>
+                    </motion.div>
+                )}
+
+
+
+                {/* Sessions List - Free from parent container */}
+                {!isLoading && !error && sessions.length > 0 && (
+                    <motion.div
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-4 sm:mx-6 lg:mx-8"
+                    >
+                        {sessions.map((session) => (
+                            <motion.div key={session._id} variants={cardVariants}>
+                                <Link to={`/analysis/${session._id}`}>
+                                    <SessionCard session={session} />
+                                </Link>
                             </motion.div>
-                        )}
+                        ))}
                     </motion.div>
                 )}
             </motion.div>
