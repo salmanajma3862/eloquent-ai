@@ -538,7 +538,7 @@ const LandingPage: React.FC = () => {
                             Your AI-powered path to IELTS speaking success
                         </p>
                         <div className="text-zinc-500 text-sm">
-                            © 2024 Eloquent AI. All rights reserved.
+                            © 2025 Eloquent AI. All rights reserved.
                         </div>
                     </div>
                 </div>
