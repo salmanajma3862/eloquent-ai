@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { FaRocket, FaTrophy, FaChartLine, FaClock, FaFileAlt, FaPlay } from 'react-icons/fa';
 import { getUserSessions } from '../lib/api';
 import SessionCard from '../components/SessionCard';
-import ProgressChart from '../components/ProgressChart';
+
 import Navigation from '../components/Navigation';
 
 interface Session {
@@ -252,13 +252,71 @@ const DashboardPage: React.FC = () => {
                     )}
                 </motion.div>
 
-                {/* Progress Chart Section */}
+                {/* Progress Link Section */}
                 {!isLoading && sessions.length >= 2 && sessions.some(s => s.analysis?.overallBandScore) && (
                     <motion.div
                         variants={cardVariants}
                         className="mb-8"
                     >
-                        <ProgressChart sessions={sessions} />
+                        <motion.div
+                            whileHover={{ scale: 1.02, y: -5 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => navigate('/progress')}
+                            className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-8 cursor-pointer hover:border-blue-500/50 transition-all duration-300 group"
+                        >
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center space-x-4">
+                                    <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                        <FaChartLine className="text-white text-xl" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-2xl font-bold text-zinc-100 group-hover:text-blue-300 transition-colors duration-300">
+                                            View Your Progress
+                                        </h3>
+                                        <p className="text-zinc-400 mt-1">
+                                            Track your improvement across all IELTS criteria
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="text-zinc-400 group-hover:text-blue-400 transition-colors duration-300">
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            {/* Quick Stats Preview */}
+                            <div className="mt-6 grid grid-cols-3 gap-4">
+                                <div className="bg-zinc-800/30 rounded-lg p-3 text-center">
+                                    <div className="text-lg font-bold text-blue-400">
+                                        {sessions.filter(s => s.analysis?.overallBandScore).length}
+                                    </div>
+                                    <div className="text-zinc-500 text-xs">Tests</div>
+                                </div>
+                                <div className="bg-zinc-800/30 rounded-lg p-3 text-center">
+                                    <div className="text-lg font-bold text-green-400">
+                                        {sessions.filter(s => s.analysis?.overallBandScore).length > 0
+                                            ? Math.max(...sessions.filter(s => s.analysis?.overallBandScore).map(s => s.analysis?.overallBandScore || 0)).toFixed(1)
+                                            : 'N/A'
+                                        }
+                                    </div>
+                                    <div className="text-zinc-500 text-xs">Best Score</div>
+                                </div>
+                                <div className="bg-zinc-800/30 rounded-lg p-3 text-center">
+                                    <div className="text-lg font-bold text-purple-400">
+                                        {sessions.filter(s => s.analysis?.overallBandScore).length > 1
+                                            ? (() => {
+                                                const validSessions = sessions.filter(s => s.analysis?.overallBandScore).sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+                                                const improvement = (validSessions[validSessions.length - 1].analysis?.overallBandScore || 0) - (validSessions[0].analysis?.overallBandScore || 0);
+                                                return `${improvement >= 0 ? '+' : ''}${improvement.toFixed(1)}`;
+                                            })()
+                                            : 'N/A'
+                                        }
+                                    </div>
+                                    <div className="text-zinc-500 text-xs">Growth</div>
+                                </div>
+                            </div>
+                        </motion.div>
                     </motion.div>
                 )}
 

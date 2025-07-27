@@ -11,6 +11,7 @@ const TestPage = lazy(() => import('./pages/TestPage'));
 const AnalysisPage = lazy(() => import('./pages/AnalysisPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
+const ProgressPage = lazy(() => import('./pages/ProgressPage'));
 
 // Loading component
 const LoadingSpinner = () => (
@@ -77,6 +78,14 @@ function App() {
           element={
             <ProtectedRoute>
               <PricingPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/progress"
+          element={
+            <ProtectedRoute>
+              <ProgressPage />
             </ProtectedRoute>
           }
         />

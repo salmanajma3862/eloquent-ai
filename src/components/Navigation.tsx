@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaGraduationCap, FaArrowLeft, FaBars, FaTimes, FaUser, FaChartLine, FaDollarSign } from 'react-icons/fa';
+import { FaGraduationCap, FaArrowLeft, FaBars, FaTimes, FaUser, FaChartLine, FaDollarSign, FaChartBar } from 'react-icons/fa';
 
 interface NavigationProps {
     variant?: 'landing' | 'dashboard';
@@ -64,6 +64,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(({
     // Navigation items for authenticated users
     const navItems = [
         { path: '/dashboard', label: 'Dashboard', icon: FaChartLine },
+        { path: '/progress', label: 'Progress', icon: FaChartBar },
         { path: '/profile', label: 'Profile', icon: FaUser },
         { path: '/pricing', label: 'Pricing', icon: FaDollarSign },
     ];
