@@ -526,23 +526,6 @@ const LandingPage: React.FC = () => {
                     </motion.div>
                 </div>
             </section>
-
-            {/* Footer */}
-            <footer className="py-12 border-t border-zinc-800">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center space-y-4">
-                        <div className="text-2xl font-extrabold bg-gradient-to-r from-zinc-100 to-zinc-300 bg-clip-text text-transparent tracking-tight">
-                            Eloquent AI
-                        </div>
-                        <p className="text-zinc-400 text-sm">
-                            Your AI-powered path to IELTS speaking success
-                        </p>
-                        <div className="text-zinc-500 text-sm">
-                            © 2025 Eloquent AI. All rights reserved.
-                        </div>
-                    </div>
-                </div>
-            </footer>
         </div>
     );
 };
