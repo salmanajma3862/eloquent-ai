@@ -13,8 +13,16 @@ connectDB();
 // Initialize Express app
 const app = express();
 
+// CORS Configuration
+const allowedOrigins = ['http://localhost:5173'];
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: allowedOrigins
+}));
 app.use(express.json());
 
 // Routes

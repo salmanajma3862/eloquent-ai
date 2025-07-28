@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, memo } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { motion } from 'framer-motion';
 import {
@@ -110,7 +110,7 @@ const ANIMATION_VARIANTS = {
 
 const PricingPage: React.FC = () => {
     const { userInfo } = useUserStore();
-    const navigate = useNavigate();
+   // const navigate = useNavigate();
     const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
     // Memoized callbacks to prevent unnecessary re-renders
@@ -181,7 +181,7 @@ const PricingPage: React.FC = () => {
                         </div>
 
                         <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
-                            {FREE_FEATURES.map((feature, index) => (
+                            {FREE_FEATURES.map((feature) => (
                                 <div
                                     key={feature}
                                     className="flex items-start space-x-3"
