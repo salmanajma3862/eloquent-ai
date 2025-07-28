@@ -454,20 +454,13 @@ const DashboardPage: React.FC = () => {
 
                 {/* Sessions List - Free from parent container */}
                 {!isLoading && !error && sessions.length > 0 && (
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-4 sm:mx-6 lg:mx-8"
-                    >
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-4 sm:mx-6 lg:mx-8">
                         {sessions.map((session) => (
-                            <motion.div key={session._id} variants={cardVariants}>
-                                <Link to={`/analysis/${session._id}`}>
-                                    <SessionCard session={session} />
-                                </Link>
-                            </motion.div>
+                            <div key={session._id}>
+                                <SessionCard session={session} />
+                            </div>
                         ))}
-                    </motion.div>
+                    </div>
                 )}
             </motion.div>
         </div>

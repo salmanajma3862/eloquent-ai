@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
             variants={footerVariants}
             initial="hidden"
             animate="visible"
-            className="bg-black border-t border-zinc-700/50 mt-12"
+            className="bg-black border-zinc-700/50 mt-12"
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-6 md:space-y-0">

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { FaTrophy, FaCalendarAlt, FaChartLine, FaMicrophone, FaRobot } from 'react-icons/fa';
 import { DashboardAudioPlayer } from './DashboardAudioPlayer';
 
@@ -66,17 +65,8 @@ const SessionCard: React.FC<SessionCardProps> = React.memo(({ session }) => {
 
     return (
         <Link to={`/analysis/${session._id}`}>
-            <motion.div
-                whileHover={{
-                    scale: 1.02,
-                    y: -5,
-                    boxShadow: "0 25px 50px rgba(0, 0, 0, 0.5)"
-                }}
-                whileTap={{ scale: 0.98 }}
-                className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-6 cursor-pointer transition-all duration-500 hover:border-blue-500/50 max-w-md w-full group relative overflow-hidden"
-            >
-                {/* Background gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl p-6 cursor-pointer max-w-md w-full group relative overflow-hidden">
+                {/* No background overlay - completely removed */}
 
                 <div className="relative z-10">
                     {/* Small IELTS label at top */}
@@ -88,7 +78,7 @@ const SessionCard: React.FC<SessionCardProps> = React.memo(({ session }) => {
                     {/* Topic and Score in same row */}
                     <div className="flex justify-between items-start mb-3">
                         <div className="flex-1 min-w-0 pr-3">
-                            <h3 className="text-lg font-bold text-zinc-100 group-hover:text-blue-300 transition-colors duration-300">
+                            <h3 className="text-lg font-bold text-zinc-100">
                                 <span className="block truncate">
                                     {session.topicText}
                                 </span>
@@ -97,15 +87,12 @@ const SessionCard: React.FC<SessionCardProps> = React.memo(({ session }) => {
 
                         {/* Score Badge */}
                         {session.analysis?.overallBandScore && (
-                            <motion.div
-                                whileHover={{ scale: 1.1, rotate: 5 }}
-                                className="flex-shrink-0"
-                            >
+                            <div className="flex-shrink-0">
                                 <div className={`bg-gradient-to-r ${getBandScoreColor(session.analysis.overallBandScore)} text-white px-3 py-1.5 rounded-xl text-sm font-bold shadow-lg flex items-center space-x-1`}>
                                     <FaTrophy className="text-xs" />
                                     <span>{session.analysis.overallBandScore}</span>
                                 </div>
-                            </motion.div>
+                            </div>
                         )}
                     </div>
 
@@ -143,13 +130,10 @@ const SessionCard: React.FC<SessionCardProps> = React.memo(({ session }) => {
 
                             {/* View Analysis Link */}
                             <div className="flex justify-end">
-                                <motion.div
-                                    whileHover={{ x: 5 }}
-                                    className="text-blue-400 text-sm font-semibold flex items-center space-x-1 group-hover:text-blue-300 transition-colors duration-300"
-                                >
+                                <div className="text-blue-400 text-sm font-semibold flex items-center space-x-1">
                                     <span>View Analysis</span>
                                     <span className="text-xs">→</span>
-                                </motion.div>
+                                </div>
                             </div>
                         </div>
                     ) : (
@@ -166,7 +150,7 @@ const SessionCard: React.FC<SessionCardProps> = React.memo(({ session }) => {
                         </div>
                     )}
                 </div>
-            </motion.div>
+            </div>
         </Link>
     );
 }, (prevProps, nextProps) => {
