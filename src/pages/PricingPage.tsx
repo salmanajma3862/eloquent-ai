@@ -330,11 +330,13 @@ const PricingPage: React.FC = () => {
                     {FAQ_DATA.map((faq, index) => (
                         <div
                             key={faq.question}
-                            className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-zinc-700/30 shadow-xl overflow-hidden"
+                            className="bg-zinc-900 backdrop-blur-xl rounded-2xl border border-zinc-700/50 shadow-xl overflow-hidden"
+                            style={{ backgroundColor: '#18181b' }} // Ensure solid dark background
                         >
                             <button
                                 onClick={() => toggleFaq(index)}
-                                className="w-full p-4 md:p-6 text-left flex items-center justify-between hover:bg-zinc-800/30 transition-colors duration-200"
+                                className="w-full p-4 md:p-6 text-left flex items-center justify-between hover:bg-zinc-800/50 transition-colors duration-200"
+                                style={{ backgroundColor: 'transparent' }} // Ensure button background is transparent
                             >
                                 <h4 className="text-base md:text-lg font-bold text-zinc-100 pr-4">
                                     {faq.question}
@@ -352,9 +354,10 @@ const PricingPage: React.FC = () => {
                                 className={`overflow-hidden transition-all duration-200 ease-in-out ${
                                     expandedFaq === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                                 }`}
+                                style={{ backgroundColor: '#18181b' }} // Ensure expanded content has dark background
                             >
-                                <div className="px-4 md:px-6 pb-4 md:pb-6 border-t border-zinc-700/30">
-                                    <p className="text-zinc-300 leading-relaxed text-sm md:text-base pt-4">
+                                <div className="px-4 md:px-6 pb-4 md:pb-6 border-t border-zinc-700/50 bg-zinc-900">
+                                    <p className="text-zinc-200 leading-relaxed text-sm md:text-base pt-4">
                                         {faq.answer}
                                     </p>
                                 </div>
